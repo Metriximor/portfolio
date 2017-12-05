@@ -1,8 +1,8 @@
-# meuportfolio
+﻿# meuportfolio
 
-ESCOLA/DISCIPLINA/Ficha#/exercicio##)
+ESCOLA/DISCIPLINA/LINGUAGEM/Ficha#/exercicio##)
 
-Ex: ISEP/APROG/Ficha4/ex4a)
+Ex: ISEP/APROG/C/Ficha4/ex4a)
 
 05-12-2017
 Se não houver ficha era um projeto á parte ou sem ficha então fica dentro da pasta disciplina
