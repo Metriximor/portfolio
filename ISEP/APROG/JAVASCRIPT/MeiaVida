@@ -1,0 +1,16 @@
+ <head>
+  <meta charset="UTF-8">
+</head> 
+<script>
+var massa = prompt("Qual a massa");
+var tempo = 0;
+
+while(massa >= 0.05)
+{
+	tempo = tempo + 1;
+	massa = massa / 2;
+	document.write(massa, " ");
+}
+//tempo = tempo * 50;
+document.write(tempo);
+</script>
