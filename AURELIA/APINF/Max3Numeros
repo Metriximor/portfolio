@@ -1,0 +1,53 @@
+<script>
+var a = parseInt(prompt("Qual o primeiro numero?"));
+var b = parseInt(prompt("Qual o segundo numero?"));
+var c = parseInt(prompt("Qual o terceiro numero?"));
+
+if((Math.floor(a) === a && Math.floor(b) === b && Math.floor(c) === c))
+{
+	if (a > b)
+	{
+		if(a > c)
+		{
+			document.write("O primeiro numero \é o maior");
+			if(b > c)
+			{
+				document.write("O terceiro numero \é o menor");
+			}
+			else if(c > b)
+			{
+				document.write("O segundo numero \é o menor");
+			}
+		}
+		else if(a < c)
+		{
+			document.write("O terceiro numero \é o maior");
+
+		}
+	}
+	else if(b > a)
+	{
+		if (b > c)
+		{
+			document.write("O segundo numero \é o maior");
+			if(a > c)
+			{
+				document.write("O terceiro numero \é o menor");
+			}
+			else if(a > b)
+			{
+				document.write("O segundo numero \é o menor");
+			}
+		}
+		else if(c > b)
+		{
+			document.write("O terceiro numero \é o maior");
+		}
+	}
+}
+else
+{
+	document.write("Escreve apenas numeros");
+}
+
+</script>
