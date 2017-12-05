@@ -1,0 +1,33 @@
+ <head>
+  <meta charset="UTF-8">
+</head> 
+<script>
+var N = prompt("Quantos números vão ser inseridos?");
+var sum = 0;
+var x = 0;
+var media; 
+if(N <= 0)
+{
+    document.write("Valor Inválido");
+}
+else
+{
+    for(i = 1; i <= N; i++)
+    {
+        var num = prompt("Qual o número?")
+        //document.write(num);
+        if(num < 0)
+        {
+            sum = sum - num;
+            //document.write(sum, " ");
+        }
+        else if(num >= 0)
+        {
+            x = x + 1;
+        }
+    }
+    percentagem = (x*100) / N;
+    media = sum/N;
+}
+document.write("Média ", media, " Percentagem ", percentagem, " %");
+</script>
