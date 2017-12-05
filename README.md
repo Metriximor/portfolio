@@ -1,11 +1,9 @@
 # meuportfolio
-Está tudo arquivado por pastas:
----------------------------------------------------
-Case Sensitive
-ESCOLA/DISCIPLINA/Ficha#/exercicio#
-Ex:
-ISEP/APROG/Ficha4/ex4
----------------------------------------------------
+
+ESCOLA/DISCIPLINA/Ficha#/exercicio##)
+
+Ex: ISEP/APROG/Ficha4/ex4a)
+
 05-12-2017
 Se não houver ficha era um projeto á parte ou sem ficha então fica dentro da pasta disciplina
 
