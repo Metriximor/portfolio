@@ -1,53 +1,61 @@
-<script>
-var a = parseInt(prompt("Qual o primeiro numero?"));
-var b = parseInt(prompt("Qual o segundo numero?"));
-var c = parseInt(prompt("Qual o terceiro numero?"));
-
-if((Math.floor(a) === a && Math.floor(b) === b && Math.floor(c) === c))
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta content="text/html; charset=utf-8"
+ http-equiv="content-type">
+  <title>PROGRAMA Máximo e Mínimo de 3 números</title>
+</head>
+<body>
+PROGRAMA Máximo e Mínimo de 3 números
+<br>
+<script type="text/javascript">
+// declaração de variáveis
+var a, b, c;
+// leitura
+a = parseInt(prompt("número 1"));
+b = parseInt(prompt("número 2"));
+c = parseInt(prompt("número 3"));
+//Cálculo
+if (a > b)
 {
-	if (a > b)
+	if( a > c)
 	{
-		if(a > c)
-		{
-			document.write("O primeiro numero \é o maior");
-			if(b > c)
-			{
-				document.write("O terceiro numero \é o menor");
-			}
-			else if(c > b)
-			{
-				document.write("O segundo numero \é o menor");
-			}
-		}
-		else if(a < c)
-		{
-			document.write("O terceiro numero \é o maior");
-
-		}
-	}
-	else if(b > a)
-	{
+		document.write("O número "+a + " é o maior" + "<br>");
 		if (b > c)
 		{
-			document.write("O segundo numero \é o maior");
-			if(a > c)
-			{
-				document.write("O terceiro numero \é o menor");
-			}
-			else if(a > b)
-			{
-				document.write("O segundo numero \é o menor");
-			}
+			document.write("O número "+c + " é o menor" + "<br>");
 		}
-		else if(c > b)
+		else
 		{
-			document.write("O terceiro numero \é o maior");
+			document.write("O número "+b + " é o menor" + "<br>");
 		}
+	}else{
+		document.write("O número "+c + " é o maior" + "<br>");
+		document.write("O número "+b + " é o menor" + "<br>");
+	}
+}
+else if(b > c)
+{
+	document.write("O número "+b + " é o maior" + "<br>");
+	if(a > c)
+	{
+		document.write("O número "+c + " é o maior" + "<br>");
+	}
+	else
+	{
+		document.write("O número "+a + " é o menor" + "<br>");
 	}
 }
 else
 {
-	document.write("Escreve apenas numeros");
+	document.write("O número "+c + " é o maior" + "<br>");
+	document.write("O número "+a + " é o menor" + "<br>");
 }
 
+
 </script>
+
+
+
+</body>
+</html>
