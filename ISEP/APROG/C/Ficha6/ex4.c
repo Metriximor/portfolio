@@ -3,7 +3,7 @@
 #include<string.h>
 
 //Dicionário
-#define NUMALUNOS 1 //Nota:Ao definir arrays com este valor, nao esquecer de subtrair 1
+#define NUMALUNOS 1
 
 //Estruturas
 typedef struct disciplina
