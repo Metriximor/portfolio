@@ -3,7 +3,7 @@
 #include<string.h>
 
 //Dicionário
-#define NUMALUNOS 3 //Nota:Ao definir arrays com este valor, nao esquecer de subtrair 1
+#define NUMALUNOS 1 //Nota:Ao definir arrays com este valor, nao esquecer de subtrair 1
 
 //Estruturas
 typedef struct disciplina
@@ -27,22 +27,24 @@ void preencherStruct(aluno_tipo aluno[])
   for(i=0; i<NUMALUNOS; i++)
   {
     //Vou precisar de nome, apelido, idade, disc.nome, disc.nota
-    
+
     printf("Introduza o nome do aluno %d\n>:", i+1);
-    scanf("%s", aluno[i].nome);
+    fgets(aluno[i].nome, 10, stdin);
     //Para Debug- printf("%s", aluno->nome);
-    
+
     printf("Introduza o apelido do aluno %d\n>:", i+1);
-    scanf("%s", aluno[i].apelido);
-    
+    fgets(aluno[i].apelido, 10, stdin);
+
     printf("Introduza a idade do aluno %d\n>:", i+1);
     scanf("%d", &aluno[i].idade);
-    
+    fflush(stdin);
+
     printf("Introduza o nome da disciplina %d\n>:", i+1);
-    scanf("%s", aluno[i].disc.nome);
-    
+    fgets(aluno[i].disc.nome, 10, stdin);
+
     printf("Introduza a nota na disciplina %d\n>:", i+1);
     scanf("%d", &aluno[i].disc.nota);
+    fflush(stdin);
   }
 }
 
@@ -51,11 +53,11 @@ void mostrarAluno(aluno_tipo aluno[])
   int i;
   for(i=0; i<NUMALUNOS; i++)
   {
-    printf("-------------------\nAluno %d\nNome: %s\nApelido: %s\nIdade: %d\nNome Disciplina: %s\nNota na disciplina: %d\n", i+1, aluno[i].nome, aluno[i].apelido, aluno[i].idade, aluno[i].disc.nome, aluno[i].disc.nota);
+    printf("-------------------\nAluno %d\nNome: %sApelido: %sIdade: %d\nNome Disciplina: %sNota na disciplina: %d\n", i+1, aluno[i].nome, aluno[i].apelido, aluno[i].idade, aluno[i].disc.nome, aluno[i].disc.nota);
   }
+  printf("-------------------");
 }
 
-//Função Inicial
 void main()
 {
   aluno_tipo alunos[NUMALUNOS-1];
