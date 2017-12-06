@@ -10,3 +10,6 @@ Se não houver ficha era um projeto á parte ou sem ficha então fica dentro da 
 Este documento e forma de arquivar é subjeto a mudanças futuras
 
 As pastas contêem um readme que define em que linguagem foram programadas
+
+06-12-2017
+Os ficheiros agora são guardados dentro de pastas com o nome da linguagem em que os programas foram feitos
