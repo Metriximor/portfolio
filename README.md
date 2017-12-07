@@ -1,8 +1,8 @@
 ﻿# meuportfolio
 
-ESCOLA/DISCIPLINA/LINGUAGEM/Ficha#/exercicio##)
+ESCOLA/DISCIPLINA/LINGUAGEM/Ficha#/exercicio##).#
 
-Ex: ISEP/APROG/C/Ficha4/ex4a)
+Ex: ISEP/APROG/C/Ficha5/ex1b).c
 
 #05-12-2017
 
