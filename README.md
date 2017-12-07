@@ -15,3 +15,7 @@ As pastas contêem um readme que define em que linguagem foram programadas
 #06-12-2017
 
 Os ficheiros agora são guardados dentro de pastas com o nome da linguagem em que os programas foram feitos
+
+#07-12-2017
+
+Os ficheiros têem de conter extensões relativamente á linguagem que foram programados
