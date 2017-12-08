@@ -20,9 +20,7 @@ void main()
 
 float quotaMensal(float a,float b)
 {
-  float res;
-  res= (a*(b/1000))/12;
-  return res;
+  return (a*(b/1000))/12;
 }
 
 void main()
