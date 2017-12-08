@@ -1,3 +1,68 @@
+//NORMAL
+#include <stdio.h>
+#include <math.h>
+
+int sinal(int valor)
+{
+  if(valor>0) return 1;//O valor é positivo 
+  else if(valor<0) return 0;//O valor é negativo
+}
+
+int nulo(int valor)
+{
+  if(valor==0) return 1;//O valor é nulo
+  else if(valor!=0) return 0;//O valor não é nulo
+}
+
+int delta(int a, int b, int c)
+{
+  int res=b*b-4*a*c;
+}
+
+int equacao(int a, int b, int c, int vdelta/*diminutivo para valor de Delta*/)
+{
+  float x, y;
+  if(nulo(a))
+  {
+    printf("O valor A tem de ser diferente de 0");
+  }
+  else
+  {
+    if(nulo(vdelta))
+    {
+      x=-b/(2*a);
+      printf("So ha uma raiz:%d", x);
+    }
+    else if(sinal(vdelta))
+    {
+      x=(-b+sqrt(vdelta))/(2*a);
+      y=(-b-sqrt(vdelta))/(2*a);
+      printf("Ha duas raizes possiveis: %f e %f",x,y);
+    }
+    else if(sinal(vdelta)!=1)
+    {
+      x=(-b)/(2.0f*a);
+      y=(sqrt(-vdelta))/(2*a);
+      printf("Há duas raizes imaginarias possiveis: %.2f+i%f e %.2f-i%f",x,y,x,y);
+    }
+  }
+}
+
+void main()
+{
+  int a,b,c;
+  printf("Para ax^2+bx+c=0 introduza os valores de a,b,c\n>:");
+  scanf("%d%d%d", &a, &b, &c);
+  equacao(a, b, c, delta(a,b,c));
+}
+
+/**
+
+----------------------------------------------------------------------------------------------------------------------------
+
+**/
+
+//A USAR A FUNCAO PROMPT(Criada por mim)
 #include <stdio.h>
 #include <math.h>
 
