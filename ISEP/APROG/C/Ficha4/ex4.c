@@ -1,3 +1,21 @@
+//COM APONTADORES
+#include <stdio.h>
+#include <stdlib.h>
+
+void condo(float orc, float perm, float *quota)
+{
+  *quota=(orc*(perm/1000))/12;
+}
+
+void main()
+{
+  float orc, perm, quota;
+  printf("Orçamento anual? Permilagem?\n");
+  scanf("%f%f", &orc, &perm);
+  condo(orc, perm, &quota);
+  printf("\n Quota de condominio(mensal): %.2f \n", quota);
+}
+//POR RETORNO
 #include <stdio.h>
 
 float quotaMensal(float a,float b)
