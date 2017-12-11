@@ -36,6 +36,7 @@ int contarPares(int vet[],int n)
       cnt++; 
     }
   }
+  return cnt;
 }
 
 void main()
