@@ -3,7 +3,7 @@
 #include<string.h>
 
 //Dicionário
-#define NUMALUNOS 1
+#define NUMALUNOS 1 //Nota:Ao definir arrays com este valor, nao esquecer de subtrair 1
 
 //Estruturas
 typedef struct disciplina
@@ -27,24 +27,28 @@ void preencherStruct(aluno_tipo aluno[])
   for(i=0; i<NUMALUNOS; i++)
   {
     //Vou precisar de nome, apelido, idade, disc.nome, disc.nota
-
+    
     printf("Introduza o nome do aluno %d\n>:", i+1);
     fgets(aluno[i].nome, 10, stdin);
     //Para Debug- printf("%s", aluno->nome);
-
+    __fpurge(stdin);
+    
     printf("Introduza o apelido do aluno %d\n>:", i+1);
     fgets(aluno[i].apelido, 10, stdin);
-
+    __fpurge(stdin);
+    
     printf("Introduza a idade do aluno %d\n>:", i+1);
     scanf("%d", &aluno[i].idade);
-    fflush(stdin);
-
+    //Precisamos destas duas linhas para limpar o buffer do teclado
+    __fpurge(stdin);
+    
     printf("Introduza o nome da disciplina %d\n>:", i+1);
     fgets(aluno[i].disc.nome, 10, stdin);
-
+    __fpurge(stdin);
+    
     printf("Introduza a nota na disciplina %d\n>:", i+1);
     scanf("%d", &aluno[i].disc.nota);
-    fflush(stdin);
+    __fpurge(stdin);
   }
 }
 
@@ -58,6 +62,7 @@ void mostrarAluno(aluno_tipo aluno[])
   printf("-------------------");
 }
 
+//Função Inicial
 void main()
 {
   aluno_tipo alunos[NUMALUNOS-1];
