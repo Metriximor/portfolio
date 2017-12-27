@@ -9,6 +9,7 @@
 #define MAX_EQUIPAS 6 //6, nao se pode definir mais de 54 equipas
 #define MAX_ALUNOSEQUIPA 8 //8
 #define MAX_ATIVIDADESALUNO 5 //5
+#define MAX_ATIVIDADESEQUIPA 8 //8
 
 #define MIN_IDADE 16
 #define MAX_IDADE 90
@@ -223,6 +224,7 @@ void debug(int *contadorAlunos)
 {
     printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
     printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
+    printf("\nPode haver %d atividades diferentes", (MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA));
     printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
     voltarAoMenu();
 }
@@ -249,8 +251,11 @@ void main()
 {
     short int menu;
     int contadorAlunos=0;
-    //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado, o tamanho maximo de X é o numero maximo de atividades, que é o numero maximo de alunos vezes o numero maximo de atividades por aluno
-    //int matrizAtividadesEquipaAluno[][]}
+    //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado
+    //O tamanho maximo de X é o numero maximo de atividades, como cada equipa tem no maximo 8 atividades diferentes, o maximo de atividades diferentes sera max equipas * maximo de atividades por equipas(de acordo com o enunciado:6*8=48)
+    //O tamanho de Y é o maximo de alunos, logo é igual ao valor previamente definido para o vetor de alunos
+    //O tamanho de Z é o maximo de 
+    int matrizAtividadesEquipaAluno[MAX_ALUNOSEQUIPA*MAX_ATIVIDADESEQUIPA-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1][];
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
     equipa vetEquipas[MAX_EQUIPAS-1];
     aluno vetAlunos[(MAX_ALUNOSEQUIPA*MAX_EQUIPAS)-1];
