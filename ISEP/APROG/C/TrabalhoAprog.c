@@ -3,9 +3,12 @@
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
 #define MAX_CHARACTERS 50 //50
-#define MAX_EQUIPAS 6 //6
-#define MAX_ALUNOSEQUIPA 1 //8
+#define MAX_EQUIPAS 6 //6, nao se pode definir mais de 54 equipas
+#define MAX_ALUNOSEQUIPA 8 //8
 #define MAX_ATIVIDADESALUNO 5 //5
+
+#define MIN_IDADE 16
+#define MAX_IDADE 90
 
 //Structs vão aqui, todas as structs começam com o nome st_ para indicar que é o nome da struct sem typedef
 typedef struct st_atividade{
@@ -31,18 +34,48 @@ typedef struct st_equipa{
 
 //Funções vão aqui
 
-void escreverAluno(aluno vetAluno[], short int *contadorAluno)
+void escreverAluno(aluno vetAluno[], int *contadorAluno)
 {
+    int i;
     //Debug: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
-    if(*contadorAluno>(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
+    if(*contadorAluno>=(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
     {
         printf("Numero maximo de alunos alcancado.");
         voltarAoMenu();
     }
     else
     {
-        printf("Qual o nome do aluno; %d",*contadorAluno);
-        fgets();
+        printf("Qual o nome do aluno %d:\n>:",*contadorAluno+1);
+        fgets(vetAluno[*contadorAluno].nome, MAX_CHARACTERS, stdin);
+        fflush(stdin);
+        //Este loop for verifica que o nome do aluno é unico
+        for(i=0; i<*contadorAluno; i++)
+        {
+            if(strcmp(vetAluno[*contadorAluno].nome, vetAluno[i].nome)==0)
+            {
+                printf("Ja existe um aluno com este nome. Operacao cancelada.");
+                voltarAoMenu();
+                //O return sem nada serve para que a função pare e volte ao menu principal;
+                return;
+            }
+        }
+        printf("Qual a idade do aluno?\n");
+        //Aqui faz uma verificação de sanidade para que ninguem coloque idades absurdas nos estudantes
+        do{
+            printf(">:");
+            scanf("%d", &vetAluno[*contadorAluno].idade);
+            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+            fflush(stdin);
+        }while(vetAluno[*contadorAluno].idade<MIN_IDADE || vetAluno[*contadorAluno].idade>MAX_IDADE);
+        printf("Qual o genero do aluno?(Introduza M ou m ou F ou f)\n");
+        fflush(stdin);
+        //Aqui faz uma verificação de sanidade para que ninguem introduza valores diferentes de 'F' 'f' 'M' e 'm'
+        do{
+            printf(">:");
+            scanf("%c", &vetAluno[*contadorAluno].genero);
+            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+            fflush(stdin);
+        }while(vetAluno[*contadorAluno].genero=!'M' && vetAluno[*contadorAluno].genero!='F' && vetAluno[*contadorAluno].genero!='f' && vetAluno[*contadorAluno].genero!='m');
 
         (*contadorAluno)++;
 
@@ -50,9 +83,28 @@ void escreverAluno(aluno vetAluno[], short int *contadorAluno)
         voltarAoMenu();
     }
 }
-void mostrarAluno()
+void mostrarAluno(aluno vetAlunos[], int *contadorAlunos)
 {
-    voltarAoMenu();
+    int numAluno;
+    if(*contadorAlunos==0)
+    {
+        printf("Nao ha alunos registados. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Que aluno pretende mostrar?Escolha um entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+        do{
+                printf(">:");
+                scanf("%d", &numAluno);
+                //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                numAluno--;
+                //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                fflush(stdin);
+        }while(numAluno<0 || numAluno>=*contadorAlunos);
+        //Debug: printf("%d", numAluno);
+        voltarAoMenu();
+    }
 }
 void apagarAluno()
 {
@@ -113,16 +165,18 @@ void voltarAoMenu()
     getchar();
 }
 
-void debug()
+void debug(int *contadorAlunos)
 {
-    printf("Pode ser registado um numero maximo de %d equipas\n", MAX_EQUIPAS);
-    printf("Pode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
+    printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
+    printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
+    printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
     voltarAoMenu();
 }
 
 void main()
 {
-    short int menu, contadorAlunos=0;
+    short int menu;
+    int contadorAlunos=0;
     //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado, o tamanho maximo de X é o numero maximo de atividades, que é o numero maximo de alunos vezes o numero maximo de atividades por aluno
     //int matrizAtividadesEquipaAluno[][]}
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
@@ -144,7 +198,7 @@ void main()
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
             case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 2: mostrarAluno(); menu=0; break;
+            case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 3: apagarAluno(); menu=0; break;
             case 4: escreverAtividade(); menu=0; break;
             case 5: mostrarAtividade(); menu=0; break;
@@ -156,8 +210,8 @@ void main()
             case 11: menosTempo(); menu=0; break;
             case 12: listarAlfabeticamente(); menu=0; break;
             case 13: criarEquipa(); menu=0; break;
-            case 14: debug(); menu=0; break;
-            case 15: exit(0); menu=0; break;
+            case 14: debug(&contadorAlunos); menu=0; break;
+            case 15: menu=15; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
         }
