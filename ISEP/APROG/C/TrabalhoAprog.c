@@ -91,44 +91,6 @@ void listarAlfabeticamente()
     voltarAoMenu();
 }
 
-void menu()
-{
-    //Este fflush serve para limpar no caso de enquanto havia a mensagem "Enter para voltar ao menu" ter sido introduzido algo para alem do enter.
-    fflush(stdin);
-    short int i;
-    //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
-    printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-    printf("13- Criar uma nova equipa[So funciona %d vezes no inicio do programa]\n14- Debug\n15- Sair do programa\n--------------------------\n", MAX_EQUIPAS);
-    do{
-        printf(">:");
-        scanf("%d", &i);
-        //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
-        fflush(stdin);
-    }while(i<=0 || i>=16);
-    switch(i)
-    {
-        case 1: escreverAluno();
-        case 2: mostrarAluno();
-        case 3: apagarAluno();
-        case 4: escreverAtividade();
-        case 5: mostrarAtividade();
-        case 6: apagarAtividade();
-        case 7: mostrarAlunosEquipa();
-        case 8: totalRespostasCerta();
-        case 9: mediaRespostasCerta();
-        case 10: mediaIdadesEquipa();
-        case 11: menosTempo();
-        case 12: listarAlfabeticamente();
-        case 13: criarEquipa();
-        case 14: debug();
-        case 15: exit(0);
-        //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
-        default: menu();
-    }
-    //Está aqui para "limpar" o i para da proxima vez que a função correr, mas tal como o default na prática é desnecessário.
-    i=0;
-}
-
 //Funções adicionais não exigidas no enunciado
 void criarEquipa()
 {
@@ -139,7 +101,6 @@ void voltarAoMenu()
 {
     printf("\nPrima ENTER para voltar ao menu principal...\n");
     getchar();
-    menu();
 }
 
 void debug()
@@ -149,11 +110,44 @@ void debug()
     voltarAoMenu();
 }
 
-int main()
+void main()
 {
+    short int menu;
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
     equipa vetEquipas[MAX_EQUIPAS-1];
     aluno vetAlunos[(MAX_ALUNOSEQUIPA*MAX_EQUIPAS)-1];
-    menu();
-    return 0;
+    do{
+        //Este fflush serve para limpar no caso de enquanto havia a mensagem "Enter para voltar ao menu" ter sido introduzido algo para alem do enter.
+        fflush(stdin);
+        //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
+        printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
+        printf("13- Criar uma nova equipa[So funciona %d vezes no inicio do programa]\n14- Debug\n15- Sair do programa\n--------------------------\n", MAX_EQUIPAS);
+        do{
+            printf(">:");
+            scanf("%d", &menu);
+            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+            fflush(stdin);
+        }while(menu<=0 || menu>=16);
+        switch(menu)
+        {
+            //Nota, os break são necessários senão o programa corre todos os comandos que há
+            case 1: escreverAluno(); break;
+            case 2: mostrarAluno(); break;
+            case 3: apagarAluno(); break;
+            case 4: escreverAtividade(); break;
+            case 5: mostrarAtividade(); break;
+            case 6: apagarAtividade(); break;
+            case 7: mostrarAlunosEquipa(); break;
+            case 8: totalRespostasCerta(); break;
+            case 9: mediaRespostasCerta(); break;
+            case 10: mediaIdadesEquipa(); break;
+            case 11: menosTempo(); break;
+            case 12: listarAlfabeticamente();  break;
+            case 13: criarEquipa(); break;
+            case 14: debug(); break;
+            case 15: exit(0); break;
+            //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
+            default: menu=0;
+        }
+    }while(menu!=15);
 }
