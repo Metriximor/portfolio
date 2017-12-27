@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<string.h>
 
+/**TODO
+**/
+
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
 #define MAX_CHARACTERS 50 //50
 #define MAX_EQUIPAS 6 //6, nao se pode definir mais de 54 equipas
@@ -40,7 +43,7 @@ void escreverAluno(aluno vetAluno[], int *contadorAluno)
     //Debug: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
     if(*contadorAluno>=(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
     {
-        printf("Numero maximo de alunos alcancado.");
+        printf("Numero maximo de alunos alcancado.Operacao cancelada.");
         voltarAoMenu();
     }
     else
@@ -75,7 +78,8 @@ void escreverAluno(aluno vetAluno[], int *contadorAluno)
             scanf("%c", &vetAluno[*contadorAluno].genero);
             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
             fflush(stdin);
-        }while(vetAluno[*contadorAluno].genero=!'M' && vetAluno[*contadorAluno].genero!='F' && vetAluno[*contadorAluno].genero!='f' && vetAluno[*contadorAluno].genero!='m');
+            //printf("%c", vetAluno[*contadorAluno].genero);
+        }while(vetAluno[*contadorAluno].genero!='M' && vetAluno[*contadorAluno].genero!='F' && vetAluno[*contadorAluno].genero!='f' && vetAluno[*contadorAluno].genero!='m');
 
         (*contadorAluno)++;
 
@@ -86,6 +90,7 @@ void escreverAluno(aluno vetAluno[], int *contadorAluno)
 void mostrarAluno(aluno vetAlunos[], int *contadorAlunos)
 {
     int numAluno;
+    //Verifica se ha alunos para mostrar, se houver 0 alunos registados nao vale a pena tentar mostrar
     if(*contadorAlunos==0)
     {
         printf("Nao ha alunos registados. Operacao cancelada");
@@ -102,13 +107,62 @@ void mostrarAluno(aluno vetAlunos[], int *contadorAlunos)
                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                 fflush(stdin);
         }while(numAluno<0 || numAluno>=*contadorAlunos);
+        printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c", numAluno+1, vetAlunos[numAluno].nome, vetAlunos[numAluno].idade, vetAlunos[numAluno].genero);
         //Debug: printf("%d", numAluno);
         voltarAoMenu();
     }
 }
-void apagarAluno()
+void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
 {
-    voltarAoMenu();
+    //Para apagar tem de se escrever por cima, por isso, quando ha apenas 1 registo e nao ha nada para escrever por cima, tudo o que se faz é diminuir o contador de aluno para 0 de novo, para que ao introduzir os dados escreva em cima
+    int numAluno, i;
+    //Verifica se pode apagar alunos, se houver 0 alunos registados nao ha alunos para apagar
+    if(*contadorAlunos==0)
+    {
+        printf("Nao ha alunos registados. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        if(*contadorAlunos==1)
+        {
+            printf("Aluno 1 apagado");
+            *contadorAlunos=0;
+            voltarAoMenu();
+        }
+        else
+        {
+            printf("Que aluno pretende apagar?Escolha um entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+            do{
+                //Nao esquecer de somar ou subtrair ao contador devido ao indice começar em 0 para as matrizes!(somar quando for printf, subtrair qd for outra coisa
+                printf(">:");
+                scanf("%d", &numAluno);
+                //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                numAluno--;
+                //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                fflush(stdin);
+            }while(numAluno<0 || numAluno>=*contadorAlunos);
+            //Debug:printf("%d %d", *contadorAlunos, numAluno);
+            //Se esta condição se verificar isso quer dizer que o aluno escolhido foi o ultimo a ser registado, logo basta diminuir o contador de alunos por 1
+            if(numAluno==(*contadorAlunos-1))
+            {
+                printf("Aluno %d apagado.", numAluno+1);
+                (*contadorAlunos)--;
+                voltarAoMenu();
+            }
+            //Neste caso vamos apagar um aluno que está no meio do vetor, por isso basta copiar os valores do vetor acima para o vetor em que pretendemos apagar
+            else
+            {
+                for(i= numAluno; i<*contadorAlunos-1; i++)
+                {
+                    vetAlunos[i]=vetAlunos[i+1];
+                    (*contadorAlunos)--;
+                }
+                printf("O aluno %d foi apagado.", numAluno+1);
+                voltarAoMenu();
+            }
+        }
+    }
 }
 
 void escreverAtividade()
@@ -173,6 +227,24 @@ void debug(int *contadorAlunos)
     voltarAoMenu();
 }
 
+void mostrarAlunosTodos(aluno vetAlunos[], int *contadorAlunos)
+{
+    int i;
+    if(*contadorAlunos==0)
+    {
+        printf("Nao ha alunos registados. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        for(i=0; i<*contadorAlunos; i++)
+        {
+            printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c\n", i+1, vetAlunos[i].nome, vetAlunos[i].idade, vetAlunos[i].genero);
+        }
+        voltarAoMenu();
+    }
+}
+
 void main()
 {
     short int menu;
@@ -187,19 +259,19 @@ void main()
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
         printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-        printf("13- Criar uma nova equipa[So funciona %d vezes no inicio do programa]\n14- Debug\n15- Sair do programa\n--------------------------\n", MAX_EQUIPAS);
+        printf("13- Criar uma nova equipa[So funciona %d vezes no inicio do programa]\n14- Debug\n15- Mostrar todos os alunos\n16- Sair do programa\n--------------------------\n", MAX_EQUIPAS);
         do{
             printf(">:");
             scanf("%d", &menu);
             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
             fflush(stdin);
-        }while(menu<=0 || menu>=16);
+        }while(menu<=0 || menu>=17);
         switch(menu)
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
             case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 3: apagarAluno(); menu=0; break;
+            case 3: apagarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 4: escreverAtividade(); menu=0; break;
             case 5: mostrarAtividade(); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
@@ -211,7 +283,8 @@ void main()
             case 12: listarAlfabeticamente(); menu=0; break;
             case 13: criarEquipa(); menu=0; break;
             case 14: debug(&contadorAlunos); menu=0; break;
-            case 15: menu=15; break;
+            case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
+            case 16: menu=15; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
         }
