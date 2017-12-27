@@ -166,7 +166,7 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
     }
 }
 
-void escreverAtividade()
+void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1])
 {
     voltarAoMenu();
 }
@@ -222,7 +222,7 @@ void voltarAoMenu()
 
 void debug(int *contadorAlunos)
 {
-    printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
+    printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);[MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1][MAX_EQUIPAS-1]
     printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
     printf("\nPode haver %d atividades diferentes", (MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA));
     printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
@@ -254,8 +254,8 @@ void main()
     //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado
     //O tamanho maximo de X é o numero maximo de atividades, como cada equipa tem no maximo 8 atividades diferentes, o maximo de atividades diferentes sera max equipas * maximo de atividades por equipas(de acordo com o enunciado:6*8=48)
     //O tamanho de Y é o maximo de alunos, logo é igual ao valor previamente definido para o vetor de alunos
-    //O tamanho de Z é o maximo de 
-    int matrizAtividadesEquipaAluno[MAX_ALUNOSEQUIPA*MAX_ATIVIDADESEQUIPA-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1][];
+    //O tamanho de Z é o maximo de equipas que há(de acordo com o enunciado, 6)
+    int matrizAtividadesEquipaAluno[MAX_ALUNOSEQUIPA*MAX_ATIVIDADESEQUIPA-1][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1];
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
     equipa vetEquipas[MAX_EQUIPAS-1];
     aluno vetAlunos[(MAX_ALUNOSEQUIPA*MAX_EQUIPAS)-1];
@@ -277,7 +277,7 @@ void main()
             case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 3: apagarAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 4: escreverAtividade(); menu=0; break;
+            case 4: escreverAtividade(vetAlunos); menu=0; break;
             case 5: mostrarAtividade(); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
             case 7: mostrarAlunosEquipa(); menu=0; break;
