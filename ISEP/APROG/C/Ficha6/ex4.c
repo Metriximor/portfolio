@@ -34,7 +34,7 @@ typedef struct st_equipa{
 void escreverAluno(aluno vetAluno[], int *contadorAluno)
 {
     //Debug: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
-    if(*contadorAluno>(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
+    if(*contadorAluno>=(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
     {
         printf("Numero maximo de alunos alcancado.");
         voltarAoMenu();
@@ -43,8 +43,15 @@ void escreverAluno(aluno vetAluno[], int *contadorAluno)
     {
         printf("Qual o nome do aluno %d\n>:",*contadorAluno+1);
         fgets(vetAluno[*contadorAluno].nome, MAX_CHARACTERS, stdin);
-        printf("Qual a idade do aluno?\n>:");
-        scanf("%d", &vetAluno[contadorAluno].idade);
+        fflush(stdin);
+        printf("Qual a idade do aluno?\n");
+        //Aqui faz uma verificação de sanidade para que ninguem coloque idades absurdas nos estudantes
+        do{
+            printf(">:");
+            scanf("%d", &vetAluno[*contadorAluno].idade);
+            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+            fflush(stdin);
+        }while(vetAluno[*contadorAluno].idade<=16 || vetAluno[*contadorAluno].idade>=90);
 
         (*contadorAluno)++;
 
