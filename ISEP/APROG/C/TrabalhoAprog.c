@@ -222,7 +222,7 @@ void voltarAoMenu()
 
 void debug(int *contadorAlunos)
 {
-    printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);[MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1][MAX_EQUIPAS-1]
+    printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
     printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
     printf("\nPode haver %d atividades diferentes", (MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA));
     printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
@@ -277,7 +277,7 @@ void main()
             case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 3: apagarAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 4: escreverAtividade(vetAlunos); menu=0; break;
+            case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno); menu=0; break;
             case 5: mostrarAtividade(); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
             case 7: mostrarAlunosEquipa(); menu=0; break;
