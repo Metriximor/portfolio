@@ -2,10 +2,10 @@
 #include<string.h>
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
-#define MAX_CHARACTERS 50
-#define MAX_EQUIPAS 6
-#define MAX_ALUNOSEQUIPA 8
-#define MAX_ATIVIDADESALUNO 5
+#define MAX_CHARACTERS 50 //50
+#define MAX_EQUIPAS 6 //6
+#define MAX_ALUNOSEQUIPA 1 //8
+#define MAX_ATIVIDADESALUNO 5 //5
 
 //Structs vão aqui, todas as structs começam com o nome st_ para indicar que é o nome da struct sem typedef
 typedef struct st_atividade{
@@ -31,13 +31,24 @@ typedef struct st_equipa{
 
 //Funções vão aqui
 
-void escreverAluno()
+void escreverAluno(aluno vetAluno[], short int *contadorAluno)
 {
-    printf("Qual o nome do aluno;");
-    //fgets();
+    //Debug: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
+    if(*contadorAluno>(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
+    {
+        printf("Numero maximo de alunos alcancado.");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Qual o nome do aluno; %d",*contadorAluno);
+        fgets();
 
-    //Esta função é dedicada a voltar ao menu principal de forma correta.
-    voltarAoMenu();
+        (*contadorAluno)++;
+
+        //Esta função é dedicada a voltar ao menu principal de forma correta.
+        voltarAoMenu();
+    }
 }
 void mostrarAluno()
 {
@@ -50,7 +61,6 @@ void apagarAluno()
 
 void escreverAtividade()
 {
-    printf("Nova atividade criada, ID: %d");
     voltarAoMenu();
 }
 void mostrarAtividade()
@@ -91,7 +101,7 @@ void listarAlfabeticamente()
     voltarAoMenu();
 }
 
-//Funções adicionais não exigidas no enunciado
+/**Funções adicionais não exigidas no enunciado**/
 void criarEquipa()
 {
     voltarAoMenu();
@@ -112,7 +122,9 @@ void debug()
 
 void main()
 {
-    short int menu;
+    short int menu, contadorAlunos=0;
+    //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado, o tamanho maximo de X é o numero maximo de atividades, que é o numero maximo de alunos vezes o numero maximo de atividades por aluno
+    //int matrizAtividadesEquipaAluno[][]}
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
     equipa vetEquipas[MAX_EQUIPAS-1];
     aluno vetAlunos[(MAX_ALUNOSEQUIPA*MAX_EQUIPAS)-1];
@@ -130,22 +142,22 @@ void main()
         }while(menu<=0 || menu>=16);
         switch(menu)
         {
-            //Nota, os break são necessários senão o programa corre todos os comandos que há
-            case 1: escreverAluno(); break;
-            case 2: mostrarAluno(); break;
-            case 3: apagarAluno(); break;
-            case 4: escreverAtividade(); break;
-            case 5: mostrarAtividade(); break;
-            case 6: apagarAtividade(); break;
-            case 7: mostrarAlunosEquipa(); break;
-            case 8: totalRespostasCerta(); break;
-            case 9: mediaRespostasCerta(); break;
-            case 10: mediaIdadesEquipa(); break;
-            case 11: menosTempo(); break;
-            case 12: listarAlfabeticamente();  break;
-            case 13: criarEquipa(); break;
-            case 14: debug(); break;
-            case 15: exit(0); break;
+            //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
+            case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
+            case 2: mostrarAluno(); menu=0; break;
+            case 3: apagarAluno(); menu=0; break;
+            case 4: escreverAtividade(); menu=0; break;
+            case 5: mostrarAtividade(); menu=0; break;
+            case 6: apagarAtividade(); menu=0; break;
+            case 7: mostrarAlunosEquipa(); menu=0; break;
+            case 8: totalRespostasCerta(); menu=0; break;
+            case 9: mediaRespostasCerta(); menu=0; break;
+            case 10: mediaIdadesEquipa(); menu=0; break;
+            case 11: menosTempo(); menu=0; break;
+            case 12: listarAlfabeticamente(); menu=0; break;
+            case 13: criarEquipa(); menu=0; break;
+            case 14: debug(); menu=0; break;
+            case 15: exit(0); menu=0; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
         }
