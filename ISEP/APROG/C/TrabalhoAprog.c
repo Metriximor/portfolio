@@ -221,7 +221,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                 (*contadorAtividades)++;
                 //Aqui o contador de atividades conta como o numero da atividade porque a verificaçao acontece na nova atividade que está a ser criada
                 erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
-                Debug: printf("\n%d", erro);
+                Debug: printf("\nErro:%d", erro);
                 voltarAoMenu();
             }
         }
@@ -406,13 +406,76 @@ int verificacao(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int
     }
     contador=0;
     //Debug: printf("Isto nao crashou!!");
+    //Se não houver erros esta função retorna 0.
     return 0;
 }
 
 //Esta função vai servir para ver as equipas e atividades do aluno individualmente
 void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
 {
+    int numAluno=0, x, y;
+    char letra;
+    //Verifica se ha alunos para mostrar, se houver 0 alunos registados nao vale a pena tentar mostrar
+    if(*contadorAlunos==0)
+    {
+        printf("Nao ha alunos registados. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        //Debug: *contadorEquipas=1;
+        if(*contadorEquipas==0)
+        {
+            printf("Nao ha equipas registadas. Operacao cancelada");
+            voltarAoMenu();
+        }
+        else
+        {
+            if(*contadorAtividades==0)
+            {
+                printf("Nao ha atividades registadas. Operacao cancelada.");
+                voltarAoMenu();
+            }
+            else
+            {
+                printf("Pretende visualizar a atividade de que aluno?Escolha um entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+                do{
+                printf(">:");
+                scanf("%d", &numAluno);
+                //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                numAluno--;
+                //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                fflush(stdin);
+                }while(numAluno<0 || numAluno>=*contadorAlunos);
 
+                //O codigo atras foi para perguntar que aluno queremos visualizar e fazer as verificaçoes necessarias.
+                for(y=0;y<*contadorEquipas;y++)
+                {
+                    for(x=0;x<*contadorAtividades;x++) printf("   |");
+                    printf("\n");
+                    for(x=0;x<*contadorAtividades;x++)
+                    {
+                        if(matriz[x][y][numAluno]==1)
+                        {
+                            letra='X';
+                        }
+                        else
+                        {
+                            letra='O';
+                        }
+                        printf(" %c |", letra);
+                    }
+                    printf("\n");
+                    for(x=0;x<*contadorAtividades;x++) printf("   |");
+                    printf("\n");
+                    for(x=0;x<*contadorAtividades;x++) printf("---+");
+                    printf("\n");
+                }
+                printf("\nAs colunas representam a mesma atividade e as linhas representam a mesma equipa.X siginifica que participa, O nao esta inscrito.");
+                voltarAoMenu();
+            }
+        }
+    }
 }
 
 void main()
@@ -432,13 +495,13 @@ void main()
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
         printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Debug\n15- Mostrar todos os alunos\n16- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
+        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Debug\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
         do{
             printf(">:");
             scanf("%d", &menu);
             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
             fflush(stdin);
-        }while(menu<=0 || menu>=17);
+        }while(menu<=0 || menu>=18);
         switch(menu)
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
@@ -457,7 +520,8 @@ void main()
             case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
             case 14: debug(&contadorAlunos, &contadorEquipas); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
-            case 16: menu=15; break;
+            case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
+            case 17: menu=15; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
         }
