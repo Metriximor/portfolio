@@ -2,7 +2,7 @@
 #include<string.h>
 
 /**TODO
-    Adicionar a matriz na funcao apagar
+    Testar
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
@@ -115,10 +115,10 @@ void mostrarAluno(aluno vetAlunos[], int *contadorAlunos)
         voltarAoMenu();
     }
 }
-void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
+void apagarAluno(aluno vetAlunos[], int *contadorAlunos,int *contadorEquipas,int *contadorAtividades,int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1])
 {
     //Para apagar tem de se escrever por cima, por isso, quando ha apenas 1 registo e nao ha nada para escrever por cima, tudo o que se faz é diminuir o contador de aluno para 0 de novo, para que ao introduzir os dados escreva em cima
-    int numAluno, i;
+    int numAluno, i, y, x;
     //Verifica se pode apagar alunos, se houver 0 alunos registados nao ha alunos para apagar
     if(*contadorAlunos==0)
     {
@@ -132,6 +132,14 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
             printf("Aluno 1 apagado");
             *contadorAlunos=0;
             voltarAoMenu();
+            //Este loop duplo apaga a informaçao da participaçao nas atividades e equipa da matriz
+            for(y=0; y<*contadorEquipas;y++)
+            {
+                for(x=0; x<*contadorAtividades;x++)
+                {
+                    matriz[x][y][0]=0;
+                }
+            }
         }
         else
         {
@@ -150,6 +158,14 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
             if(numAluno==(*contadorAlunos-1))
             {
                 printf("Aluno %d apagado.", numAluno+1);
+                //Este loop duplo apaga a informaçao da participaçao nas atividades e equipa da matriz
+                for(y=0; y<*contadorEquipas;y++)
+                {
+                    for(x=0; x<*contadorAtividades;x++)
+                    {
+                        matriz[x][y][numAluno]=0;
+                    }
+                }
                 (*contadorAlunos)--;
                 voltarAoMenu();
             }
@@ -159,6 +175,14 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos)
                 for(i= numAluno; i<*contadorAlunos-1; i++)
                 {
                     vetAlunos[i]=vetAlunos[i+1];
+                    //Este loop duplo substitui os conteudos do aluno que pretendemos apagar com os do aluno "da frente"
+                    for(y=0; y<*contadorEquipas;y++)
+                    {
+                        for(x=0; x<*contadorAtividades;x++)
+                        {
+                            matriz[x][y][i]=matriz[x][y][i+1];
+                        }
+                    }
                     (*contadorAlunos)--;
                 }
                 printf("O aluno %d foi apagado.", numAluno+1);
@@ -443,7 +467,7 @@ int verificacao(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int
 }
 
 //Esta função vai servir para ver as equipas e atividades do aluno individualmente
-void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
+void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorEquipas, int *contadorAtividades, equipa vetEquipas[])
 {
     int numAluno=0, x, y;
     char letra;
@@ -497,13 +521,15 @@ void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA
                         }
                         printf(" %c |", letra);
                     }
-                    printf("\n");
+                    printf(" Equipa %s", vetEquipas[y].sigla);
                     for(x=0;x<*contadorAtividades;x++) printf("   |");
                     printf("\n");
                     for(x=0;x<*contadorAtividades;x++) printf("---+");
                     printf("\n");
                 }
-                printf("\nAs colunas representam a mesma atividade e as linhas representam a mesma equipa.X siginifica que participa, O nao esta inscrito.");
+                for(x=0;x<*contadorAtividades;x++) printf("#%d  ", x+1);
+                printf("\n");
+                printf("\nAs colunas representam a mesma atividade e as linhas representam a mesma equipa.\nX siginifica que participa, O nao esta inscrito.");
                 voltarAoMenu();
             }
         }
@@ -539,7 +565,7 @@ void main()
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
             case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 3: apagarAluno(vetAlunos, &contadorAlunos); menu=0; break;
+            case 3: apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
             case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
             case 5: mostrarAtividade(); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
@@ -552,7 +578,7 @@ void main()
             case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
             case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
-            case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
+            case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetEquipas); menu=0; break;
             case 17: menu=15; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
