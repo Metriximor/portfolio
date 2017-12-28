@@ -3,7 +3,6 @@
 
 /**TODO
     Adicionar a matriz na funcao apagar
-    acabar a atividade
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
@@ -15,6 +14,8 @@
 
 #define MIN_IDADE 16
 #define MAX_IDADE 90
+#define MAX_PERGUNTASCERTAS 50
+#define MAX_TEMPO 300
 
 //Structs vão aqui, todas as structs começam com o nome st_ para indicar que é o nome da struct sem typedef
 typedef struct st_atividade{
@@ -29,7 +30,7 @@ typedef struct st_aluno{
     //Têm que ser restrita a valores realistas mais tarde.
     int idade;
     char genero;
-    atividade ativ[MAX_ATIVIDADESALUNO-1][MAX_EQUIPAS];
+    atividade ativ[MAX_ATIVIDADESALUNO-1];
 }aluno;
 
 typedef struct st_equipa{
@@ -42,7 +43,7 @@ typedef struct st_equipa{
 void escreverAluno(aluno vetAluno[], int *contadorAluno)
 {
     int i;
-    //Debug: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
+    //matriz[*contadorAtividades][numEquipa][numAluno]=1;: printf("%d %d\n", *contadorAluno, MAX_ALUNOSEQUIPA*MAX_EQUIPAS);
     if(*contadorAluno>=(MAX_ALUNOSEQUIPA*MAX_EQUIPAS))
     {
         printf("Numero maximo de alunos alcancado.Operacao cancelada.");
@@ -218,11 +219,41 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                     fflush(stdin);
                 }while(numEquipa<0 || numEquipa>=*contadorEquipas);
 
+                //Aqui adiciona-se a atividade á matriz, e depois esta alteração corre no verificador que indica se há erros ou não. Na teoria está a criar uma atividade nova por isso nao deve haver problemas, mas não faz mal verificar mais uma vez
+                matriz[*contadorAtividades][numEquipa][numAluno]=1;
                 (*contadorAtividades)++;
                 //Aqui o contador de atividades conta como o numero da atividade porque a verificaçao acontece na nova atividade que está a ser criada
                 erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
-                Debug: printf("\nErro:%d", erro);
-                voltarAoMenu();
+                //Debug: printf("\nErro:%d", erro);
+                //No caso de nao haver erros ai é que se preenche a informação da estrutura do aluno.
+                if(erro==0)
+                {
+                    vetAluno[numAluno].ativ[*contadorAtividades-1].idAtividade=*contadorAtividades;
+                    printf("Quantas respostas corretas deu o aluno?\n");
+                    do{
+                        printf(">:");
+                        scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto);
+                        //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                        fflush(stdin);
+                    }while(vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto<0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_PERGUNTASCERTAS);
+                    printf("Quanto tempo (em segundos) demorou o aluno a responder?\n");
+                    do{
+                        printf(">:");
+                        scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
+                        //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                        fflush(stdin);
+                    }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                    //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
+                    printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
+                    voltarAoMenu();
+                }
+                //No caso de erro, remove-se a atividade e volta-se ao menu.
+                else
+                {
+                    matriz[*contadorAtividades][numEquipa][numAluno]=0;
+                    (*contadorAtividades)--;
+                    voltarAoMenu();
+                }
             }
         }
     }
@@ -303,13 +334,14 @@ void voltarAoMenu()
     getchar();
 }
 
-void debug(int *contadorAlunos, int *contadorEquipas)
+void debug(int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
 {
     printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
     printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
     printf("\nPode haver %d atividades diferentes", (*contadorEquipas*MAX_ATIVIDADESEQUIPA));
     printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
     printf("\nHa %d equipa(s) registada(s).", *contadorEquipas);
+    printf("\nHa %d atividade(s) registada(s)", *contadorAtividades);
     voltarAoMenu();
 }
 
@@ -518,7 +550,7 @@ void main()
             case 11: menosTempo(); menu=0; break;
             case 12: listarAlfabeticamente(); menu=0; break;
             case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
-            case 14: debug(&contadorAlunos, &contadorEquipas); menu=0; break;
+            case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
             case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
             case 17: menu=15; break;
