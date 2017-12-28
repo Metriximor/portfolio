@@ -2,11 +2,13 @@
 #include<string.h>
 
 /**TODO
+    Adicionar a matriz na funcao apagar
+    acabar a atividade
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
 #define MAX_CHARACTERS 50 //50
-#define MAX_EQUIPAS 6 //6, nao se pode definir mais de 29
+#define MAX_EQUIPAS 6 //6, nao se pode definir mais de 29 ou menos de 2
 #define MAX_ALUNOSEQUIPA 8 //8
 #define MAX_ATIVIDADESALUNO 5 //5
 #define MAX_ATIVIDADESEQUIPA 8 //8
@@ -169,7 +171,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
 {
     //Primeiro verifica-se se todas as regras são seguidas e depois é que se escreve para as estruturas
     //Primeiro escolhe-se em que aluno vamos escrever
-    int numAluno;
+    int numAluno, numEquipa, erro;
     //Verifica se ha alunos para mostrar, se houver 0 alunos registados nao vale a pena tentar mostrar
     if(*contadorAlunos==0)
     {
@@ -178,7 +180,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
     }
     else
     {
-        Debug: *contadorEquipas=1;
+        //Debug: *contadorEquipas=1;
         if(*contadorEquipas==0)
         {
             printf("Nao ha equipas registadas. Operacao cancelada");
@@ -195,7 +197,6 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                     //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                     fflush(stdin);
             }while(numAluno<0 || numAluno>=*contadorAlunos);
-            (*contadorAtividades)++;
             //Debug: printf("%d %d", *contadorAtividades, MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA);
             //Aqui verifica se há mais atividades do que há atividades disponiveis
             if(*contadorAtividades>MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA)
@@ -205,9 +206,22 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
             }
             else
             {
-                //A função verificação verifica se está tudo correto para esse aluno
-                printf("Em que equipa pretende registar a atividade?");
-                
+                //Pergunta-se em que equipa se pretende registar a nova atividadde.
+                printf("Em que equipa pretende registar a atividade?(Escolha entre a equipa 1 e a equipa %d)\n", *contadorEquipas);
+                do{
+                    //Nao esquecer de somar ou subtrair ao contador devido ao indice começar em 0 para as matrizes!
+                    printf(">:");
+                    scanf("%d", &numEquipa);
+                    //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                    numEquipa--;
+                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                    fflush(stdin);
+                }while(numEquipa<0 || numEquipa>=*contadorEquipas);
+
+                (*contadorAtividades)++;
+                //Aqui o contador de atividades conta como o numero da atividade porque a verificaçao acontece na nova atividade que está a ser criada
+                erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
+                Debug: printf("\n%d", erro);
                 voltarAoMenu();
             }
         }
@@ -252,9 +266,35 @@ void listarAlfabeticamente()
 }
 
 /**Funções adicionais não exigidas no enunciado**/
-void criarEquipa()
+void criarEquipa(equipa vetEquipas[], int *contadorEquipas)
 {
-    voltarAoMenu();
+    if(*contadorEquipas>=MAX_EQUIPAS)
+    {
+        printf("Maximo de equipas registadas. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        int i;
+        printf("Qual a sigla da equipa %d?\n", *contadorEquipas+1);
+        fgets(vetEquipas[*contadorEquipas].sigla, MAX_CHARACTERS, stdin);
+        //Este loop for verifica que o nome da equipa é unico
+        for(i=0; i<*contadorEquipas; i++)
+        {
+            if(strcmp(vetEquipas[*contadorEquipas].sigla, vetEquipas[i].sigla)==0)
+            {
+                printf("Ja existe uma equipa com este nome. Operacao cancelada.");
+                voltarAoMenu();
+                //O return sem nada serve para que a função pare e volte ao menu principal;
+                return;
+            }
+        }
+
+        printf("Qual a localidade da equipa %d?\n", *contadorEquipas+1);
+        fgets(vetEquipas[*contadorEquipas].localidade, MAX_CHARACTERS, stdin);
+        (*contadorEquipas)++;
+        voltarAoMenu();
+    }
 }
 
 void voltarAoMenu()
@@ -294,9 +334,83 @@ void mostrarAlunosTodos(aluno vetAlunos[], int *contadorAlunos)
 /*Esta funcao verifica:
 1- Não há a mesma atividade em equipas diferentes para o mesmo aluno
 2- Não há mais de 5 atividades diferentes no mesmo aluno
-3- Na mesma equipa a soma de todas as atividades de todos os alunos não é superior a 8
-4- Na mesma equipa há menos de 8 alunos*/
-void vericacao(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1])
+3- Na mesma equipa a soma de todas as atividades de todos os alunos não é <= a 8
+4- Na mesma equipa há <= de 8 alunos*/
+int verificacao(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorEquipas, int *contadorAtividades, int *numAluno, int *numEquipa, int *numAtividade)
+{
+    int x, y, z, contador=0;
+    //A primeira verificação: No mesmo x(atividade) e z(aluno) a soma de todos os y(equipas) é <=1, se a soma for superior significa que a mesma atividade estaria a ser adicionada em equipas diferentes
+    for(y=0; y<*contadorEquipas;y++)
+    {
+        if(matriz[*numAtividade][y][*numAluno]) contador++;
+    }
+    if(contador>1)
+    {
+        printf("Erro, o aluno ja esta registado numa equipa diferente com a mesma atividade.");
+        //retorna o codigo de erro "1", a funcao mais tarde lida com este codigo de erro apropriadamente.
+        return 1;
+    }
+    //Aqui é importante o contador dar reset a 0 para que nas outras verificações nao haja mais problemas
+    contador=0;
+    //A segunda verificação: No mesmo z(aluno) a soma de todos os valores em x(atividades) e y(equipas) nao pode ser superior a 5, isso implicaria que o mesmo aluno estaria registado em mais de 5 atividades diferentes
+    for(x=0; x<*contadorAtividades; x++)
+    {
+        for(y=0; y<*contadorEquipas; y++)
+        {
+            if(matriz[x][y][*numAluno]) contador++;
+        }
+    }
+    if(contador>5)
+    {
+        printf("Erro, o aluno ja esta registado em 5 atividades diferentes, nao pode ser registado em mais nenhuma atividade");
+        //Este vai ser o codigo de erro 2;
+        return 2;
+    }
+    contador=0;
+    //A terceira verificação: No mesmo y todos os valores em x e z não são superiores a 8, assim, ou seja, na mesma equipa, a soma de todos os alunos e atividades nao é superior a 8
+    //Com a pequena alteração de que se encontra um valor em um aluno, nao precisa de contar se os outros alunos(em z's diferentes) tb o teem, logo salta para a proxima atividade(o proximo x)
+    for(x=0; x<*contadorAtividades; x++)
+    {
+        for(z=0; z<*contadorAlunos; z++)
+        {
+            if(matriz[x][*numEquipa][z])
+            {
+                contador++;
+                //Definimos o z como o sendo igual ao contador de alunos para saltar para o proximo x, e depois damos reset para 0 de novo.
+                z=*contadorAlunos;
+            }
+        }
+    }
+    if(contador>8)
+    {
+        printf("Erro, a equipa ja tem mais de 8 atividades diferentes, nao pode ser registada mais nenhuma atividade");
+        return 3;
+    }
+    contador=0;
+    //A 4 verificação é semelhante á terceira mas com os loops ao contrário
+    for(z=0; z<*contadorAlunos; z++)
+    {
+        for(x=0; x<*contadorAtividades; x++)
+        {
+            if(matriz[x][*numEquipa][z])
+            {
+                contador++;
+                x=*contadorAtividades;
+            }
+        }
+    }
+    if(contador>8)
+    {
+        printf("Erro, a equipa ja tem mais de 8 alunos diferentes, nao pode ser registada mais nenhuma atividade");
+        return 4;
+    }
+    contador=0;
+    //Debug: printf("Isto nao crashou!!");
+    return 0;
+}
+
+//Esta função vai servir para ver as equipas e atividades do aluno individualmente
+void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
 {
 
 }
@@ -306,9 +420,9 @@ void main()
     short int menu;
     int contadorAlunos=0, contadorAtividades=0, contadorEquipas=0;
     //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado
-    //O tamanho maximo de X é o numero maximo de atividades, como cada equipa tem no maximo 8 atividades diferentes, o maximo de atividades diferentes sera max equipas * maximo de atividades por equipas(de acordo com o enunciado:6*8=48)
-    //O tamanho de Y é o maximo de alunos, logo é igual ao valor previamente definido para o vetor de alunos
-    //O tamanho de Z é o maximo de equipas que há(de acordo com o enunciado, 6)
+    //O tamanho de X é o numero de atividades que há. No caso do enunciado são 6 equipas vezes 8 atividades diferentes por equipa logo 48 atividades diferentes
+    //O tamanho de Y é o maximo de equipas que há. No caso do enunciado são 6 equipas
+    //O tamanho de Z é o maximo de alunos que há. No caso do enunciado, 6 equipas vezes o maximo de 8 alunos por equipa, logo 48 alunos diferentes
     int matrizAtividadesEquipaAluno[MAX_EQUIPAS*MAX_ATIVIDADESEQUIPA-1][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1];
     //Declaração do vetor das 6 equipas e 48 alunos(numero max de equipas*numero maximo de alunos por equipa)
     equipa vetEquipas[MAX_EQUIPAS-1];
@@ -318,7 +432,7 @@ void main()
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
         printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-        printf("13- Criar uma nova equipa[So funciona %d vezes no inicio do programa]\n14- Debug\n15- Mostrar todos os alunos\n16- Sair do programa\n--------------------------\n", MAX_EQUIPAS);
+        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Debug\n15- Mostrar todos os alunos\n16- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
         do{
             printf(">:");
             scanf("%d", &menu);
@@ -340,7 +454,7 @@ void main()
             case 10: mediaIdadesEquipa(); menu=0; break;
             case 11: menosTempo(); menu=0; break;
             case 12: listarAlfabeticamente(); menu=0; break;
-            case 13: criarEquipa(); menu=0; break;
+            case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
             case 14: debug(&contadorAlunos, &contadorEquipas); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
             case 16: menu=15; break;
