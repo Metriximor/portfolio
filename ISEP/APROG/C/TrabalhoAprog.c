@@ -197,7 +197,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
 {
     //Primeiro verifica-se se todas as regras são seguidas e depois é que se escreve para as estruturas
     //Primeiro escolhe-se em que aluno vamos escrever
-    int numAluno, numEquipa, erro, menu, numAtividade;
+    int numAluno, numEquipa, erro, menu, numAtividade, erroGenero;
     //Verifica se ha alunos para mostrar, se houver 0 alunos registados nao vale a pena tentar mostrar
     if(*contadorAlunos==0)
     {
@@ -259,12 +259,13 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         //Aqui adiciona-se a atividade á matriz, e depois esta alteração corre no verificador que indica se há erros ou não. Na teoria está a criar uma atividade nova por isso nao deve haver problemas, mas não faz mal verificar mais uma vez
                         matriz[*contadorAtividades][numEquipa][numAluno]=1;
                         (*contadorAtividades)++;
-                        // erro=verificacaoGenero(matriz, &*contadorAlunos, , );
+                        //Aqui verifica-se se o genero nao faz uma equipa mista.
+                        erroGenero=verificacaoGenero(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, vetAluno, &numEquipa, &numAluno);
                         //Aqui o contador de atividades conta como o numero da atividade porque a verificaçao acontece na nova atividade que está a ser criada
                         erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
-                        //Debug: printf("\nErro:%d", erro);
+                        Debug: printf("\nErro:%d", erro);
                         //No caso de nao haver erros ai é que se preenche a informação da estrutura do aluno.
-                        if(erro==0)
+                        if(erro==0 && erroGenero==0)
                         {
                             vetAluno[numAluno].ativ[*contadorAtividades-1].idAtividade=*contadorAtividades;
                             printf("Quantas respostas corretas deu o aluno?\n");
@@ -312,7 +313,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                             fflush(stdin);
                         }while(numAluno<0 || numAluno>=*contadorAlunos);
-                        printf("Em que atividade pretende registar o aluno?Escolha um entre o atividade 1 e a atividade %d\n", *contadorAlunos);
+                        printf("Em que atividade pretende registar o aluno?Escolha um entre o atividade 1 e a atividade %d\n", *contadorAtividades);
                         do{
                             printf(">:");
                             scanf("%d", &numAtividade);
@@ -335,6 +336,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         {
                             matriz[numAtividade][numEquipa][numAluno]=1;
                             //Aqui verifica se há algum erro ao adicionar o valor á matriz
+                            erroGenero=verificacaoGenero(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, vetAluno, &numEquipa, &numAluno);
                             erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &numAtividade);
                             if(erro==0)
                             {
@@ -697,19 +699,35 @@ void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA
     }
 }
 
-void verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos, int *contadorEquipas, int *contadorAtividades,aluno vetAluno[],int *numEquipa)
+//Esta função serve para verificar se o genero dos alunos n forma uma equipa mista
+int verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos, int *contadorEquipas, int *contadorAtividades,aluno vetAluno[],int *numEquipa,int *numAluno)
 {
     int x,z;
+    char comparador;
+    //O loop serve para procurar até ao primeiro inscrito na equipa
     for(z=0; z<*contadorAlunos; z++)
     {
         for(x=0; x<*contadorAtividades; x++)
         {
-            if(matriz[x][*numEquipa][z])
+            if(matriz[x][*numEquipa][z]==1)
             {
+                comparador=vetAluno[z].genero;
 
+                //Estes dois comandos param o loop
                 x=*contadorAtividades;
+                z=*contadorAlunos;
             }
         }
+    }
+    //Se o valor do primeiro elemento de uma equipa for igual ao genero do aluno que pretendemos adicionar, entao nao ha problema
+    if(comparador==vetAluno[*numAluno].genero)
+    {
+        return 0;
+    }
+    else
+    {
+        printf("O aluno que esta a tentar adicionar causaria uma equipa mista. Operacao Cancelada");
+        return 5;
     }
 }
 
