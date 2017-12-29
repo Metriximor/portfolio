@@ -2,7 +2,8 @@
 #include<string.h>
 
 /**TODO
-    Testar
+    Acabar o mostrar Aluno para mostrar atividade
+    Verificação do Genero
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
@@ -214,13 +215,13 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
         else
         {
             printf("------Escrever Atividade------\n");
-            printf("1-Escrever um aluno numa nova atividade\n2-Escrever um aluno numa atividade pre-existente\n------------------------------\n");
+            printf("1- Escrever um aluno numa nova atividade\n2- Escrever um aluno numa atividade pre-existente\n3- Editar a atividade de um aluno\n------------------------------\n");
             do{
                 printf(">:");
                 scanf("%d", &menu);
                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                 fflush(stdin);
-            }while(menu<=0 || menu>2);
+            }while(menu<=0 || menu>3);
             switch(menu)
             {
                 //Registar um aluno numa nova atividade
@@ -310,13 +311,131 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                             fflush(stdin);
                         }while(numAluno<0 || numAluno>=*contadorAlunos);
-                        printf("Em que atividade pretende registar o aluno?Escolha um entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+                        printf("Em que atividade pretende registar o aluno?Escolha um entre o atividade 1 e a atividade %d\n", *contadorAlunos);
                         do{
                             printf(">:");
                             scanf("%d", &numAtividade);
                             numAtividade--;
-                            fflush();
+                            fflush(stdin);
                         }while(numAtividade<0 || numAtividade>=*contadorAtividades);
+                        printf("Em que equipa pretende registar o aluno?Escolha um entre a equipa 1 e a equipa %d\n", *contadorEquipas);
+                        do{
+                            printf(">:");
+                            scanf("%d", &numEquipa);
+                            numEquipa--;
+                            fflush(stdin);
+                        }while(numEquipa<0 || numEquipa>=*contadorEquipas);
+                        if(matriz[numAtividade][numEquipa][numAluno]==1)
+                        {
+                            printf("Erro, o aluno ja está inscrito nessa atividade.Operacao cancelada");
+                            voltarAoMenu();
+                        }
+                        else
+                        {
+                            matriz[numAtividade][numEquipa][numAluno]=1;
+                            //Aqui verifica se há algum erro ao adicionar o valor á matriz
+                            erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &numAtividade);
+                            if(erro==0)
+                            {
+                                //Se não houver erro ao adicionar o aluno á atividade e á equipa então é preenchido o resto da informação
+                                printf("Quantas respostas corretas deu o aluno?\n");
+                                do{
+                                    printf(">:");
+                                    scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto);
+                                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                                    fflush(stdin);
+                                }while(vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto<0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_PERGUNTASCERTAS);
+                                printf("Quanto tempo (em segundos) demorou o aluno a responder?\n");
+                                do{
+                                    printf(">:");
+                                    scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
+                                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                                    fflush(stdin);
+                                }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                                //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
+                                printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
+                                voltarAoMenu();
+                            }
+                            //Se houver erro deixa de funcionar e dá reset dos valores da matriz, voltando para o menu.
+                            else
+                            {
+                                matriz[numAtividade][numEquipa][numAluno]=0;
+                                voltarAoMenu();
+                            }
+                        }
+
+                    }
+                    break;
+                //O caso 3 é para se quisermos modificar a atividade de um aluno
+                case 3:
+                    if(*contadorAtividades==0)
+                    {
+                        printf("Nao ha atividades registadas. Operacao Cancelada");
+                        voltarAoMenu();
+                    }
+                    else
+                    {
+                        printf("Que aluno pretende registar numa atividade?Escolha um entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+                        do{
+                            printf(">:");
+                            scanf("%d", &numAluno);
+                            //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                            numAluno--;
+                            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                            fflush(stdin);
+                        }while(numAluno<0 || numAluno>=*contadorAlunos);
+                        printf("Em que atividade pretende registar o aluno?Escolha um entre o atividade 1 e a atividade %d\n", *contadorAlunos);
+                        do{
+                            printf(">:");
+                            scanf("%d", &numAtividade);
+                            numAtividade--;
+                            fflush(stdin);
+                        }while(numAtividade<0 || numAtividade>=*contadorAtividades);
+                        printf("Em que equipa pretende registar o aluno?Escolha um entre a equipa 1 e a equipa %d\n", *contadorEquipas);
+                        do{
+                            printf(">:");
+                            scanf("%d", &numEquipa);
+                            numEquipa--;
+                            fflush(stdin);
+                        }while(numEquipa<0 || numEquipa>=*contadorEquipas);
+                        if(matriz[numAtividade][numEquipa][numAluno]==0)
+                        {
+                            printf("Erro, o aluno não está inscrito nessa atividade.Operacao cancelada");
+                            voltarAoMenu();
+                        }
+                        else
+                        {
+                            //Aqui verifica se há algum erro ao adicionar o valor á matriz
+                            erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &numAtividade);
+                            if(erro==0)
+                            {
+                                //Se não houver erro ao adicionar o aluno á atividade e á equipa então é preenchido o resto da informação
+                                printf("Quantas respostas corretas deu o aluno?\n");
+                                do{
+                                    printf(">:");
+                                    scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto);
+                                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                                    fflush(stdin);
+                                }while(vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto<0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_PERGUNTASCERTAS);
+                                printf("Quanto tempo (em segundos) demorou o aluno a responder?\n");
+                                do{
+                                    printf(">:");
+                                    scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
+                                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                                    fflush(stdin);
+                                }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                                //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
+                                printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
+                                voltarAoMenu();
+                            }
+                            //Se houver erro deixa de funcionar e dá reset dos valores da matriz, voltando para o menu.
+                            else
+                            {
+                                matriz[numAtividade][numEquipa][numAluno]=0;
+                                voltarAoMenu();
+                            }
+                        }
+
                     }
                     break;
             }
@@ -593,14 +712,14 @@ void main()
         //Este fflush serve para limpar no caso de enquanto havia a mensagem "Enter para voltar ao menu" ter sido introduzido algo para alem do enter.
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
-        printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma nova atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
+        printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
         printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Debug\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
         do{
             printf(">:");
             scanf("%d", &menu);
             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
             fflush(stdin);
-        }while(menu<=0 || menu>=18);
+        }while(menu<=0 || menu>17);
         switch(menu)
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
