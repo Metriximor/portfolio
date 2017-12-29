@@ -173,7 +173,7 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos,int *contadorEquipas,int
             //Neste caso vamos apagar um aluno que está no meio do vetor, por isso basta copiar os valores do vetor acima para o vetor em que pretendemos apagar
             else
             {
-                for(i= numAluno; i<*contadorAlunos-1; i++)
+                for(i= numAluno; i<*contadorAlunos; i++)
                 {
                     vetAlunos[i]=vetAlunos[i+1];
                     //Este loop duplo substitui os conteudos do aluno que pretendemos apagar com os do aluno "da frente"
@@ -184,8 +184,8 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos,int *contadorEquipas,int
                             matriz[x][y][i]=matriz[x][y][i+1];
                         }
                     }
-                    (*contadorAlunos)--;
                 }
+                (*contadorAlunos)--;
                 printf("O aluno %d foi apagado.", numAluno+1);
                 voltarAoMenu();
             }
@@ -259,6 +259,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         //Aqui adiciona-se a atividade á matriz, e depois esta alteração corre no verificador que indica se há erros ou não. Na teoria está a criar uma atividade nova por isso nao deve haver problemas, mas não faz mal verificar mais uma vez
                         matriz[*contadorAtividades][numEquipa][numAluno]=1;
                         (*contadorAtividades)++;
+                        // erro=verificacaoGenero(matriz, &*contadorAlunos, , );
                         //Aqui o contador de atividades conta como o numero da atividade porque a verificaçao acontece na nova atividade que está a ser criada
                         erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
                         //Debug: printf("\nErro:%d", erro);
@@ -691,6 +692,22 @@ void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA
                 printf("\n");
                 printf("\nAs colunas representam a mesma atividade e as linhas representam a mesma equipa.\nX siginifica que participa, O nao esta inscrito.");
                 voltarAoMenu();
+            }
+        }
+    }
+}
+
+void verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos, int *contadorEquipas, int *contadorAtividades,aluno vetAluno[],int *numEquipa)
+{
+    int x,z;
+    for(z=0; z<*contadorAlunos; z++)
+    {
+        for(x=0; x<*contadorAtividades; x++)
+        {
+            if(matriz[x][*numEquipa][z])
+            {
+
+                x=*contadorAtividades;
             }
         }
     }
