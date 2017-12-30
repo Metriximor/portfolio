@@ -477,7 +477,7 @@ void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
             fflush(stdin);
         }
         while(numAtividade<0 || numAtividade>=*contadorAtividades);
-        printf("%d", numAtividade);
+        //Debug: printf("%d", numAtividade);
         printf("Nesta atividade estao inscritos:\n------\n");
         //Vamos procurar por todos os alunos inscritos na atividade e em que função estão inscritos, e depois escreve-se isso
         for(z=0;z<*contadorAlunos;z++)
@@ -497,11 +497,100 @@ void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
 }
 
 //Apagar a atividade tem dois casos: apagar uma atividade inteira, ou apagar apenas um aluno de uma atividade
-void apagarAtividade()
+void apagarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAtividades, int *contadorAlunos, int *contadorEquipas, aluno vetAluno[])
 {
-    int menu;
-    printf("---------\n1- Apagar uma atividade inteira\n2- Apagar um aluno de uma atividade");
-    voltarAoMenu();
+    int menu, z, y, numAtividade;
+    printf("---------\n1- Apagar uma atividade inteira\n2- Apagar um aluno de uma atividade\n---------\n");
+    do{
+        printf(">:");
+        scanf("%d", &menu);
+        //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+        fflush(stdin);
+    }while(menu<=0 || menu>2);
+    switch(menu)
+    {
+        case 1:
+        if(*contadorAtividades==1)
+        {
+            for(z=0;z<*contadorAlunos;z++)
+            {
+                for(y=0;y<*contadorEquipas;y++)
+                {
+                    if(matriz[*contadorAtividades-1/*Isto é equivalente a zero neste caso*/][y][z]==1)
+                    {
+                        matriz[0][y][z]=0;
+                        //Isto da reset porque o mesmo aluno nao pode estar na mesma atividade em equipas diferentes;
+                        y=*contadorEquipas;
+                        //Sao definidos como -1 como pedido no enunciado
+                        vetAluno[z].ativ[0].contadorCorreto=-1;
+                        vetAluno[z].ativ[0].tempo=-1;
+                        //O ID nao e modificado porque nao é necessario
+                    }
+                }
+            }
+            (*contadorAtividades)--;
+            printf("Atividade #1 apagada");
+            voltarAoMenu();
+        }
+        else
+        {
+            printf("Que atividade pretendemos apagar?Escolha entre a atividade 1 e a atividade %d\n", *contadorAtividades);
+            do{
+                    printf(">:");
+                    scanf("%d", &numAtividade);
+                    //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                    numAtividade--;
+                    //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                    fflush(stdin);
+            }while(numAtividade<0 || numAtividade>=*contadorAtividades);
+            //Foi com este do while que chegamos ás 1000 linhas de codigo
+            //significa que estamos a tentar apagar a ultima atividade registada
+            if(numAtividade==*contadorAtividades)
+            {
+                for(z=0;z<*contadorAlunos;z++)
+                {
+                    for(y=0;y<*contadorEquipas;y++)
+                    {
+                        if(matriz[numAtividade][y][z]==1)
+                        {
+                            matriz[numAtividade][y][z]=0;
+                            //Isto da reset porque o mesmo aluno nao pode estar na mesma atividade em equipas diferentes;
+                            y=*contadorEquipas;
+                            //Sao definidos como -1 como pedido no enunciado
+                            vetAluno[z].ativ[numAtividade].contadorCorreto=-1;
+                            vetAluno[z].ativ[numAtividade].tempo=-1;
+                        }
+                    }
+                }
+                (*contadorAtividades)--;
+                printf("Atividade #%d apagada", numAtividade+1);
+                voltarAoMenu();
+            }
+            //Significa que estamos a apagar uma atividade "no meio", que nao foi a ultima a ser criada
+            else
+            {
+                for(z=0;z<*contadorAlunos;z++)
+                {
+                    for(y=0;y<*contadorEquipas;y++)
+                    {
+                        if(matriz[numAtividade][y][z]==1)
+                        {
+                            matriz[numAtividade][y][z]=matriz[numAtividade+1][y][z];
+                            //Isto da reset porque o mesmo aluno nao pode estar na mesma atividade em equipas diferentes;
+                            y=*contadorEquipas;
+                            //Sao definidos como -1 como pedido no enunciado
+                            vetAluno[z].ativ[numAtividade].contadorCorreto=vetAluno[z].ativ[numAtividade+1].contadorCorreto;
+                            vetAluno[z].ativ[numAtividade].tempo=vetAluno[z].ativ[numAtividade+1].tempo;
+                        }
+                    }
+                }
+                (*contadorAtividades)--;
+                printf("Atividade #%d apagada", numAtividade+1);
+                voltarAoMenu();
+            }
+        }
+        break;
+    }
 }
 
 //Este é muito semelhante ao mostrar Atividade, mas em vez de manter a atividade estática, mantem a equipa estática,com a exceção de que tem que o encontrar através de strcmp
@@ -939,7 +1028,7 @@ void main()
             case 3: apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
             case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
             case 5: mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
-            case 6: apagarAtividade(); menu=0; break;
+            case 6: apagarAtividade(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
             case 7: mostrarAlunosEquipa(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
             case 8: totalRespostasCerta(); menu=0; break;
             case 9: mediaRespostasCerta(); menu=0; break;
