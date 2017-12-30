@@ -758,39 +758,7 @@ void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA
                             letra='O';
                         }
                         printf(" %c |", letra);
-                void mediaIdadesEquipa(int *contadorAtividade, int *contadorEquipas, int *contadorAlunos, int matrizAtividadesEquipaAluno[][MAX_EQUIPAS][MAX_EQUIPAS*MAX_ALUNOSEQUIPA], aluno vetAluno[])
-{
-    int numEquipa, z, media, soma=0, x;
-    if (*contadorEquipas==0)
-    {
-        printf("Nao ha equipas criadas!\n");
-        voltarAoMenu();
-    }
-    else
-    {
-        printf("Que equipa pretende? Escolha entre a equipa 1 e a equipa %d.\n", *contadorEquipas);
-        do
-        {
-            printf(">:");
-            scanf("%d", &numEquipa);
-        }
-        while(numEquipa<1 || numEquipa>*contadorEquipas);
-        for(z=0; z<*contadorAlunos; z++)
-        {
-            for (x=0; x<*contadorAtividade; x++)
-            {
-                if(matrizAtividadesEquipaAluno[x][numEquipa][z])
-                {
-                    soma+=vetAluno[z].idade;
-                    x=*contadorAtividade;
-                }
-            }
-        }
-        media=soma/(*contadorAlunos);
-        printf("A media das idades e %d", &media);
-    }
-    voltarAoMenu();
-}    }
+                    }
                     printf(" Equipa %s", vetEquipas[y].sigla);
                     for(x=0;x<*contadorAtividades;x++) printf("   |");
                     printf("\n");
@@ -869,7 +837,7 @@ void main()
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 3: apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
             case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
-            case 5: mostrarAtividade(); menu=0; break;
+//            case 5: mostrarAtividade(); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
             case 7: mostrarAlunosEquipa(); menu=0; break;
             case 8: totalRespostasCerta(); menu=0; break;
