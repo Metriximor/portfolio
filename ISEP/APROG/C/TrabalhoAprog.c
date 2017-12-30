@@ -447,15 +447,15 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
 void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos,int *contadorEquipas,int *contadorAtividades, aluno vetAlunos[], equipa vetEquipas[])
 {
     int y,z, numAtividade, x;
-    /*Este codigo está aqui para debug, havia um problema porque tinha me esquecido de declarar o -1 nas propriedades da matriz.
+    /*Este codigo está aqui para debug, havia um problema porque tinha me esquecido de declarar o -1 no tamanho da matriz.
     for(x=0;x<*contadorAtividades;x++)
     {
         for(y=0;y<*contadorEquipas;y++)
         {
             for(z=0;z<*contadorAlunos;z++)
             {
-                if(matriz[x][y][z]==1) printf("[%d][%d][%d] = 1",x,y,z);
-                else printf("[%d][%d][%d] = 0",x,y,z);
+                if(matriz[x][y][z]==1) printf("[%d][%d][%d] = 1",x+1,y+1,z+1);
+                else printf("[%d][%d][%d] = 0",x+1,y+1,z+1);
             }
         }
     }
@@ -485,7 +485,8 @@ void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
             {
                 if(matriz[numAtividade][y][z]==1)
                 {
-                    printf("Nome:%sEquipa:%s", vetAlunos[z].nome, vetEquipas[y].sigla);
+                    printf("Nome:%sEquipa:%s------\n", vetAlunos[z].nome, vetEquipas[y].sigla);
+                    //Aqui acaba o loop porque um aluno nao pode estar inscrito na mesma atividade em varias equipas, por isso nao vale a pena procurar mais
                     y=*contadorEquipas;
                 }
             }
@@ -499,9 +500,60 @@ void apagarAtividade()
     voltarAoMenu();
 }
 
-void mostrarAlunosEquipa(/*sigla equipa*/)
+//Este é muito semelhante ao mostrar Atividade, mas em vez de manter a atividade estática, mantem a equipa estática,com a exceção de que tem que o encontrar através de strcmp
+void mostrarAlunosEquipa(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos,int *contadorEquipas,int *contadorAtividades, aluno vetAlunos[], equipa vetEquipas[])
 {
-    voltarAoMenu();
+    //A int erro serve mais tarde para o caso de nao ser encontrada uma equipa com esse nome
+    int numEquipa, x, z, erro=6;
+    //Esta variavel serve para procurar pela sigla da equipa
+    char pesquisa[MAX_CHARACTERS];
+    if(*contadorEquipas==0)
+    {
+        printf("Nao ha equipas registadas. Operacao Cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        if(*contadorAtividades==0)
+        {
+            printf("Nao ha atividades registadas. Operacao Cancelada");
+            voltarAoMenu();
+        }
+        else
+        {
+            printf("Que equipa pretende mostrar?(Introduza a sigla da equipa)\n");
+            //Aqui o loop procura em todas as equipas inscritas pelo nome introduzido pelo utilizador
+            fgets(pesquisa, MAX_CHARACTERS, stdin);
+            for(numEquipa=0; numEquipa<*contadorEquipas; numEquipa++)
+            {
+                if(strcmp(pesquisa, vetEquipas[numEquipa].sigla)==0)
+                {
+                    printf("------\nLocalidade da equipa: %s", vetEquipas[numEquipa].localidade);
+                    for(z=0;z<*contadorAlunos;z++)
+                    {
+                        for(x=0;x<*contadorAtividades;x++)
+                        {
+                            if(matriz[x][numEquipa][z]==1)
+                            {
+                                printf("Nome:%s", vetAlunos[z].nome);
+                                //Aqui acaba o loop porque nao vale a pena procurar na mesma atividade pelo mesmo aluno
+                                x=*contadorAtividades;
+                                erro=0;
+                            }
+                        }
+                    }
+                    //Aqui da reset ao loop porque depois de encontrar a equipa em questao nao faz sentido continuar a procurar pelo nome em outras equipas
+                    numEquipa=*contadorEquipas;
+                    voltarAoMenu();
+                }
+            }
+            if(erro==6)
+            {
+                printf("Nao foram encontradas equipas com esse nome");
+                voltarAoMenu();
+            }
+        }
+    }
 }
 
 void totalRespostasCerta()
@@ -884,7 +936,7 @@ void main()
             case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
             case 5: mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
-            case 7: mostrarAlunosEquipa(); menu=0; break;
+            case 7: mostrarAlunosEquipa(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
             case 8: totalRespostasCerta(); menu=0; break;
             case 9: mediaRespostasCerta(); menu=0; break;
             case 10: mediaIdadesEquipa(&contadorAtividades, &contadorEquipas, &contadorAlunos, matrizAtividadesEquipaAluno, vetAlunos); menu=0; break;
