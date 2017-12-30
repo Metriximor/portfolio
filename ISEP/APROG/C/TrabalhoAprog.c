@@ -279,7 +279,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                             scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
                             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                             fflush(stdin);
-                        }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                        }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].tempo>MAX_TEMPO);
                         //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
                         printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
                         voltarAoMenu();
@@ -352,7 +352,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                                 scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].tempo>MAX_TEMPO);
                             //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
                             printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
                             voltarAoMenu();
@@ -424,7 +424,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                                 scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_TEMPO);
+                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].tempo>MAX_TEMPO);
                             //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
                             printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
                             voltarAoMenu();
@@ -442,10 +442,14 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
         }
     }
 }
+
+//Mostra que alunos e que equipas estao inscritas em determinada atividade
 void mostrarAtividade()
 {
+
     voltarAoMenu();
 }
+
 void apagarAtividade()
 {
     voltarAoMenu();
@@ -467,11 +471,11 @@ void mediaRespostasCerta()//media por cada atividade
 
 void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *contadorAlunos, int matriz[][MAX_EQUIPAS][MAX_EQUIPAS*MAX_ALUNOSEQUIPA], aluno vetAluno[])
 {
-    int numEquipa, z, soma=0, x, i=0;
-    float media;
+    //Neste caso nao foi utilizado um float para a media porque apesar de por exemplo 18.5 ser um resultado de uma media, ninguem tem 18.5 anos, mas sim 18 ou 19
+    int numEquipa, z, soma=0, x, i=0, media;
     if (*contadorEquipas==0)
     {
-        printf("Nao ha equipas criadas!\n");
+        printf("Nao ha equipas criadas.Operacao Cancelada\n");
         voltarAoMenu();
     }
     else
@@ -507,8 +511,8 @@ void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *conta
         }
         else
         {
-            media=(soma/i)*1.0f;
-            printf("A media das idades e %.2f", media);
+            media=soma/i;
+            printf("A media das idades e %d", media);
             voltarAoMenu();
         }
     }
@@ -601,6 +605,7 @@ void debug(int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
     voltarAoMenu();
 }
 
+//Esta funcao imprime todos os alunos sem perguntar um aluno em especifico, é muito semelhante á função mostrarAluno mas essa é especifica a aluno
 void mostrarAlunosTodos(aluno vetAlunos[], int *contadorAlunos)
 {
     int i;
@@ -849,7 +854,7 @@ void main()
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
         printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Debug\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
+        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Informacoes adicionais\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
         do{
             printf(">:");
             scanf("%d", &menu);
