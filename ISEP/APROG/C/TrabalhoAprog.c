@@ -444,9 +444,10 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
 }
 
 //Mostra que alunos e que equipas estao inscritas em determinada atividade
-void mostrarAtividade()
+void mostrarAtividade(int matriz[][MAX_EQUIPAS][MAX_EQUIPAS*MAX_ALUNOSEQUIPA])
 {
-
+    int y,z;
+    //Vamos procurar por todos os alunos inscritos na atividade e em que função estão inscritos, e depois escreve-se isso
     voltarAoMenu();
 }
 
