@@ -444,11 +444,54 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
 }
 
 //Mostra que alunos e que equipas estao inscritas em determinada atividade
-void mostrarAtividade(int matriz[][MAX_EQUIPAS][MAX_EQUIPAS*MAX_ALUNOSEQUIPA])
+void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1],int *contadorAlunos,int *contadorEquipas,int *contadorAtividades, aluno vetAlunos[], equipa vetEquipas[])
 {
-    int y,z;
-    //Vamos procurar por todos os alunos inscritos na atividade e em que função estão inscritos, e depois escreve-se isso
-    voltarAoMenu();
+    int y,z, numAtividade, x;
+    /*Este codigo está aqui para debug, havia um problema porque tinha me esquecido de declarar o -1 nas propriedades da matriz.
+    for(x=0;x<*contadorAtividades;x++)
+    {
+        for(y=0;y<*contadorEquipas;y++)
+        {
+            for(z=0;z<*contadorAlunos;z++)
+            {
+                if(matriz[x][y][z]==1) printf("[%d][%d][%d] = 1",x,y,z);
+                else printf("[%d][%d][%d] = 0",x,y,z);
+            }
+        }
+    }
+    */
+    if(*contadorAtividades==0)
+    {
+        printf("Nao ha atividades registadas. Operacao cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Qual a atividade que pretende mostrar?Escolha entre a atividade 1 e a atividade %d\n", *contadorAtividades);
+        do
+        {
+            printf(">:");
+            scanf("%d", &numAtividade);
+            numAtividade--;
+            fflush(stdin);
+        }
+        while(numAtividade<0 || numAtividade>=*contadorAtividades);
+        printf("%d", numAtividade);
+        printf("Nesta atividade estao inscritos:\n------\n");
+        //Vamos procurar por todos os alunos inscritos na atividade e em que função estão inscritos, e depois escreve-se isso
+        for(z=0;z<*contadorAlunos;z++)
+        {
+            for(y=0;y<*contadorEquipas;y++)
+            {
+                if(matriz[numAtividade][y][z]==1)
+                {
+                    printf("Nome:%sEquipa:%s", vetAlunos[z].nome, vetEquipas[y].sigla);
+                    y=*contadorEquipas;
+                }
+            }
+        }
+        voltarAoMenu();
+    }
 }
 
 void apagarAtividade()
@@ -470,7 +513,7 @@ void mediaRespostasCerta()//media por cada atividade
     voltarAoMenu();
 }
 
-void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *contadorAlunos, int matriz[][MAX_EQUIPAS][MAX_EQUIPAS*MAX_ALUNOSEQUIPA], aluno vetAluno[])
+void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *contadorAlunos, int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], aluno vetAluno[])
 {
     //Neste caso nao foi utilizado um float para a media porque apesar de por exemplo 18.5 ser um resultado de uma media, ninguem tem 18.5 anos, mas sim 18 ou 19
     int numEquipa, z, soma=0, x, i=0, media;
@@ -489,7 +532,7 @@ void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *conta
             numEquipa--;
             fflush(stdin);
         }
-        while(numEquipa<0 || numEquipa>*contadorEquipas);
+        while(numEquipa<0 || numEquipa>=*contadorEquipas);
 
         for(z=0; z<*contadorAlunos; z++)
         {
@@ -725,6 +768,8 @@ void visualizadorMatriz(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA
         }
         else
         {
+            //As outras verificacoes eram desnecessarias uma vez que as atividades nao podem ser criadas sem as equipas e os alunos estarem pre criados
+            //Ficam para o caso de alguem estar a tentar ver as atividades sem entender como o programa funciona, conforme faltam coisas o utilizador cria-as
             if(*contadorAtividades==0)
             {
                 printf("Nao ha atividades registadas. Operacao cancelada.");
@@ -837,7 +882,7 @@ void main()
             case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
             case 3: apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
             case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
-//            case 5: mostrarAtividade(); menu=0; break;
+            case 5: mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
             case 6: apagarAtividade(); menu=0; break;
             case 7: mostrarAlunosEquipa(); menu=0; break;
             case 8: totalRespostasCerta(); menu=0; break;
