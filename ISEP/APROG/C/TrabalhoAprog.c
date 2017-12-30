@@ -690,14 +690,76 @@ void mostrarAlunosEquipa(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIP
     }
 }
 
-void totalRespostasCerta()
+//total respostas certas de equipa em todas as atividades.
+void totalRespostasCerta(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAtividades, int *contadorAlunos, int *contadorEquipas, aluno vetAluno[])
 {
-    voltarAoMenu();
+    int soma=0, numEquipa, z, x;
+    if(*contadorAtividades==0)
+    {
+        printf("Erro nao ha atividades registadas.");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Que equipa pretende? Escolha entre a equipa 1 e a equipa %d.\n", *contadorEquipas);
+        do
+        {
+            printf(">:");
+            scanf("%d", &numEquipa);
+            numEquipa--;
+            fflush(stdin);
+        }
+        while(numEquipa<0 || numEquipa>=*contadorEquipas);
+        for(z=0;z<*contadorAlunos;z++)
+        {
+            for(x=0;x<*contadorAtividades;x++)
+            {
+                if(matriz[x][numEquipa][z]==1)
+                {
+                    soma+=vetAluno[z].ativ[x].contadorCorreto;
+                }
+            }
+        }
+        printf("A soma de respostas certas da equipa e: %d", soma);
+        voltarAoMenu();
+    }
 }
 
-void mediaRespostasCerta()//de uma equipa
+void mediaRespostasCerta(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAtividades, int *contadorAlunos, int *contadorEquipas, aluno vetAluno[])//de uma equipa
 {
-    voltarAoMenu();
+    int soma=0, numEquipa, z, x, i=0;
+    float media;
+    if(*contadorAtividades==0)
+    {
+        printf("Erro nao ha atividades registadas.");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Que equipa pretende? Escolha entre a equipa 1 e a equipa %d.\n", *contadorEquipas);
+        do
+        {
+            printf(">:");
+            scanf("%d", &numEquipa);
+            numEquipa--;
+            fflush(stdin);
+        }
+        while(numEquipa<0 || numEquipa>=*contadorEquipas);
+        for(z=0;z<*contadorAlunos;z++)
+        {
+            for(x=0;x<*contadorAtividades;x++)
+            {
+                if(matriz[x][numEquipa][z]==1)
+                {
+                    soma+=vetAluno[z].ativ[x].contadorCorreto;
+                    i++;
+                }
+            }
+        }
+        media=(soma/i)*1.0f;
+        printf("A soma de respostas certas da equipa e: %.2f, %d %d", media);
+        voltarAoMenu();
+    }
 }
 
 void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *contadorAlunos, int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], aluno vetAluno[])
@@ -1107,8 +1169,8 @@ void main()
             case 5: mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
             case 6: apagarAtividade(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
             case 7: mostrarAlunosEquipa(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
-            case 8: totalRespostasCerta(); menu=0; break;
-            case 9: mediaRespostasCerta(); menu=0; break;
+            case 8: totalRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
+            case 9: mediaRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
             case 10: mediaIdadesEquipa(&contadorAtividades, &contadorEquipas, &contadorAlunos, matrizAtividadesEquipaAluno, vetAlunos); menu=0; break;
             case 11: menosTempo(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos, vetEquipas); menu=0; break;
             case 12: listarAlfabeticamente(vetEquipas, &contadorEquipas); menu=0; break;
