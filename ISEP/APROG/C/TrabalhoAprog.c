@@ -499,7 +499,7 @@ void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
 //Apagar a atividade tem dois casos: apagar uma atividade inteira, ou apagar apenas um aluno de uma atividade
 void apagarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAtividades, int *contadorAlunos, int *contadorEquipas, aluno vetAluno[])
 {
-    int menu, z, y, numAtividade;
+    int menu, z, y, numAtividade, numAluno;
     printf("---------\n1- Apagar uma atividade inteira\n2- Apagar um aluno de uma atividade\n---------\n");
     do{
         printf(">:");
@@ -578,7 +578,6 @@ void apagarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1]
                             matriz[numAtividade][y][z]=matriz[numAtividade+1][y][z];
                             //Isto da reset porque o mesmo aluno nao pode estar na mesma atividade em equipas diferentes;
                             y=*contadorEquipas;
-                            //Sao definidos como -1 como pedido no enunciado
                             vetAluno[z].ativ[numAtividade].contadorCorreto=vetAluno[z].ativ[numAtividade+1].contadorCorreto;
                             vetAluno[z].ativ[numAtividade].tempo=vetAluno[z].ativ[numAtividade+1].tempo;
                         }
@@ -590,6 +589,48 @@ void apagarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1]
             }
         }
         break;
+        //Apagar um aluno de uma atividade especifica
+        case 2:
+        if(*contadorAtividades==0)
+        {
+            printf("Nao ha atividades registadas.Operacao cancelada");
+            voltarAoMenu();
+        }
+        else
+        {
+            printf("Que atividade pretendemos apagar?Escolha entre a atividade 1 e a atividade %d\n", *contadorAtividades);
+            do{
+                printf(">:");
+                scanf("%d", &numAtividade);
+                //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                numAtividade--;
+                //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                fflush(stdin);
+            }while(numAtividade<0 || numAtividade>=*contadorAtividades);
+            printf("Que aluno pretendemos apagar?Escolha entre o aluno 1 e o aluno %d\n", *contadorAlunos);
+            do{
+                printf(">:");
+                scanf("%d", &numAluno);
+                //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+                numAluno--;
+                //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+                fflush(stdin);
+            }while(numAluno<0 || numAluno>=*contadorAlunos);
+            for(y=0;y<*contadorEquipas;y++)
+            {
+                if(matriz[numAtividade][y][numAluno]==1)
+                {
+                    matriz[numAtividade][y][numAluno]=0;
+                    //Isto da reset porque o mesmo aluno nao pode estar na mesma atividade em equipas diferentes;
+                    y=*contadorEquipas;
+                    vetAluno[numAluno].ativ[numAtividade].contadorCorreto=-1;
+                    vetAluno[numAluno].ativ[numAtividade].tempo=-1;
+                }
+            }
+            printf("Aluno: %s\nAtividade #%d\nForam apagados os dados.", vetAluno[numAluno].nome , numAtividade+1);
+            voltarAoMenu();
+            break;
+        }
     }
 }
 
