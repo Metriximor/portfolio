@@ -757,7 +757,7 @@ void mediaRespostasCerta(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIP
             }
         }
         media=(soma/i)*1.0f;
-        printf("A soma de respostas certas da equipa e: %.2f, %d %d", media);
+        printf("A soma de respostas certas da equipa e: %.2f", media);
         voltarAoMenu();
     }
 }
