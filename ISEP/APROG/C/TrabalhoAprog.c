@@ -694,7 +694,8 @@ void totalRespostasCerta()
 {
     voltarAoMenu();
 }
-void mediaRespostasCerta()//media por cada atividade
+
+void mediaRespostasCerta()//de uma equipa
 {
     voltarAoMenu();
 }
@@ -748,9 +749,44 @@ void mediaIdadesEquipa(int *contadorAtividades, int *contadorEquipas, int *conta
     }
 }
 
-void menosTempo()
+//Mostrar a equipa com menos tempo gasto numa atividade.
+void menosTempo(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAtividades, int *contadorAlunos, int *contadorEquipas, aluno vetAluno[], equipa vetEquipa[])
 {
-    voltarAoMenu();
+    int numAtividade, menorTempo=MAX_TEMPO, y,z, equipaMenorTempo;
+    if(*contadorAtividades==0)
+    {
+        printf("Nao ha atividades registadas.Operacao Cancelada");
+        voltarAoMenu();
+    }
+    else
+    {
+        printf("Que atividade pretende ver?Escolha entre a atividade 1 e a atividade %d\n", *contadorAtividades);
+        do{
+            printf(">:");
+            scanf("%d", &numAtividade);
+            //Aqui subtrai-se 1 porque o indice das matrizes começa no 0, o utilizador escolhe o aluno 1 mas o programa tem que ler o indice 0 para obter o aluno 1
+            numAtividade--;
+            //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
+            fflush(stdin);
+        }while(numAtividade<0 || numAtividade>=*contadorAtividades);
+        //Este loop procura por todos os alunos em todas as equipas que estao registados nesta atividade e vai buscar o tempo
+        for(y=0;y<*contadorEquipas;y++)
+        {
+            for(z=0;z<*contadorAlunos;z++)
+            {
+                if(matriz[numAtividade][y][z]==1)
+                {
+                    if(menorTempo>vetAluno[z].ativ[numAtividade].tempo)
+                    {
+                        menorTempo=vetAluno[z].ativ[numAtividade].tempo;
+                        equipaMenorTempo=y;
+                    }
+                }
+            }
+        }
+        printf("---------\nA equipa que demorou menos tempo foi a equipa %sCom um tempo de %d segundos.\n---------\n",vetEquipa[equipaMenorTempo].sigla, menorTempo);
+        voltarAoMenu();
+    }
 }
 
 /*Para escrever as equipas em ordem precisamos de copiar os nomes das equipas e coloca-los por ordem numa segunda estrutura, igual á original.
@@ -1074,7 +1110,7 @@ void main()
             case 8: totalRespostasCerta(); menu=0; break;
             case 9: mediaRespostasCerta(); menu=0; break;
             case 10: mediaIdadesEquipa(&contadorAtividades, &contadorEquipas, &contadorAlunos, matrizAtividadesEquipaAluno, vetAlunos); menu=0; break;
-            case 11: menosTempo(); menu=0; break;
+            case 11: menosTempo(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos, vetEquipas); menu=0; break;
             case 12: listarAlfabeticamente(vetEquipas, &contadorEquipas); menu=0; break;
             case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
             case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
