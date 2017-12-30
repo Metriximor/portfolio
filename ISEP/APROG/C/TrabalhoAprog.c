@@ -520,20 +520,35 @@ void menosTempo()
 }
 
 /*Para escrever as equipas em ordem precisamos de copiar os nomes das equipas e coloca-los por ordem numa segunda estrutura, igual á original.
-A razão para não colocar a estrutura original é porque
-void listarAlfabeticamente()
+A razão para não colocar a estrutura original é porque fazer isso implicaria modificar a matriz e todos os registos, e no enunciado nao pede isso, so pede para listar alfabeticamente*/
+void listarAlfabeticamente(equipa vetEquipa[],int *contadorEquipas)
 {
+    int i, j;
+    equipa vetCopia[MAX_EQUIPAS-1];
+    char temporario[MAX_CHARACTERS];
+    //Este loop copia
+    for(i=0; i<*contadorEquipas; i++)
+    {
+        vetCopia[i]=vetEquipa[i];
+    }
+    //Este loop ordena
     for (i = 1; i < 5; i++) {
       for (j = 1; j < 5; j++) {
-         if (strcmp(s[j - 1], s[j]) > 0) {
-            strcpy(t, s[j - 1]);
-            strcpy(s[j - 1], s[j]);
-            strcpy(s[j], t);
+         if (strcmp(vetCopia[j - 1].sigla, vetCopia[j].sigla) > 0) {
+            strcpy(temporario, vetCopia[j - 1].sigla);
+            strcpy(vetCopia[j - 1].sigla, vetCopia[j].sigla);
+            strcpy(vetCopia[j].sigla, temporario);
          }
       }
    }
+   //Este loop "imprime"
+    for(i=0; i<*contadorEquipas; i++)
+    {
+        printf("---Equipa %d---\nNome:%sLocalidade:%s", i+1,vetCopia[i].sigla, vetCopia[i].localidade);
+    }
+    printf("---------------");
     voltarAoMenu();
-}*/
+}
 
 /**Funções adicionais não exigidas no enunciado**/
 void criarEquipa(equipa vetEquipas[], int *contadorEquipas)
@@ -855,7 +870,7 @@ void main()
             case 9: mediaRespostasCerta(); menu=0; break;
             case 10: mediaIdadesEquipa(&contadorAtividades, &contadorEquipas, &contadorAlunos, matrizAtividadesEquipaAluno, vetAlunos); menu=0; break;
             case 11: menosTempo(); menu=0; break;
-//            case 12: listarAlfabeticamente(); menu=0; break;
+            case 12: listarAlfabeticamente(vetEquipas, &contadorEquipas); menu=0; break;
             case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
             case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
