@@ -2,6 +2,7 @@
 #include<string.h>
 
 /**TODO
+    Preencher as atividades nao participadas com -1(na estrutura)
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
@@ -342,19 +343,19 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                             printf("Quantas respostas corretas deu o aluno?\n");
                             do{
                                 printf(">:");
-                                scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto);
+                                scanf("%d", &vetAluno[numAluno].ativ[numAtividade].contadorCorreto);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto<0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_PERGUNTASCERTAS);
+                            }while(vetAluno[numAluno].ativ[numAtividade].contadorCorreto<0 || vetAluno[numAluno].ativ[numAtividade].contadorCorreto>MAX_PERGUNTASCERTAS);
                             printf("Quanto tempo (em segundos) demorou o aluno a responder?\n");
                             do{
                                 printf(">:");
-                                scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
+                                scanf("%d", &vetAluno[numAluno].ativ[numAtividade].tempo);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].tempo>MAX_TEMPO);
+                            }while(vetAluno[numAluno].ativ[numAtividade].tempo<=0 || vetAluno[numAluno].ativ[numAtividade].tempo>MAX_TEMPO);
                             //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
-                            printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
+                            printf("Atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
                             voltarAoMenu();
                         }
                         //Se houver erro deixa de funcionar e dá reset dos valores da matriz, voltando para o menu.
@@ -414,17 +415,17 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                             printf("Quantas respostas corretas deu o aluno?\n");
                             do{
                                 printf(">:");
-                                scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto);
+                                scanf("%d", &vetAluno[numAluno].ativ[numAtividade].contadorCorreto);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto<0 || vetAluno[numAluno].ativ[*contadorAtividades-1].contadorCorreto>MAX_PERGUNTASCERTAS);
+                            }while(vetAluno[numAluno].ativ[numAtividade].contadorCorreto<0 || vetAluno[numAluno].ativ[numAtividade].contadorCorreto>MAX_PERGUNTASCERTAS);
                             printf("Quanto tempo (em segundos) demorou o aluno a responder?\n");
                             do{
                                 printf(">:");
-                                scanf("%d", &vetAluno[numAluno].ativ[*contadorAtividades-1].tempo);
+                                scanf("%d", &vetAluno[numAluno].ativ[numAtividade].tempo);
                                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                                 fflush(stdin);
-                            }while(vetAluno[numAluno].ativ[*contadorAtividades-1].tempo<=0 || vetAluno[numAluno].ativ[*contadorAtividades-1].tempo>MAX_TEMPO);
+                            }while(vetAluno[numAluno].ativ[numAtividade].tempo<=0 || vetAluno[numAluno].ativ[numAtividade].tempo>MAX_TEMPO);
                             //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
                             printf("Nova atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
                             voltarAoMenu();
@@ -495,8 +496,11 @@ void mostrarAtividade(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
     }
 }
 
+//Apagar a atividade tem dois casos: apagar uma atividade inteira, ou apagar apenas um aluno de uma atividade
 void apagarAtividade()
 {
+    int menu;
+    printf("---------\n1- Apagar uma atividade inteira\n2- Apagar um aluno de uma atividade");
     voltarAoMenu();
 }
 
