@@ -367,7 +367,7 @@ void escreverAtividade(equipa vetEquipa[],aluno vetAluno[], int matriz[][MAX_EQU
                                 fflush(stdin);
                             }while(vetAluno[numAluno].ativ[numAtividade].tempo<=0 || vetAluno[numAluno].ativ[numAtividade].tempo>MAX_TEMPO);
                             //Quando chegamos aqui uma nova atividade foi criada com sucesso, comunica-se isso ao utilizador e volta-se ao menu.
-                            printf("Atividade #%d registada no aluno %d, na equipa %d\n", *contadorAtividades, numAluno+1, numEquipa+1);
+                            printf("Atividade #%d registada no aluno %d, na equipa %d\n", numAtividade, numAluno+1, numEquipa+1);
                             voltarAoMenu();
                         }
                         //Se houver erro deixa de funcionar e dá reset dos valores da matriz, voltando para o menu.
@@ -887,28 +887,45 @@ void listarAlfabeticamente(equipa vetEquipa[],int *contadorEquipas)
     int i, j;
     equipa vetCopia[MAX_EQUIPAS-1];
     char temporario[MAX_CHARACTERS];
-    //Este loop copia
-    for(i=0; i<*contadorEquipas; i++)
+    if(*contadorEquipas==0)
     {
-        vetCopia[i]=vetEquipa[i];
+        printf("Nao ha equipas registadas.Operacao Cancelada");
+        voltarAoMenu();
     }
-    //Este loop ordena
-    for (i = 1; i < 5; i++) {
-      for (j = 1; j < 5; j++) {
-         if (strcmp(vetCopia[j - 1].sigla, vetCopia[j].sigla) > 0) {
-            strcpy(temporario, vetCopia[j - 1].sigla);
-            strcpy(vetCopia[j - 1].sigla, vetCopia[j].sigla);
-            strcpy(vetCopia[j].sigla, temporario);
-         }
-      }
-   }
-   //Este loop "imprime"
-    for(i=0; i<*contadorEquipas; i++)
+    else
     {
-        printf("---Equipa %d---\nNome:%sLocalidade:%s", i+1,vetCopia[i].sigla, vetCopia[i].localidade);
+        //Este loop copia
+        for(i=0; i<*contadorEquipas; i++)
+        {
+            vetCopia[i]=vetEquipa[i];
+            //printf("---Equipa %d---\nNome:%s\n", i+1,vetCopia[i].sigla);
+        }
+        //Este loop ordena alfabeticamente
+        for (i = 1; i < *contadorEquipas; i++) {
+          for (j = 1; j < *contadorEquipas; j++) {
+             if (strcmp(vetCopia[j - 1].sigla, vetCopia[j].sigla) > 0) {
+                strcpy(temporario, vetCopia[j - 1].sigla);
+                strcpy(vetCopia[j - 1].sigla, vetCopia[j].sigla);
+                strcpy(vetCopia[j].sigla, temporario);
+
+                strcpy(temporario, vetCopia[j - 1].localidade);
+                strcpy(vetCopia[j - 1].localidade, vetCopia[j].localidade);
+                strcpy(vetCopia[j].localidade, temporario);
+
+                strcpy(temporario, vetCopia[j - 1].escola);
+                strcpy(vetCopia[j - 1].escola, vetCopia[j].escola);
+                strcpy(vetCopia[j].escola, temporario);
+             }
+          }
+       }
+       //Este loop "imprime"
+        for(i=0; i<*contadorEquipas; i++)
+        {
+            printf("---Equipa %d---\nNome:%sLocalidade:%sEscola:%s", i+1,vetCopia[i].sigla, vetCopia[i].localidade, vetCopia[i].escola);
+        }
+        printf("---------------");
+        voltarAoMenu();
     }
-    printf("---------------");
-    voltarAoMenu();
 }
 
 /**Funções adicionais não exigidas no enunciado**/
@@ -951,7 +968,7 @@ void criarEquipa(equipa vetEquipas[], int *contadorEquipas, int *contadorEscolas
             }
         }
         (*contadorEscolas)++;
-        printf("%d", *contadorEscolas);
+        //Debug: printf("%d", *contadorEscolas);
         (*contadorEquipas)++;
         voltarAoMenu();
     }
