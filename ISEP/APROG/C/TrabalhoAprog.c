@@ -30,12 +30,14 @@ typedef struct st_aluno{
     //Têm que ser restrita a valores realistas mais tarde.
     int idade;
     char genero;
+    char escola[MAX_CHARACTERS+1];
     atividade ativ[MAX_ATIVIDADESALUNO-1];
 }aluno;
 
 typedef struct st_equipa{
     char sigla[MAX_CHARACTERS+1];
     char localidade[MAX_CHARACTERS+1];
+    char escola[MAX_CHARACTERS+1];
 }equipa;
 
 //Funções vão aqui
@@ -83,7 +85,8 @@ void escreverAluno(aluno vetAluno[], int *contadorAluno)
             fflush(stdin);
             //printf("%c", vetAluno[*contadorAluno].genero);
         }while(vetAluno[*contadorAluno].genero!='M' && vetAluno[*contadorAluno].genero!='F' && vetAluno[*contadorAluno].genero!='f' && vetAluno[*contadorAluno].genero!='m');
-
+        printf("Qual a escola do aluno?\n");
+        fgets(vetAluno[*contadorAluno].escola, MAX_CHARACTERS, stdin);
         (*contadorAluno)++;
 
         //Esta função é dedicada a voltar ao menu principal de forma correta.
@@ -133,6 +136,7 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos,int *contadorEquipas,int
             *contadorAlunos=0;
             voltarAoMenu();
             //Este loop duplo apaga a informaçao da participaçao nas atividades e equipa da matriz
+            //Nao e necessario apagar mais do que isto porque o programa escreve por cima ao criar um novo aluno
             for(y=0; y<*contadorEquipas;y++)
             {
                 for(x=0; x<*contadorAtividades;x++)
@@ -192,7 +196,7 @@ void apagarAluno(aluno vetAlunos[], int *contadorAlunos,int *contadorEquipas,int
     }
 }
 
-void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorAtividades, int *contadorEquipas)
+void escreverAtividade(equipa vetEquipa[],aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1], int *contadorAlunos, int *contadorAtividades, int *contadorEquipas)
 {
     //Primeiro verifica-se se todas as regras são seguidas e depois é que se escreve para as estruturas
     //Primeiro escolhe-se em que aluno vamos escrever
@@ -264,7 +268,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                     erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &*contadorAtividades);
                     //Debug: printf("\nErro:%d", erro);
                     //No caso de nao haver erros ai é que se preenche a informação da estrutura do aluno.
-                    if(erro==0 && erroGenero==0)
+                    if(erro==0 && erroGenero==0 && strcmp(vetAluno[numAluno].escola,vetEquipa[numEquipa].escola)==0)
                     {
                         vetAluno[numAluno].ativ[*contadorAtividades-1].idAtividade=*contadorAtividades;
                         printf("Quantas respostas corretas deu o aluno?\n");
@@ -290,7 +294,15 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                     {
                         matriz[*contadorAtividades][numEquipa][numAluno]=0;
                         (*contadorAtividades)--;
-                        voltarAoMenu();
+                        if(erro==0 && erroGenero==0)
+                        {
+                            printf("O aluno nao se pode inscrever numa equipa de uma escola diferente.Operacao cancelada");
+                            voltarAoMenu();
+                        }
+                        else
+                        {
+                            voltarAoMenu();
+                        }
                     }
                 }
                 break;
@@ -337,7 +349,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         //Aqui verifica se há algum erro ao adicionar o valor á matriz
                         erroGenero=verificacaoGenero(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, vetAluno, &numEquipa, &numAluno);
                         erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &numAtividade);
-                        if(erro==0 && erroGenero==0)
+                        if(erro==0 && erroGenero==0 && strcmp(vetAluno[numAluno].escola,vetEquipa[numEquipa].escola)==0)
                         {
                             //Se não houver erro ao adicionar o aluno á atividade e á equipa então é preenchido o resto da informação
                             printf("Quantas respostas corretas deu o aluno?\n");
@@ -362,7 +374,15 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         else
                         {
                             matriz[numAtividade][numEquipa][numAluno]=0;
-                            voltarAoMenu();
+                            if(erro==0 && erroGenero==0)
+                            {
+                                printf("O aluno nao se pode inscrever numa equipa de uma escola diferente.Operacao cancelada");
+                                voltarAoMenu();
+                            }
+                            else
+                            {
+                                voltarAoMenu();
+                            }
                         }
                     }
 
@@ -393,7 +413,7 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         numAtividade--;
                         fflush(stdin);
                     }while(numAtividade<0 || numAtividade>=*contadorAtividades);
-                    printf("Em que equipa pretende está registado o aluno na atividade?\n");
+                    printf("Em que equipa pretende esta registado o aluno na atividade?\n");
                     do{
                         printf(">:");
                         scanf("%d", &numEquipa);
@@ -402,14 +422,15 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                     }while(numEquipa<0 || numEquipa>=*contadorEquipas);
                     if(matriz[numAtividade][numEquipa][numAluno]==0)
                     {
-                        printf("Erro, o aluno não está inscrito nessa atividade.Operacao cancelada");
+                        printf("Erro, o aluno não esta inscrito nessa atividade.Operacao cancelada");
                         voltarAoMenu();
                     }
                     else
                     {
                         //Aqui verifica se há algum erro ao adicionar o valor á matriz
                         erro=verificacao(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, &numAluno, &numEquipa, &numAtividade);
-                        if(erro==0)
+                        erroGenero=verificacaoGenero(matriz, &*contadorAlunos, &*contadorEquipas, &*contadorAtividades, vetAluno, &numEquipa, &numAluno);
+                        if(erro==0 && strcmp(vetAluno[numAluno].escola,vetEquipa[numEquipa].escola)==0)
                         {
                             //Se não houver erro ao adicionar o aluno á atividade e á equipa então é preenchido o resto da informação
                             printf("Quantas respostas corretas deu o aluno?\n");
@@ -434,7 +455,15 @@ void escreverAtividade(aluno vetAluno[], int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS
                         else
                         {
                             matriz[numAtividade][numEquipa][numAluno]=0;
-                            voltarAoMenu();
+                            if(erro==0 && erroGenero==0)
+                            {
+                                printf("O aluno nao se pode inscrever numa equipa de uma escola diferente.Operacao cancelada");
+                                voltarAoMenu();
+                            }
+                            else
+                            {
+                                voltarAoMenu();
+                            }
                         }
                     }
                 }
@@ -883,8 +912,9 @@ void listarAlfabeticamente(equipa vetEquipa[],int *contadorEquipas)
 }
 
 /**Funções adicionais não exigidas no enunciado**/
-void criarEquipa(equipa vetEquipas[], int *contadorEquipas)
+void criarEquipa(equipa vetEquipas[], int *contadorEquipas, int *contadorEscolas)
 {
+    int i;
     if(*contadorEquipas>=MAX_EQUIPAS)
     {
         printf("Maximo de equipas registadas. Operacao cancelada");
@@ -909,6 +939,19 @@ void criarEquipa(equipa vetEquipas[], int *contadorEquipas)
 
         printf("Qual a localidade da equipa %d?\n", *contadorEquipas+1);
         fgets(vetEquipas[*contadorEquipas].localidade, MAX_CHARACTERS, stdin);
+
+        printf("Qual o nome da escola %d?\n", *contadorEscolas+1);
+        fgets(vetEquipas[*contadorEscolas].escola, MAX_CHARACTERS, stdin);
+        for(i=0;i<*contadorEscolas;i++)
+        {
+            if(strcmp(vetEquipas[i].escola, vetEquipas[*contadorEscolas].escola)==0)
+            {
+                i=*contadorEscolas;
+                (*contadorEscolas)--;
+            }
+        }
+        (*contadorEscolas)++;
+        printf("%d", *contadorEscolas);
         (*contadorEquipas)++;
         voltarAoMenu();
     }
@@ -922,7 +965,7 @@ void voltarAoMenu()
     getchar();
 }
 
-void debug(int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
+void debug(int *contadorAlunos, int *contadorEquipas, int *contadorAtividades, int *contadorEscolas)
 {
     printf("Pode ser registado um numero maximo de %d equipas", MAX_EQUIPAS);
     printf("\nPode ser registados um numero maximo de %d alunos", (MAX_ALUNOSEQUIPA*MAX_EQUIPAS));
@@ -930,6 +973,7 @@ void debug(int *contadorAlunos, int *contadorEquipas, int *contadorAtividades)
     printf("\nHa %d aluno(s) registado(s).", *contadorAlunos);
     printf("\nHa %d equipa(s) registada(s).", *contadorEquipas);
     printf("\nHa %d atividade(s) registada(s)", *contadorAtividades);
+    printf("\nHa %d escola(s) registada(s)", *contadorEscolas);
     voltarAoMenu();
 }
 
@@ -1117,14 +1161,18 @@ int verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
             {
                 comparador=vetAluno[z].genero;
 
-                //Estes dois comandos param o loop
+                //Estes dois comandos param o loop porque foi encontrado o genero
                 x=*contadorAtividades;
                 z=*contadorAlunos;
             }
         }
     }
     //Se o valor do primeiro elemento de uma equipa for igual ao genero do aluno que pretendemos adicionar, entao nao ha problema
-    if(comparador==vetAluno[*numAluno].genero)
+    if((comparador=='F' || comparador=='f') && (vetAluno[*numAluno].genero=='F' || vetAluno[*numAluno].genero=='f'))
+    {
+        return 0;
+    }
+    else if((comparador=='M' || comparador=='m') && (vetAluno[*numAluno].genero=='M' || vetAluno[*numAluno].genero=='m'))
     {
         return 0;
     }
@@ -1138,7 +1186,7 @@ int verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
 void main()
 {
     short int menu;
-    int contadorAlunos=0, contadorAtividades=0, contadorEquipas=0;
+    int contadorAlunos=0, contadorAtividades=0, contadorEquipas=0, contadorEscolas=0;
     //Aqui criamos uma matriz de 1's e 0's que vai guardar a informação de que equipa e que atividade é que um dado aluno está registado
     //O tamanho de X é o numero de atividades que há. No caso do enunciado são 6 equipas vezes 8 atividades diferentes por equipa logo 48 atividades diferentes
     //O tamanho de Y é o maximo de equipas que há. No caso do enunciado são 6 equipas
@@ -1162,20 +1210,20 @@ void main()
         switch(menu)
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
-            case 1: escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 2: mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
-            case 3: apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
-            case 4: escreverAtividade(vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
-            case 5: mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
-            case 6: apagarAtividade(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
-            case 7: mostrarAlunosEquipa(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
-            case 8: totalRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
-            case 9: mediaRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
+            case 1 : escreverAluno(vetAlunos, &contadorAlunos); menu=0; break;
+            case 2 : mostrarAluno(vetAlunos, &contadorAlunos); menu=0; break;
+            case 3 : apagarAluno(vetAlunos, &contadorAlunos, &contadorEquipas, &contadorAtividades, matrizAtividadesEquipaAluno); menu=0; break;
+            case 4 : escreverAtividade(vetEquipas, vetAlunos, matrizAtividadesEquipaAluno, &contadorAlunos, &contadorAtividades, &contadorEquipas); menu=0; break;
+            case 5 : mostrarAtividade(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
+            case 6 : apagarAtividade(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
+            case 7 : mostrarAlunosEquipa(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetAlunos, vetEquipas); menu=0; break;
+            case 8 : totalRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
+            case 9 : mediaRespostasCerta(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos); menu=0; break;
             case 10: mediaIdadesEquipa(&contadorAtividades, &contadorEquipas, &contadorAlunos, matrizAtividadesEquipaAluno, vetAlunos); menu=0; break;
             case 11: menosTempo(matrizAtividadesEquipaAluno, &contadorAtividades, &contadorAlunos, &contadorEquipas, vetAlunos, vetEquipas); menu=0; break;
             case 12: listarAlfabeticamente(vetEquipas, &contadorEquipas); menu=0; break;
-            case 13: criarEquipa(vetEquipas, &contadorEquipas); menu=0; break;
-            case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades); menu=0; break;
+            case 13: criarEquipa(vetEquipas, &contadorEquipas, &contadorEscolas); menu=0; break;
+            case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades, &contadorEscolas); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
             case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetEquipas); menu=0; break;
             case 17: menu=15; break;
