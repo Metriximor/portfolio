@@ -113,7 +113,7 @@ void mostrarAluno(aluno vetAlunos[], int *contadorAlunos)
                 //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
                 fflush(stdin);
         }while(numAluno<0 || numAluno>=*contadorAlunos);
-        printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c", numAluno+1, vetAlunos[numAluno].nome, vetAlunos[numAluno].idade, vetAlunos[numAluno].genero);
+        printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c\nEscola: %s", numAluno+1, vetAlunos[numAluno].nome, vetAlunos[numAluno].idade, vetAlunos[numAluno].genero, vetAlunos[numAluno].escola);
         //Debug: printf("%d", numAluno);
         voltarAoMenu();
     }
@@ -1008,7 +1008,7 @@ void mostrarAlunosTodos(aluno vetAlunos[], int *contadorAlunos)
     {
         for(i=0; i<*contadorAlunos; i++)
         {
-            printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c\n", i+1, vetAlunos[i].nome, vetAlunos[i].idade, vetAlunos[i].genero);
+            printf("---------Aluno %d---------\nNome: %sIdade: %d\nGenero: %c\nEscola:%s", i+1, vetAlunos[i].nome, vetAlunos[i].idade, vetAlunos[i].genero, vetAlunos[i].escola);
         }
         voltarAoMenu();
     }
