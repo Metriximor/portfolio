@@ -2,16 +2,15 @@
 #include<string.h>
 
 /**TODO
-    Preencher as atividades nao participadas com -1(na estrutura)
 **/
 
 //Defines vão aqui, nota ao criar um array com algum define nao esquecer de subtrair 1
 #define MAX_CHARACTERS 50 //50
-#define MAX_EQUIPAS 6 //6, nao se pode definir mais de 29 ou menos de 2
+#define MAX_EQUIPAS 6 //6
 #define MAX_ALUNOSEQUIPA 8 //8
 #define MAX_ATIVIDADESALUNO 5 //5
 #define MAX_ATIVIDADESEQUIPA 8 //8
-
+//Estes valores nao sao explicitos no enunciado
 #define MIN_IDADE 16
 #define MAX_IDADE 90
 #define MAX_PERGUNTASCERTAS 50
@@ -19,9 +18,9 @@
 
 //Structs vão aqui, todas as structs começam com o nome st_ para indicar que é o nome da struct sem typedef
 typedef struct st_atividade{
+    //Devido á solução que utilizamos o idAtividade nao chegou a ser muito utilizado
     int idAtividade;
     int contadorCorreto;
-    //Assumindo que este é o tempo que todos os alunos demoraram a completar a atividade
     int tempo;
 }atividade;
 
@@ -293,9 +292,11 @@ void escreverAtividade(equipa vetEquipa[],aluno vetAluno[], int matriz[][MAX_EQU
                     else
                     {
                         (*contadorAtividades)--;
+                        //No caso de nao ter sido nenhum destes dois erros, entao isso quer dizer que a escola era diferente, logo temos de escrever a msg de erro
                         if(erro==0 && erroGenero==0)
                         {
                             printf("O aluno nao se pode inscrever numa equipa de uma escola diferente.Operacao cancelada");
+                            //A eliminacao da matriz esta aqui, porque se estivesse junto do contadorAtividades-- nao funcionava.
                             matriz[*contadorAtividades][numEquipa][numAluno]=0;
                             voltarAoMenu();
                         }
@@ -1201,6 +1202,12 @@ int verificacaoGenero(int matriz[][MAX_EQUIPAS-1][MAX_EQUIPAS*MAX_ALUNOSEQUIPA-1
     }
 }
 
+void creditos()
+{
+    printf("---------\nPrograma Testado e Realizado por:\nPedro Macieira - 1170554\nArtur - 1171070\nFabio Miguel - 1170772\n---------");
+    voltarAoMenu();
+}
+
 void main()
 {
     short int menu;
@@ -1218,13 +1225,13 @@ void main()
         fflush(stdin);
         //Este printf está dividido em 2: o primeiro printf são as funções requesitadas no enunciado e o segundo são funcões ou comandos extra para o caso de alguma necessidade nao especificada no enunciado.
         printf("------Gestao Equipas------\nEscolha a opcao introduzindo o valor indicado\n1- Escrever um novo aluno\n2- Mostrar um aluno\n3- Apagar um aluno\n4- Escrever uma atividade\n5- Mostrar uma atividade\n6- Apagar uma atividade\n7- Mostrar os alunos de uma determinada equipa\n8- Total de respostas certas de uma equipa\n9- Media de respostas certas de uma equipa\n10- Media de idades de uma equipa\n11- Mostrar a equipa com menos tempo gasto numa determinada atividade\n12- Listar as equipas alfabeticamente\n");
-        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Informacoes adicionais\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
+        printf("13- Criar uma nova equipa[Podem ser criadas mais %d equipas]\n14- Informacoes adicionais\n15- Mostrar todos os alunos\n16- Visualizar as atividades e equipas de um aluno\n17- Creditos\n18- Sair do programa\n--------------------------\n", MAX_EQUIPAS-contadorEquipas);
         do{
             printf(">:");
             scanf("%d", &menu);
             //O fflush está aqui para o caso de ser introduzido em acidente(ou nao) um caracter, permitindo assim a introduçao de um integer
             fflush(stdin);
-        }while(menu<=0 || menu>17);
+        }while(menu<=0 || menu>18);
         switch(menu)
         {
             //Nota, os break são necessários senão o programa corre todos os comandos que há, depois de cada comando correr há necessidade de dar reset de menu para = 0 senão se fosse introduzido algum caracter o programa assumiria o valor que tinha previamente e correria essa opção de novo
@@ -1244,7 +1251,8 @@ void main()
             case 14: debug(&contadorAlunos, &contadorEquipas, &contadorAtividades, &contadorEscolas); menu=0; break;
             case 15: mostrarAlunosTodos(vetAlunos, &contadorAlunos); menu=0; break;
             case 16: visualizadorMatriz(matrizAtividadesEquipaAluno, &contadorAlunos, &contadorEquipas, &contadorAtividades, vetEquipas); menu=0; break;
-            case 17: menu=15; break;
+            case 17: creditos(); menu=0; break;
+            case 18: menu=15; break;
             //O default está aqui se por alguma razão alguma coisa de mal acontecer ao int i o programa voltar ao menu, mas em teoria isto nunca deve correr.
             default: menu=0;
         }
