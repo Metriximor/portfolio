@@ -1,0 +1,100 @@
+$${
+
+//Script made by Metriximor
+//This script assumes your farm is built looking towards the east
+//The layout of a single row is: |P|S|S|P|   -P:Pumpkin S:Farm soil, so multiple rows would look like |P|S|S|P|P|S|S|P|...
+//The script starts out in the northeastern point
+//It is strongly advised to use boundary walls outside the farm to avoid any wrong timing
+//Make sure to include the start and end to the width(it starts out one block behind the farm, and turns around one block after the farm
+//The script is timed to assume you are using a eff4 axe
+
+#rowcounter=1;
+
+if(farming==false);
+{
+	log(Script Started);
+    set(farming);
+    
+    //Gets the starting position(which should be the "southwest" corner
+    #xstarting=%XPOS%
+    #zstarting=%ZPOS%
+    
+    //Change these lines to tailor them to your farm, these values work on yoahtl farm
+    #rows=25;  //25
+    #width=126; //126
+    
+    //Calculates the other end of the row
+    #xpredictedendofwidth=#xstarting+#width;
+    #zpredictedendofrow=#zstarting-3;
+    #zpredictedbeginofrow=#zstarting;
+    
+    keydown(forward);
+	look(90,30);
+	wait(100ms);
+    
+    do;
+    {
+        //This bit handles the attack part;
+        do(3); //Change the value in this line according to the tool you use
+        {
+            key(attack);
+        }
+        loop;
+        
+        //This bit handles the movement of the player;
+        #xcurrentpos=%XPOS%;
+        #zcurrentpos=%ZPOS%;
+        
+        //Checks if the player is in the correct position to turn around;
+		//log(%#zpredictedendofrow% %#xpredictedendofwidth%);
+        if((#xcurrentpos==#xpredictedendofwidth) && (#zcurrentpos==#zpredictedbeginofrow));
+        {
+            look(0,30);
+			wait(400ms);
+			keydown(sneak);
+        }
+        //This means that we are on the opposite side of the row
+        elseif((#xcurrentpos==#xpredictedendofwidth) && (#zcurrentpos==#zpredictedendofrow));
+        {
+			wait(100ms);
+            look(270,30);
+			keyup(sneak);
+        }
+        //This means we are on the end of the row, and have to 
+        elseif((#xcurrentpos==#xstarting) && (#zcurrentpos==#zpredictedendofrow));
+        {
+            look(0,30);
+			keydown(sneak);
+            #zpredictedbeginofrow=#zstarting-4*#rowcounter;
+            #zpredictedendofrow=#zpredictedbeginofrow-3;
+            inc(#rowcounter);
+			//log(%#zpredictedendofrow% %#rowcounter%);
+        }
+        elseif((#xcurrentpos==#xstarting) && (#zcurrentpos==#zpredictedbeginofrow));
+        {
+			wait(150ms);
+            look(90,30);
+			keyup(sneak);
+        }
+        endif;
+        
+    }
+    while(#rows>=#rowcounter);
+	unset(farming);
+	keyup(forward);
+	keyup(sneak);
+	log(Farm is farmed);
+	stop();
+}
+elseif(farming==true);
+{
+    keyup(forward);
+	keyup(sneak);
+    unset(farming);
+	log(Script stopped);
+    stop();
+}
+endif;
+
+
+}$$
