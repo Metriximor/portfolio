@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <meta charset="UTF-8">
+    <title>Javascript</title>
+</header>
+
+<body>
+    <script>
+        let clock = new Date();
+        let horas = clock.getHours();
+        let min = clock.getMinutes();
+        document.write("Relógio: " + horas + "h" + min + "m" + "<br>");
+        if ((horas < 12) || (horas == 12 && min <= 1)) {
+            document.writeln("Bom dia");
+        } else if ((horas == 12 && min <= 1) || (horas <= 19)) {
+            document.writeln("Boa tarde");
+            document.write("<style> body { background-color:rgb(128,128,128); color:blue;} </style>");
+        } else if ((horas == 19 && min <= 1) || (horas < 23)) {
+            document.writeln("Boa noite");
+            document.write("<style> body { background-color:black; color:white;} </style>");
+        } else if ((horas == 23)) {
+            document.write("Durma bem");
+        }
+
+    </script>
+
+    <div>
+        <form id="calc">
+            <input type="number" name="foper" size=10 value="1"> <input type="text" name="operando" size="2" value="+"> <input type="number" name="soper" size=10 value="1">
+        </form>
+        <button onclick="calculadora()">Calcular</button>
+    </div>
+
+    <p id="resultado"></p>
+
+    <script>
+        function soma(a, b) {
+            return a + b;
+        }
+        function sub(a, b) {
+            return a - b;
+        }
+        function multi(a, b) {
+            return a * b;
+        }
+        function div(a, b) {
+            if(b==0) {
+                return "Impossível dividir por 0";
+            }
+            else {
+                return a / b;
+            }
+        }
+        
+        function calculadora() {
+            var form = document.getElementById("calc");
+            var i;
+            var foper = parseFloat(form.elements[0].value);
+            var oper = form.elements[1].value;
+            var soper = parseFloat(form.elements[2].value);
+            var res;
+            
+            if(oper==="+") {
+                res = soma(foper, soper);
+            }
+            else if(oper==="-") {
+                res = sub(foper, soper);
+            }
+            else if(oper==="*" || oper==="x") {
+                res = multi(foper, soper);
+            }
+            else if(oper==="/") {
+                res = div(foper, soper);
+            }
+            
+            //Resultado
+            document.getElementById("resultado").innerHTML = foper + oper + soper + "=" + res;
+        }
+
+    </script>
+</body>
+
+</html>
