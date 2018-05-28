@@ -22,12 +22,16 @@
         } else if ((horas == 23)) {
             document.write("Durma bem");
         }
-
     </script>
 
     <div>
         <form id="calc">
-            <input type="number" name="foper" size=10 value="1"> <input type="text" name="operando" size="2" value="+"> <input type="number" name="soper" size=10 value="1">
+            <input type="number" name="foper" size=10 value="1">
+            <input type="radio" name="operando" size="2" value="+" checked="checked"> +
+            <input type="radio" name="operando" size="2" value="-"> -
+            <input type="radio" name="operando" size="2" value="*"> *
+            <input type="radio" name="operando" size="2" value="/"> /
+            <input type="number" name="soper" size=10 value="1">
         </form>
         <button onclick="calculadora()">Calcular</button>
     </div>
@@ -38,46 +42,53 @@
         function soma(a, b) {
             return a + b;
         }
+
         function sub(a, b) {
             return a - b;
         }
+
         function multi(a, b) {
             return a * b;
         }
+
         function div(a, b) {
-            if(b==0) {
+            if (b == 0) {
                 return "Impossível dividir por 0";
-            }
-            else {
+            } else {
                 return a / b;
             }
         }
-        
+
         function calculadora() {
             var form = document.getElementById("calc");
             var i;
             var foper = parseFloat(form.elements[0].value);
-            var oper = form.elements[1].value;
-            var soper = parseFloat(form.elements[2].value);
+            var oper = document.getElementsByName('operando');
+            for (var i = 0, length = oper.length; i < length; i++) {
+                if (oper[i].checked) {
+                    // do whatever you want with the checked radio
+                    oper = oper[i].value;
+
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+            var soper = parseFloat(form.elements[5].value);
             var res;
-            
-            if(oper==="+") {
+
+            if (oper === "+") {
                 res = soma(foper, soper);
-            }
-            else if(oper==="-") {
+            } else if (oper === "-") {
                 res = sub(foper, soper);
-            }
-            else if(oper==="*" || oper==="x") {
+            } else if (oper === "*" || oper === "x") {
                 res = multi(foper, soper);
-            }
-            else if(oper==="/") {
+            } else if (oper === "/") {
                 res = div(foper, soper);
             }
-            
+
             //Resultado
             document.getElementById("resultado").innerHTML = foper + oper + soper + "=" + res;
         }
-
     </script>
 </body>
 
