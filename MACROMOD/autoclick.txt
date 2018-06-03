@@ -1,0 +1,25 @@
+$${
+
+//Script made by Metriximor
+//This script has a toggle that makes it so the game autoclicks while the toggle is on
+
+if(toggle==false);
+{
+	log(Script Started);
+    set(toggle);
+	do;
+	{
+		key(attack);
+	}
+	loop;
+}
+elseif(toggle==true);
+{
+    unset(toggle);
+	log(Script stopped);
+    stop();
+}
+endif;
+
+
+}$$
