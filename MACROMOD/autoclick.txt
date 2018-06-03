@@ -2,6 +2,7 @@ $${
 
 //Script made by Metriximor
 //This script has a toggle that makes it so the game autoclicks while the toggle is on
+//Use $${$$<autoclick.txt>}$$ and then save
 
 if(toggle==false);
 {
