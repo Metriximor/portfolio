@@ -1,0 +1,18 @@
+@media only screen and (max-width: 480px) {
+    /* For desktop: */
+    .calcu {
+        width: 50%;
+    }
+    input.numer {
+        width: 100%;
+    }
+}
+
+.centro {
+    margin: auto;
+    text-align: center;
+}
+
+.italico {
+    font-style: italic;
+}

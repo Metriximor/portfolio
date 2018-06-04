@@ -3,6 +3,8 @@
 <header>
     <meta charset="UTF-8">
     <title>Javascript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
 </header>
 
 <body>
@@ -23,18 +25,17 @@
             } else if ((horas == 23)) {
                 document.write("Durma bem");
             }
-
         </script>
 
         <p class="calculadora">
-            <div>
+            <div class="calcu">
                 <form id="calc">
-                    <input type="number" name="foper" size=10 value="1">
-                    <input type="radio" name="operando" size="2" value="+" checked="checked"> +
-                    <input type="radio" name="operando" size="2" value="-"> -
-                    <input type="radio" name="operando" size="2" value="*"> *
-                    <input type="radio" name="operando" size="2" value="/"> /
-                    <input type="number" name="soper" size=10 value="1">
+                    <input type="number" name="foper" value="2" class="numer">
+                    <input type="radio" name="operando" value="+" checked="checked"> +
+                    <input type="radio" name="operando" value="-"> -
+                    <input type="radio" name="operando" value="*"> *
+                    <input type="radio" name="operando" value="/"> /
+                    <input type="number" name="soper" value="1" class="numer">
                 </form>
                 <button onclick="calculadora()">Calcular</button>
             </div>
@@ -92,7 +93,6 @@
                     //Resultado
                     document.getElementById("resultado").innerHTML = foper + oper + soper + "=" + res;
                 }
-
             </script>
             <p class="Inscrever">
                 <form action="inscreve.html">
