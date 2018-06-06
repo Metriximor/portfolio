@@ -9,26 +9,32 @@
 </head>
 
 <body>
+    <div>
+        <script type="text/javascript" src="introducao.js"></script>
+
+    </div>
     <div class="inscricao">
-        <form action="inscricao.php" method="get">
-            Nome: <input type="text" name="primNome"> 
-            Sobrenome: <input type="text" name="sobrNome">
+        <form method="get" id="inscricao">
+            Nome: <input type="text" name="primNome"> Sobrenome: <input type="text" name="sobrNome">
             <br> Sexo: Masculino
             <input type="radio" name="sexo" value="male"> Feminino
             <input type="radio" name="sexo" value="female">
-            <br><p> Título:
-            <input type="radio" name="titulo" value="Dr">Doutor(a)
-            <input type="radio" name="titulo" value="Prof">Professor(a)
-            <input type="radio" name="titulo" value="Eng">Engenheiro(a)
-            <input type="radio" name="titulo" value="Sr">Senhor(a)
-            <p></p>
-            <p class="centro">
-                Instituição: <input type="text" name="instit">
-                <br> 
-                E-mail: <input type="text" name="email">
-            </p>
-            <input type="submit" name="submit" value="Confirmar">
+            <br>
+            <p> Título:
+                <input type="radio" name="titulo" value="Dr">Doutor(a)
+                <input type="radio" name="titulo" value="Prof">Professor(a)
+                <input type="radio" name="titulo" value="Eng">Engenheiro(a)
+                <input type="radio" name="titulo" value="Sr">Senhor(a)
+                <p class="centro">
+                    Instituição: <input type="text" name="instit" class="inputBox">
+                    <br> E-mail: <input type="text" name="email" class="inputBox">
+                </p>
+                <input type="submit" name="submit" value="Confirmar" onclick="verificacao()">
         </form>
+
+    </div>
+    <div>
+        <script src="verificacao.js"></script>
     </div>
 
 
