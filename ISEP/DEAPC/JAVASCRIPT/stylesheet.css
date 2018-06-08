@@ -27,6 +27,7 @@
 
 input.inputBox {
     width: 20%;
+    column-fill: red;
 }
 
 #primeiraLinha {

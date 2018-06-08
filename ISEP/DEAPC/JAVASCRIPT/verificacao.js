@@ -69,5 +69,7 @@ function verificacao() {
     
     if(erro) {
         alert("Insira:\n" + errPrimNome + errSobrNome + errSexo + errTitulo + errInstit + errEmail);
+        return false;
     }
+    //Nota: nao é necessário retornar o verdadeiro para a verificação da form
 }
