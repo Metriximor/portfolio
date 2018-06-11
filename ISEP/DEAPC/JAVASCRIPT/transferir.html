@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>MoodleISEP</title>
+<link href="./all.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+<meta http-equiv="content-style-type" content="text/css" />
+<script language="JavaScript" type="text/javascript">
+<!--
+  botao1 = new Image() ;
+  botao1.src = "./MOODLE_links.png";
+	botao2 = new Image();
+  botao2.src = "./MOODLE_link_site.png" ;
+	botao3 = new Image();
+  botao3.src = "./MOODLE_link_portal.png" ;
+	botao4 = new Image();
+  botao4.src = "./MOODLE_link_webmail.png" ;
+		
+function troca(nome, tipo)
+{
+	document.images[nome].src = eval("botao" + tipo + ".src");
+}
+
+function limpauser()
+{
+    user=document.getElementById("username");
+    
+    res=user.value.split("@",2);
+    
+    if(res[1]!="undefined")
+    {
+        if(res[1]=="isep.ipp.pt")
+            user.value=res[0];
+    }
+}
+// -->
+</script>
+</head>
+<body>
+<table width="100%" border="0" cellspacing="80" cellpadding="0">
+    <tr>
+        <td valign="center" align="center" height="100%">
+            <table border="0" width="640" style="height: 400px;" background="./Moodle_fundo2.png" style="background-repeat: no-repeat;" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td height="100" colspan="2">&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr style="height: 170px;">    
+                    <td width="25" rowspan="2">&nbsp;</td>
+                    <td valign="top" align="left" width="320">
+                        <img src="./logo.png" alt="Logo ISEP" title="Logo ISEP" /> 
+            
+                    </td>
+                	<td valign="bottom">
+                        <form action="../login/index.php" method="post" onsubmit="limpauser()" >
+             				<table border="0" style="height: 100px;">
+                                <tr>
+                                    <td align="left">Utilizador: </td>
+                                    <td align="left"><input type="text" id="username" name="username" size="21" /></td>
+                                </tr>
+                                <tr>
+                                    <td align="left">Palavra chave: </td>
+                                    <td align="left"><input type="password" name="password" size="21" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="right">
+										<input type="submit" value=" Entrar "  />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="button" onclick="{open('https://moodle.isep.ipp.pt/helpdesk/helpdesk.php','','width=650,height=400,toolbar=no,scrollbars=no,resizable=no,status=no,directories=no,menubar=no,location=no,top=200,left=200');}" value="Helpdesk" />
+									</td>
+									<td align="right">
+										<input type="button" onclick="{open('https://portal.isep.ipp.pt/intranet/permit/recuperar_acesso.aspx','','');}" value="Recuperar Password" />
+                                    </td>
+                                </tr>                                    
+                            </table>
+                        </form><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <img src="./MoodleLogoCertificacao.jpg" alt="Logos Certifica&ccedil;&atilde;o" title="Logos Certifica&ccedil;&atilde;o" />
+                    </td>
+                    <td valign="top">
+                        <img src="./MOODLE_links.png" alt="botoes" usemap="#botoes" border="0" name="botoes" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<map name=botoes>
+<area href="http://www.isep.ipp.pt" target=newWindow() onmouseover="troca('botoes', '2')" onmouseout="troca('botoes', '1')" alt="Site ISEP" coords="10,4,60,13" />
+<area href="http://portal.isep.ipp.pt" target=newWindow() onmouseover="troca('botoes', '3')" onmouseout="troca('botoes', '1')" alt="Portal ISEP" coords="10,25,127,36" />
+<area href="http://www.isep.ipp.pt/mail" target=newWindow() onmouseover="troca('botoes', '4')" onmouseout="troca('botoes', '1')" alt="Webmail" coords="10,47,131,58" />
+</map>
+
+</body>
+</html>
