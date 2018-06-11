@@ -8,7 +8,6 @@
     }
     input.inputBox {
         width: 100%;
-        color: brown;
     }
 }
 
@@ -44,4 +43,13 @@ input.inputBox {
 
 #quartaLinha {
     font-size: 20px;
+}
+
+body.novosocio {
+    background-color: yellow;
+}
+
+body.ultimoex {
+    background-color: blue;
+    color: white;
 }
