@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Teste DEAPC </title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h1>Dados do Edificio</h1><br>
+    <div>
+        <form action="edificio.php" onsubmit="return verificacao()" method="post">
+            <b>Comprimento do Edificio:</b> <input type="number" name="comp" id="comp">metros<br>
+            <b>Largura:</b> <input type="number" name="larg" id="larg">metros<br>
+            <b>Número de andares:</b> <input type="number" name="numAnd" id="numAnd">andares<br>
+            <b>Altura de cada andar:</b> <input type="number" name="altAnd" id="altAnd">metros<br>
+
+            <h2>Zonas não pintáveis</h2><br>
+
+            <b>Número de janelas/portas:</b> <input type="number" name="numJanPor" id="numJanPor"><br>
+            <b>Área média das janelas/portas</b> <input type="number" name="arJanPor" id="arJanPor">metros²<br>
+
+            <h1>Dados do Tinta</h1>
+
+            <b>Rendimento:</b> Um litro permite pintar <input type="number" name="rend" id="rend"> metros²
+
+            <br>
+            <input type="submit" name="submit" value="Calcular">
+
+        </form>
+        <script src="ver.js"></script>
+    </div>
+</body>
+
+</html>
