@@ -24,6 +24,19 @@ public class Gui {
         
         //Cria um painel
         panel = new JPanel();
-        panel.setBackground(Color.BLACK);
+        panel.setBackground(Color.WHITE);
+        
+        //Cria um butao, dá-lhe um nome
+        testeButton = new JButton("Olá");
+        
+        //Cria uma label, dá-lhe algo para escrever
+        label = new JLabel("Teste Label");
+        label.setBackground(Color.WHITE);
+        
+        //Adiciona componentes ao painel e o painel ao frame
+        panel.add(label);
+        panel.add(testeButton);
+        frame.add(panel);
+        
     }
 }
