@@ -1,0 +1,91 @@
+//EXERCICIO 1
+
+ED:
+	nota1, nota2, nota3, peso1, peso2, peso3 INTEIRO
+	mediaPesada REAL
+ALG
+INICIO
+	LER(nota1, nota2, nota3)
+	LER(peso1, peso2, peso3)
+
+		mediaPesada <- (nota1*peso1+ nota2*peso2+ nota3*peso3) /(peso1+peso2+peso3)
+	ESCREVER(mediaPesada)
+	
+	SE(mediaPesada >= 8) 
+		ESCREVER("Nota Minima Exigida alcançada)
+	SENAO
+		ESCREVER("Não alcançada a nota minima exigida")
+	FIMSE
+FIM
+
+//EXERCICIO 2
+
+ED:
+	num, dig1, dig2, dig3 INTEIRO
+ALG
+INICIO
+	LER(num)
+	SE (num <100 OU num >999)
+		ESCREVER(“Número não tem 3 dígitos”)
+	SENÃO
+		dig3 <- num MOD 10
+		dig2 <- (num DIV 10) MOD 10
+		dig1 <- (num DIV 100) MOD 10
+		ESCREVER(dig1, “ ”, dig2, “ ”, dig3)
+	FIMSE
+	
+	SE((num MOD 2) == 0)
+		ESCREVER("O número é par")
+	SENÃO
+		ESCREVER("O número é impar")
+	FIMSE
+FIM
+
+//EXERCICIO 3
+
+
+ED:
+	num, numQuad INTEIRO
+ALG
+INICIO
+	LER(num)
+	SE((num > 1000) && (num < 10000) && (num MOD 2 != 0)
+		numQuad = num ^ 2
+		ESCREVER("O numero introduzido é ", num, " e o quadrado desse número é ", numQuad)
+	SENAO
+		ESCREVER("O número introduzido não é válido")
+	FIMSE
+FIM
+
+//EXERCICIO 4
+
+
+ED:
+	dig1, dig2, dig3, num, numQuad INTEIRO
+ALG
+INICIO
+	LER(dig1)		
+	SE((dig1 <= 9) && (dig1 >=1))
+		ESCREVER("Introduza o algarismo 2")
+		LER(dig2)
+		
+		SE((dig2 <= 9) && (dig2 >=1))
+			ESCREVER("Introduza o algarismo 3")
+			LER(dig3)
+			
+			//Se chegar a este ponto é porque o número introduzido é válido
+			SE((dig3 <= 9) && (dig3 >=1))
+				num <- dig1 * 100 + dig2 * 10 + dig3
+				numQuad <- num ^ 2
+				
+				ESCREVER("O valor introduzido é ", num, " e o quadrado é ", numQuad)
+			SENAO
+				ESCREVER("Introduza apenas um algarismo, operação cancelada")
+			FIMSE
+		SENAO
+			ESCREVER("Introduza apenas um algarismo, operação cancelada")
+		FIMSE
+	SENAO
+		ESCREVER("Introduza apenas um algarismo")
+	FIMSE
+FIM
