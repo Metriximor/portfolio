@@ -45,20 +45,28 @@ FIM
 
 
 ED:
-	num, numQuad INTEIRO
+	dig1, num, numQuad INTEIRO
 ALG
 INICIO
-	LER(num)
-	SE((num > 1000) && (num < 10000) && (num MOD 2 != 0)
-		numQuad = num ^ 2
-		ESCREVER("O numero introduzido é ", num, " e o quadrado desse número é ", numQuad)
-	SENAO
-		ESCREVER("O número introduzido não é válido")
+	LER(dig1)
+	SE((dig1 > 0) && (dig1 < 9) && (dig1 MOD 2 != 0))
+		LER(dig2)
+		SE((dig2 > 0) && (dig2 < 9) && (dig2 MOD 2 != 0))
+			LER(dig3)
+			SE((dig2 > 0) && (dig2 < 9) && (dig2 MOD 2 != 0))
+				num <- dig1*100 + dig2*10 + dig3
+				numQuad = ROOT(num)
+				ESCREVER("O numero introduzido é ", num, " e o quadrado desse número é ", numQuad)
+			SENAO n 
+				ESCREVER("Numero introduzido é inválido. Operação Cancelada")
+			FIMSE
+		SENAO
+			ESCREVER("Numero introduzido é inválido. Operação Cancelada")
+		FIMSE
 	FIMSE
 FIM
 
 //EXERCICIO 4
-
 
 ED:
 	dig1, dig2, dig3, num, numQuad INTEIRO
@@ -69,14 +77,14 @@ INICIO
 		ESCREVER("Introduza o algarismo 2")
 		LER(dig2)
 		
-		SE((dig2 <= 9) && (dig2 >=1))
+		SE((dig2 <= 9) && (dig2 > dig1))
 			ESCREVER("Introduza o algarismo 3")
 			LER(dig3)
 			
 			//Se chegar a este ponto é porque o número introduzido é válido
-			SE((dig3 <= 9) && (dig3 >=1))
+			SE((dig3 <= 9) && (dig3 > dig2))
 				num <- dig1 * 100 + dig2 * 10 + dig3
-				numQuad <- num ^ 2
+				numQuad <- ROOT(num)
 				
 				ESCREVER("O valor introduzido é ", num, " e o quadrado é ", numQuad)
 			SENAO
@@ -89,3 +97,69 @@ INICIO
 		ESCREVER("Introduza apenas um algarismo")
 	FIMSE
 FIM
+
+//EXERCICIO 5
+
+a) Este algoritmo dedica-se a receber a percentagem de alunos que foi aprovado 
+numa turma e a determinar se a turma foi "Má, Fraca, Razoável, Boa ou Excelente"
+
+b)
+
+ED:
+aprovados limiteMau limiteFraco limiteRazoavel limiteBom REAL
+ALG
+INICIO
+	LER(aprovados)
+	
+	limiteMau <- 0.2
+	limiteFraco <- 0.5
+	limiteRazoavel <- 0.7
+	limiteBom <- 0.9
+	
+	SE (aprovados <0 OU aprovados >1) ENTÃO
+		ESCREVER(“Valor Inválido”)
+	SENÃO
+		SE (aprovados < limiteMau) ENTÃO
+			ESCREVER(“Turma Má”)
+		SENÃO
+			SE (aprovados < limiteFraco) ENTÃO
+				ESCREVER(“Turma Fraca”)
+			SENÃO
+				SE (aprovados < limiteRazoavel) ENTÃO
+					ESCREVER(“Turma Razoável”)
+				SENÃO
+					SE (aprovados < limiteBom) ENTÃO
+						ESCREVER(“Turma Boa”)
+					SENÃO
+						ESCREVER(“Turma Excelente”)
+					FIMSE
+				FIMSE
+			FIMSE
+		FIMSE
+	FIMSE
+FIM
+
+//EXERCICIO 6
+
+ED:
+	valor REAL
+ALG
+INICIO
+	LER(valor)
+	SE(val > 200)
+		valor <- valor * 0.4
+	SENAO
+		SE(val > 100)
+			valor <- valor * 0.6
+		SENAO
+			SE(valor > 50)
+				valor <- valor * 0.7
+			SENAO
+				valor <- valor * 0.8
+			FIMSE
+		FIMSE
+	FIMSE
+FIM
+
+//EXERCICIO 7
+
