@@ -163,3 +163,44 @@ FIM
 
 //EXERCICIO 7
 
+a) 
+
+ED:
+	lado1, lado2, lado3 INTEIRO
+ALG
+INICIO
+	LER(lado1)
+	LER(lado2)
+	LER(lado3)
+	
+	SE((lado1 == lado2) == lado3)
+		ESCREVER("O triangulo é equilátero")
+	SENAO SE((lado1 != lado2) && (lado1 != lado3) && (lado2 != lado3))
+		ESCREVER("O triangulo é escaleno")
+	SENAO
+		ESCREVER("O triangulo é isosceles")
+	FIMSE
+FIM
+
+b)
+
+ED:
+	lado1, lado2, lado3 INTEIRO
+ALG
+INICIO
+	LER(lado1)  
+	LER(lado2)
+	LER(lado3)
+	
+	SE((lado1+lado2 >= lado3) && (lado2+lado3>=lado1) && (lado1+lado3>=lado2))
+		SE((lado1 == lado2) == lado3)
+			ESCREVER("O triangulo é equilátero")
+		SENAO SE((lado1 != lado2) && (lado1 != lado3) && (lado2 != lado3))
+			ESCREVER("O triangulo é escaleno")
+		SENAO
+			ESCREVER("O triangulo é isosceles")
+		FIMSE
+	SENAO
+		ESCREVER("Triangulo é impossivél)
+	FIMSE
+FIM
