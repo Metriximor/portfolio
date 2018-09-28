@@ -204,3 +204,104 @@ INICIO
 		ESCREVER("Triangulo é impossivél)
 	FIMSE
 FIM
+
+//EXERCICIO 8
+
+a)
+
+ED:
+	ang[2] MATRIZ INTEIRA
+ALG
+INICIO
+	LER(ang[0])
+	LER(ang[1])
+	LER(ang[2])
+	PARA(i = 0, i < 3) PASSO i=i+1
+		SE(ang[i] == 90)
+			ESCREVER("O triangulo é retangulo")
+			i <- 3
+		SENAO SE(ang[i] > 90)
+			ESCREVER("O triangulo é obtusangulo")
+			i <- 3
+		SENAO SE(i == 2)
+			ESCREVER("O retangulo é acutângulo")
+		FIMSE
+	FIMPARA
+FIM
+
+b)
+
+ED:
+	ang[2] MATRIZ INTEIRA
+	existe INTEIRO
+ALG
+INICIO
+	LER(ang[0])
+	LER(ang[1])
+	LER(ang[2])
+	existe <- ang[0] + ang[1] + ang[2]
+	SE(existe == 180)
+		PARA(i = 0, i < 3) PASSO i=i+1
+			SE(ang[i] == 90)
+				ESCREVER("O triangulo é retangulo")
+				i <- 3
+			SENAO SE(ang[i] > 90)
+				ESCREVER("O triangulo é obtusangulo")
+				i <- 3
+			SENAO SE(i == 2)
+				ESCREVER("O retangulo é acutângulo")
+			FIMSE
+		FIMPARA
+	SENAO
+		ESCREVER("Triangulo é impossivel")
+	FIMSE
+FIM
+
+///EXERCICIO 9
+
+ED:
+	horaPartida horaChegada horaViagem minutoChegada minutoPartida minutoViagem INTEIRO
+ALG
+INICIO
+	LER(horaPartida)
+	LER(minutoPartida)
+	LER(horaViagem)
+	LER(minutoViagem)
+	
+	horaChegada <- horaPartida + horaViagem
+	minutoChegada <- minutoPartida + minutoViagem
+	
+	SE(horaChegada > 24)
+		//Só posso subtrair aqui porque diz expressamente no enunciado que as viagens nunca tem mais de 24 horas
+		horaChegada <- horaChegada - 24
+		ESCREVER("O comboio chega no da a seguir)
+	FIMSE
+	SE(minutoChegada > 60)
+		minutoChegada <- minutoChegada - 60
+		horaChegada <- horaChegada + 1
+	FIMSE
+	ESCREVER("O comboio chega ás ", horaChegada, "h", minutoChegada)
+FIM
+
+//EXERCICIO 10
+
+ED:
+ALG
+INICIO
+	LER(hora)
+	LER(minuto)
+	LER(segundo)
+	LER(segundoProcessamento)
+	
+	ENQUANTO(segundoProcessamento > 60)
+		ENQUANTO(segundoProcessamento > 3600)
+			segundoProcessamento <- segundoProcessamento - 3600
+			hora <- hora + 1
+		FIMENQUANTO
+		segundoProcessamento <- segundoProcessamento - 60
+		minuto <- minuto + 1
+	FIMENQUANTO
+	segundo <- segundo + segundoProcessamento
+	
+	ESCREVER("O processamento acaba ás ", hora, "h", minuto, "m", segundo)
+FIM
