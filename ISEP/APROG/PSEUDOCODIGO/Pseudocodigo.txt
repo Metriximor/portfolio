@@ -286,6 +286,7 @@ FIM
 //EXERCICIO 10
 
 ED:
+	hora, minuto, segundo, segundoProcessamento
 ALG
 INICIO
 	LER(hora)
@@ -304,4 +305,115 @@ INICIO
 	segundo <- segundo + segundoProcessamento
 	
 	ESCREVER("O processamento acaba ás ", hora, "h", minuto, "m", segundo)
+FIM
+
+//EXERCICIO 11
+
+a)
+
+ED:
+	x REAL
+ALG
+INICIO
+	LER(x)
+	SE(x < 0)
+		ESCREVER("A solução da função é ", x)
+	SENAO SE(x == 0)
+		ESCREVER("A solução da função é 0)
+	SENAO SE(x > 0)
+		x <- x ^2 - 2 * x
+		ESCREVER("A solução da função é ", x)
+	FIMSE
+FIM
+
+//EXERCICIO 12
+
+ED:
+	x1, y1, x2, y2, d REAL
+ALG
+INICIO
+	LER(x1)
+	LER(y1)
+	LER(x2)
+	LER(y2)
+	
+	d <- SQRT((x2 - x1) ^2 + (y2 - y1) ^2)
+	
+	ESCREVER("A distancia entre os dois pontos é ", d)
+FIM
+
+//EXERCICIO 13
+
+ED:
+	segundoCalc segundos hora minuto
+ALG
+INICIO
+	LER(segundoCalc)
+	segundos <- segundoCalc
+	SE(segundos > 86400)
+		ESCREVER("Numero de segundos introduzidos é superior a 1 dia")
+	SENAO	
+		ENQUANTO(segundos > 60)
+			ENQUANTO(segundos > 3600)
+				hora <- hora + 1
+				segundos <- segundos - 3600
+			FIMENQUANTO
+			minuto <- minuto + 1
+			segundos <- segundos - 60
+		FIMENQUANTO
+		
+		ESCREVER(hora, "h", minuto, "m", segundos, "s")
+		
+		SE(segundoCalc >= 21600)
+			SE(segundoCalc >= 43201)
+				SE(segundoCalc >= 72001)
+					ESCREVER("Boa noite")
+				SENAO
+					ESCREVER("Boa tarde")
+				FIMSE
+			SENAO
+				ESCREVER("Bom dia")
+			FIMSE
+		SENAO
+			ESCREVER("Boa noite")
+		FIMSE
+	FIMSE
+FIM
+
+//EXERCICIO 14
+
+ED:
+	areaEd  salarioDia rendLitro custoLitro numPintores REAL
+	diasGastos  salarioTotal custoTinta REAL
+ALG
+INICIO
+	LER(areaEd)
+	LER(custoLitro)
+	LER(rendLitro)
+	LER(salarioDia)
+	
+	//Isto calcula quanta tinta vai ser necessaria e depois multiplica os litros necessarios pelo preço de cada litro
+	custoTinta <- (areaEd / rendLitro) * custoLitro
+	
+	SE(areaEd > 1000)
+		numPintores <- 4
+	SENAO
+		SE(areaEd > 300)
+			numPintores <- 3
+		SENAO
+			SE(areaEd > 100)
+				numPintores <- 2
+			SENAO
+				numPintores <- 1
+			FIMSE
+		FIMSE
+	FIMSE
+	
+	//Divide-se a área por 2m e obtem-se as horas necessárias, e depois multiplica-se pelo custo por hora do pintor
+	diasGastos <- (areaEd / (2 * numPintores)) / 24
+	salarioTotal <- salarioDia * diasGastos * numPintores
+	
+	ESCREVER("Custo discriminado: ", salarioTotal + custoLitro)
+	ESCREVER("Custo mão-de-obra: ", salarioTotal)
+	ESCREVER("Custo tinta: ", custoTinta
 FIM
