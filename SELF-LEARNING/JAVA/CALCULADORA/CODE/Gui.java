@@ -3,8 +3,11 @@ package calculadora;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import javax.security.auth.callback.TextOutputCallback;
-import jdk.nashorn.internal.parser.TokenType;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import net.miginfocom.swing.MigLayout;
 
 /*TODO
 -Estudar Listeners
@@ -16,7 +19,7 @@ public class Gui extends JFrame implements ActionListener, MouseListener, KeyLis
     private JFrame frame;
 
     //Cria o painel
-    private JPanel mainPanel, centralPanel;
+    private JPanel mainPanel;
     
     //Label
     private JLabel label;
@@ -44,8 +47,14 @@ public class Gui extends JFrame implements ActionListener, MouseListener, KeyLis
 
         //Cria o frame, dá-lhe um nome, um tamanho e diz o q fazer em caso de ser fechado
         frame = new JFrame("Calculadora");
-        frame.setSize(500, 600);
+        frame.setSize(500, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Define um icone
+        try {
+            frame.setIconImage(ImageIO.read(frame.getClass().getResource("/images/calculating.png")));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         
         //Cria uma label
         label = new JLabel();
@@ -57,9 +66,6 @@ public class Gui extends JFrame implements ActionListener, MouseListener, KeyLis
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.BLACK);
         
-        centralPanel = new JPanel();
-        centralPanel.setBackground(Color.BLACK);
-
         //Cria um butao, dá-lhe um nome
         parImparBt = new JButton("Par/Impar");
         parImparBt.addActionListener(this);
@@ -101,22 +107,19 @@ public class Gui extends JFrame implements ActionListener, MouseListener, KeyLis
         //Adiciona componentes ao painel e o painel ao frame
         //Isto deve estar após os outros componentes serem incializados
         //Tenho que estudar mais os layouts de um programa, tais como Border Grid, Gridbag, etc..
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(txtfield, BorderLayout.NORTH);
-        
-        mainPanel.add(centralPanel, BorderLayout.CENTER);
-        
-        mainPanel.add(label, BorderLayout.SOUTH);
-        
+        mainPanel.setLayout(new MigLayout());
+        mainPanel.add(txtfield, "wrap, span 6, pushx, growx");
         //Adiciona os botões
-        centralPanel.add(parImparBt);
-        centralPanel.add(fatorialBt);
-        centralPanel.add(somaBt);
-        centralPanel.add(subtracaoBt);
-        centralPanel.add(multiplicacaoBt);
-        centralPanel.add(divisaoBt);
-        centralPanel.add(solucaoBt);
-        centralPanel.add(deleteBt);
+        mainPanel.add(parImparBt, "span 3, growx");
+        mainPanel.add(fatorialBt, "span 3, growx, wrap");
+        mainPanel.add(somaBt, "growx, pushx");
+        mainPanel.add(subtracaoBt, "growx, pushx");
+        mainPanel.add(multiplicacaoBt, "growx, pushx");
+        mainPanel.add(divisaoBt, "growx, pushx");
+        mainPanel.add(solucaoBt, "growx, pushx");
+        mainPanel.add(deleteBt, "growx, pushx, wrap");
+        mainPanel.add(label, "wrap, span 6, grow");
+        
         
         frame.add(mainPanel);
         //Isto deve ir em ultimo para que o gui possa ser lido apenas no ultimo lugar
@@ -136,8 +139,17 @@ public class Gui extends JFrame implements ActionListener, MouseListener, KeyLis
     
     @Override
     public void actionPerformed(ActionEvent evento) {
+        //Para apagar não importa o que estiver
+        if(evento.getSource() == deleteBt) {
+            var1 = null;
+            var2 = null;
+            operFlag = -1;
+            label.setText("");
+            resultSt = "";
+            txtfield.setText("");
+        }
         //Se nenhum número for conhecido
-        if(var1 == null) {
+        else if(var1 == null) {
             //Lê o numero que está na caixa
             var1 = lerNumero();
             //Se este if correr isso quer dizer que o utilizador não introduziu nada

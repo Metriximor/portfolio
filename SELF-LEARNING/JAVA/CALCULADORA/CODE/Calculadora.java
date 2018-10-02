@@ -37,7 +37,11 @@ public class Calculadora {
 
         if (var1 < 0) {
             return String.format("Não há numeros fatoriais negativos");
-        } 
+        }
+        else if(var1 > 100000)
+        {
+            return String.format("Infinity");
+        }
         else {
             for (cnt = 1; cnt <= var1; cnt++) {
                 res = res * cnt;
