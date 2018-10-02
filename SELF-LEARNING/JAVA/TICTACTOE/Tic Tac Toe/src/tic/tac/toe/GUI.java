@@ -26,6 +26,23 @@ public class GUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        label = new javax.swing.JLabel();
+        painelButoes = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tic Tac Toe");
@@ -35,7 +52,91 @@ public class GUI extends javax.swing.JFrame {
         setForeground(java.awt.Color.darkGray);
         setIconImage("/images/tic-tac-toe.png");
         setMaximumSize(new java.awt.Dimension(500, 500));
-        getContentPane().setLayout(new java.awt.GridLayout());
+        setMinimumSize(new java.awt.Dimension(500, 500));
+        setName("Tic Tac Toe"); // NOI18N
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        label.setText("jLabel1");
+        jPanel1.add(label, java.awt.BorderLayout.PAGE_START);
+
+        painelButoes.setMaximumSize(new java.awt.Dimension(500, 500));
+        painelButoes.setMinimumSize(new java.awt.Dimension(500, 500));
+        painelButoes.setPreferredSize(new java.awt.Dimension(500, 500));
+        painelButoes.setLayout(new java.awt.GridBagLayout());
+
+        jButton2.setText("jButton2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton2, gridBagConstraints);
+
+        jButton3.setText("jButton3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton3, gridBagConstraints);
+
+        jButton4.setText("jButton4");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 88;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton4, gridBagConstraints);
+
+        jButton5.setText("jButton5");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton5, gridBagConstraints);
+
+        jButton6.setText("jButton6");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton6, gridBagConstraints);
+
+        jButton7.setText("jButton7");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 88;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton7, gridBagConstraints);
+
+        jButton8.setText("jButton8");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton8, gridBagConstraints);
+
+        jButton9.setText("jButton9");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton9, gridBagConstraints);
+
+        jButton10.setText("jButton10");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 81;
+        gridBagConstraints.ipady = 122;
+        painelButoes.add(jButton10, gridBagConstraints);
+
+        jPanel1.add(painelButoes, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -78,5 +179,18 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel label;
+    private javax.swing.JPanel painelButoes;
     // End of variables declaration//GEN-END:variables
 }
