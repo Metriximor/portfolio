@@ -6,6 +6,7 @@ package tictactoe;
 //Menu
 //Undo
 //New Game
+//AI
 
 public class Main {
     public static void main(String args[]) {

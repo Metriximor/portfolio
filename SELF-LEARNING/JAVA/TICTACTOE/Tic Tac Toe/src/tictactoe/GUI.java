@@ -22,6 +22,8 @@ public class GUI extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/tic-tac-toe.png")));
         setResizable(false);
     }
+    
+    Verificador verifica = new Verificador();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,7 +71,10 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.setPreferredSize(new java.awt.Dimension(500, 500));
         painelButoes.setLayout(new java.awt.GridBagLayout());
 
+        topLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         topLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(0, 0, 0)));
+        topLeft.setIconTextGap(0);
+        topLeft.setPreferredSize(new java.awt.Dimension(1, 1));
         topLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topLeftActionPerformed(evt);
@@ -81,7 +86,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(topLeft, gridBagConstraints);
 
+        topMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         topMid.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
+        topMid.setIconTextGap(0);
+        topMid.setMaximumSize(new java.awt.Dimension(1, 1));
+        topMid.setMinimumSize(new java.awt.Dimension(1, 1));
+        topMid.setPreferredSize(new java.awt.Dimension(1, 1));
         topMid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topMidActionPerformed(evt);
@@ -93,7 +103,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(topMid, gridBagConstraints);
 
+        topRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         topRight.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 0, new java.awt.Color(0, 0, 0)));
+        topRight.setIconTextGap(0);
+        topRight.setMaximumSize(new java.awt.Dimension(1, 1));
+        topRight.setMinimumSize(new java.awt.Dimension(1, 1));
+        topRight.setPreferredSize(new java.awt.Dimension(1, 1));
         topRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topRightActionPerformed(evt);
@@ -107,7 +122,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(topRight, gridBagConstraints);
 
+        midLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         midLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0)));
+        midLeft.setIconTextGap(0);
+        midLeft.setMaximumSize(new java.awt.Dimension(1, 1));
+        midLeft.setMinimumSize(new java.awt.Dimension(1, 1));
+        midLeft.setPreferredSize(new java.awt.Dimension(1, 1));
         midLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 midLeftActionPerformed(evt);
@@ -121,7 +141,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(midLeft, gridBagConstraints);
 
+        midMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         midMid.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        midMid.setIconTextGap(0);
+        midMid.setMaximumSize(new java.awt.Dimension(1, 1));
+        midMid.setMinimumSize(new java.awt.Dimension(1, 1));
+        midMid.setPreferredSize(new java.awt.Dimension(1, 1));
         midMid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 midMidActionPerformed(evt);
@@ -135,7 +160,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(midMid, gridBagConstraints);
 
+        midRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         midRight.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0)));
+        midRight.setIconTextGap(0);
+        midRight.setMaximumSize(new java.awt.Dimension(1, 1));
+        midRight.setMinimumSize(new java.awt.Dimension(1, 1));
+        midRight.setPreferredSize(new java.awt.Dimension(1, 1));
         midRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 midRightActionPerformed(evt);
@@ -149,7 +179,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(midRight, gridBagConstraints);
 
+        bottomLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         bottomLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 1, new java.awt.Color(0, 0, 0)));
+        bottomLeft.setIconTextGap(0);
+        bottomLeft.setMaximumSize(new java.awt.Dimension(1, 1));
+        bottomLeft.setMinimumSize(new java.awt.Dimension(1, 1));
+        bottomLeft.setPreferredSize(new java.awt.Dimension(1, 1));
         bottomLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bottomLeftActionPerformed(evt);
@@ -163,7 +198,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(bottomLeft, gridBagConstraints);
 
+        bottomMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         bottomMid.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 0, 1, new java.awt.Color(0, 0, 0)));
+        bottomMid.setIconTextGap(0);
+        bottomMid.setMaximumSize(new java.awt.Dimension(1, 1));
+        bottomMid.setMinimumSize(new java.awt.Dimension(1, 1));
+        bottomMid.setPreferredSize(new java.awt.Dimension(1, 1));
         bottomMid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bottomMidActionPerformed(evt);
@@ -177,7 +217,12 @@ public class GUI extends javax.swing.JFrame {
         gridBagConstraints.ipady = 135;
         painelButoes.add(bottomMid, gridBagConstraints);
 
+        bottomRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
         bottomRight.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 0, 0, new java.awt.Color(0, 0, 0)));
+        bottomRight.setIconTextGap(0);
+        bottomRight.setMaximumSize(new java.awt.Dimension(1, 1));
+        bottomRight.setMinimumSize(new java.awt.Dimension(1, 1));
+        bottomRight.setPreferredSize(new java.awt.Dimension(1, 1));
         bottomRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bottomRightActionPerformed(evt);
@@ -200,7 +245,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(painelButoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, 0)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -226,41 +271,97 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    
     private void topRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topRightActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(0, 2)) {
+            topRight.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(0, 2);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_topRightActionPerformed
 
     private void bottomRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bottomRightActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(2, 2)) {
+            bottomRight.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(2, 2);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_bottomRightActionPerformed
 
     private void topLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topLeftActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(0, 0)) {
+            topLeft.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(0, 0);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_topLeftActionPerformed
 
     private void midMidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_midMidActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(1, 1)) {
+            midMid.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(1, 1);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_midMidActionPerformed
 
     private void topMidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topMidActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(0, 1)) {
+            topMid.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(0, 1);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_topMidActionPerformed
 
     private void midLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_midLeftActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(1, 0)) {
+            midLeft.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(1, 0);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_midLeftActionPerformed
 
     private void midRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_midRightActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(1, 2)) {
+            midRight.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(1, 2);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_midRightActionPerformed
 
     private void bottomLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bottomLeftActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(2, 0)) {
+            bottomLeft.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(2, 0);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_bottomLeftActionPerformed
 
     private void bottomMidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bottomMidActionPerformed
-        // TODO add your handling code here:
+        if(verifica.verificadorPossibilidade(2, 1)) {
+            bottomMid.setText(GestorTurno.returnJogadorLabel());
+            verifica.vitoria(2, 1);
+        }
+        else {
+            GestorMensagens.jaEscolhido();
+        }
     }//GEN-LAST:event_bottomMidActionPerformed
     
     //Icone Creditos <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
