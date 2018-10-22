@@ -7,6 +7,7 @@ public class GestorTurno {
     //A função soma um turno
     void proxTurno() {
         turno++;
+        GestorMensagens.turnoLabel();
     }
     
     //Se esta função é chamada quer dizer que um lugar foi escolhido
@@ -31,8 +32,21 @@ public class GestorTurno {
         }
     }
     
-    void resetTurnos() {
+    static int returnTurno() {
+        return turno;
+    }
+    
+    static void resetTurnos() {
         turno = 0;
+    }
+    
+    static boolean checkforEmpate() {
+        if(turno >= 7) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
 }

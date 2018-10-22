@@ -1,26 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tictactoe;
 
 import java.awt.Toolkit;
 
-
-/**
- *
- * @author Pedro Ivo
- */
 public class GUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form GUI
-     */
+    
     public GUI() {
         initComponents();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/tic-tac-toe.png")));
         setResizable(false);
+        setLocationRelativeTo(null);
     }
     
     Verificador verifica = new Verificador();
@@ -47,8 +35,10 @@ public class GUI extends javax.swing.JFrame {
         bottomLeft = new javax.swing.JButton();
         bottomMid = new javax.swing.JButton();
         bottomRight = new javax.swing.JButton();
-        menu = new javax.swing.JMenuBar();
+        menuBarra = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        novoJogo = new javax.swing.JMenuItem();
+        undo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tic Tac Toe");
@@ -61,6 +51,7 @@ public class GUI extends javax.swing.JFrame {
 
         label.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label.setText("Turno do Jogador 1");
         label.setToolTipText("");
         label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         label.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -72,9 +63,11 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.setLayout(new java.awt.GridBagLayout());
 
         topLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        topLeft.setText(" ");
         topLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(0, 0, 0)));
         topLeft.setIconTextGap(0);
-        topLeft.setPreferredSize(new java.awt.Dimension(1, 1));
+        topLeft.setMaximumSize(new java.awt.Dimension(1, 1));
+        topLeft.setMinimumSize(new java.awt.Dimension(1, 1));
         topLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topLeftActionPerformed(evt);
@@ -87,6 +80,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(topLeft, gridBagConstraints);
 
         topMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        topMid.setText(" ");
         topMid.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 1, new java.awt.Color(0, 0, 0)));
         topMid.setIconTextGap(0);
         topMid.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -104,11 +98,11 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(topMid, gridBagConstraints);
 
         topRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        topRight.setText(" ");
         topRight.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 0, new java.awt.Color(0, 0, 0)));
         topRight.setIconTextGap(0);
         topRight.setMaximumSize(new java.awt.Dimension(1, 1));
         topRight.setMinimumSize(new java.awt.Dimension(1, 1));
-        topRight.setPreferredSize(new java.awt.Dimension(1, 1));
         topRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 topRightActionPerformed(evt);
@@ -123,6 +117,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(topRight, gridBagConstraints);
 
         midLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        midLeft.setText(" ");
         midLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 1, new java.awt.Color(0, 0, 0)));
         midLeft.setIconTextGap(0);
         midLeft.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -142,6 +137,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(midLeft, gridBagConstraints);
 
         midMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        midMid.setText(" ");
         midMid.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         midMid.setIconTextGap(0);
         midMid.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -161,6 +157,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(midMid, gridBagConstraints);
 
         midRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        midRight.setText(" ");
         midRight.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 0, new java.awt.Color(0, 0, 0)));
         midRight.setIconTextGap(0);
         midRight.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -180,11 +177,11 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(midRight, gridBagConstraints);
 
         bottomLeft.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        bottomLeft.setText(" ");
         bottomLeft.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 1, new java.awt.Color(0, 0, 0)));
         bottomLeft.setIconTextGap(0);
         bottomLeft.setMaximumSize(new java.awt.Dimension(1, 1));
         bottomLeft.setMinimumSize(new java.awt.Dimension(1, 1));
-        bottomLeft.setPreferredSize(new java.awt.Dimension(1, 1));
         bottomLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bottomLeftActionPerformed(evt);
@@ -199,6 +196,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(bottomLeft, gridBagConstraints);
 
         bottomMid.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        bottomMid.setText(" ");
         bottomMid.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 0, 1, new java.awt.Color(0, 0, 0)));
         bottomMid.setIconTextGap(0);
         bottomMid.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -218,6 +216,7 @@ public class GUI extends javax.swing.JFrame {
         painelButoes.add(bottomMid, gridBagConstraints);
 
         bottomRight.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        bottomRight.setText(" ");
         bottomRight.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 0, 0, new java.awt.Color(0, 0, 0)));
         bottomRight.setIconTextGap(0);
         bottomRight.setMaximumSize(new java.awt.Dimension(1, 1));
@@ -241,12 +240,12 @@ public class GUI extends javax.swing.JFrame {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(painelButoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)))
+                .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(painelButoes, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,28 +258,45 @@ public class GUI extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        menu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        menu.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        menuBarra.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        menuBarra.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 
         fileMenu.setText("File");
         fileMenu.setFocusable(false);
         fileMenu.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        menu.add(fileMenu);
 
-        setJMenuBar(menu);
+        novoJogo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        novoJogo.setText("New Game");
+        novoJogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                novoJogoActionPerformed(evt);
+            }
+        });
+        fileMenu.add(novoJogo);
+
+        undo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
+        undo.setText("Undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoActionPerformed(evt);
+            }
+        });
+        fileMenu.add(undo);
+
+        menuBarra.add(fileMenu);
+
+        setJMenuBar(menuBarra);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    
+    int ultimoEscolhido = 10;
     
     private void topRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topRightActionPerformed
         if(verifica.verificadorPossibilidade(0, 2)) {
             topRight.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(0, 2);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 3;
         }
     }//GEN-LAST:event_topRightActionPerformed
 
@@ -288,9 +304,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(2, 2)) {
             bottomRight.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(2, 2);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 9;
         }
     }//GEN-LAST:event_bottomRightActionPerformed
 
@@ -298,9 +312,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(0, 0)) {
             topLeft.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(0, 0);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 1;
         }
     }//GEN-LAST:event_topLeftActionPerformed
 
@@ -308,9 +320,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(1, 1)) {
             midMid.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(1, 1);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 5;
         }
     }//GEN-LAST:event_midMidActionPerformed
 
@@ -318,9 +328,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(0, 1)) {
             topMid.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(0, 1);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 2;
         }
     }//GEN-LAST:event_topMidActionPerformed
 
@@ -328,9 +336,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(1, 0)) {
             midLeft.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(1, 0);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 4;
         }
     }//GEN-LAST:event_midLeftActionPerformed
 
@@ -338,9 +344,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(1, 2)) {
             midRight.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(1, 2);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 6;
         }
     }//GEN-LAST:event_midRightActionPerformed
 
@@ -348,9 +352,7 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(2, 0)) {
             bottomLeft.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(2, 0);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 7;
         }
     }//GEN-LAST:event_bottomLeftActionPerformed
 
@@ -358,12 +360,64 @@ public class GUI extends javax.swing.JFrame {
         if(verifica.verificadorPossibilidade(2, 1)) {
             bottomMid.setText(GestorTurno.returnJogadorLabel());
             verifica.vitoria(2, 1);
-        }
-        else {
-            GestorMensagens.jaEscolhido();
+            ultimoEscolhido = 8;
         }
     }//GEN-LAST:event_bottomMidActionPerformed
-    
+
+    private void novoJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoJogoActionPerformed
+        GestorTurno.resetTurnos();
+        verifica.resetMatriz();
+        GestorMensagens.turnoLabel();
+        //Desnecessário mas é melhor jogar pelo seguro
+        ultimoEscolhido = 10;
+        
+        topLeft.setText(" ");
+        topMid.setText(" ");
+        topRight.setText(" ");
+        midLeft.setText(" ");
+        midMid.setText(" ");
+        midRight.setText(" "); 
+        bottomLeft.setText(" "); 
+        bottomMid.setText(" "); 
+        bottomRight.setText(" "); 
+    }//GEN-LAST:event_novoJogoActionPerformed
+
+    private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
+        verifica.undo();
+        switch (ultimoEscolhido) {
+            case 1:  
+                topLeft.setText(" ");
+                break;
+            case 2:
+                topMid.setText(" ");
+                break;
+            case 3:
+                topRight.setText(" ");
+                break;
+            case 4:
+                midLeft.setText(" ");
+                break;
+            case 5:
+                midMid.setText(" ");
+                break;
+            case 6:
+                midRight.setText(" "); 
+                break;
+            case 7:
+                bottomLeft.setText(" "); 
+                break;
+            case 8:  
+                bottomMid.setText(" "); 
+                break;
+            case 9:  
+                bottomRight.setText(" "); 
+                break;
+            default:
+                System.err.println("Erro tentar fazer undo a um quadrado que não existe.");
+                break;
+        }
+    }//GEN-LAST:event_undoActionPerformed
+
     //Icone Creditos <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
     
     /**
@@ -375,15 +429,17 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton bottomMid;
     private javax.swing.JButton bottomRight;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JLabel label;
+    public static javax.swing.JLabel label;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JMenuBar menu;
+    private javax.swing.JMenuBar menuBarra;
     private javax.swing.JButton midLeft;
-    private javax.swing.JButton midMid;
+    public static javax.swing.JButton midMid;
     private javax.swing.JButton midRight;
+    private javax.swing.JMenuItem novoJogo;
     private javax.swing.JPanel painelButoes;
-    private javax.swing.JButton topLeft;
+    public static javax.swing.JButton topLeft;
     private javax.swing.JButton topMid;
     private javax.swing.JButton topRight;
+    private javax.swing.JMenuItem undo;
     // End of variables declaration//GEN-END:variables
 }

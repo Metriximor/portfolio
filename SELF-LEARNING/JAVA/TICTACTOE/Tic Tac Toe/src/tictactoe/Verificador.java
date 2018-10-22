@@ -1,14 +1,24 @@
 package tictactoe;
 
+//import java.awt.Desktop;
+//import java.net.URL;
+
 public class Verificador {
     
     //Implementa o Gestor de Turno
     GestorTurno turno = new GestorTurno();
+    GestorSom som = new GestorSom();
+    GestorMensagens mensagem = new GestorMensagens();
     
-    private final int[][] matriz = new int[3][3];
+    private final int[][] matriz;
+    
+    int lastLinha, lastColuna;
+    
+    boolean vitoria = false;
+    boolean undo = false;
     
     public Verificador() {
-        
+        this.matriz = new int[3][3];
     }
     
     //Este foi o método que imaginei para poupar o máximo possivel de memória e de cálulos necessários para verificar se o jogador marcou o jogo ou não
@@ -20,8 +30,9 @@ public class Verificador {
                 pontos++;
             }
         }
-        //O jogador preencheu uma linha
+        //O jogador preencheu uma coluna
         if(pontos == 3) {
+            GestorLinhas.desenharColuna(linha);
             return 1;
         }
         else {
@@ -67,26 +78,82 @@ public class Verificador {
     //Verifica se alguem ja colocou alguma coisa no quadrado e escreve no quadrado
     boolean verificadorPossibilidade(int linha, int coluna) {
         if(matriz[linha][coluna] == 0) {
-            matriz[linha][coluna] = turno.returnJogador();
-            return true;
+            if(vitoria) {
+                //Neste caso o jogo ja foi ganho
+                mensagem.jaGanho();
+                return false;
+            }
+            else {
+                matriz[linha][coluna] = GestorTurno.returnJogador();
+                undo = false;
+                return true;
+            }
         }
         else {
+            //Neste caso o quadrado já foi escolhido
+            mensagem.jaEscolhido();
             return false;
         }
     }
     
     public void vitoria(int linha, int coluna) {
-        int pontos = 0;
-        if((linha+coluna) != 0) {
-           pontos = pontos + verificarDiagonal(turno.returnJogador());
+        int pontos = 0, jogador = GestorTurno.returnJogador();
+        if((linha+coluna) % 2 == 0) {
+           pontos = pontos + verificarDiagonal(jogador);
         }
-        pontos = pontos + verificarLinhasColunas(linha, coluna, turno.returnJogador());
+        pontos = pontos + verificarLinhasColunas(linha, coluna, jogador);
 
         if(pontos >= 1) {
-            GestorMensagens.vitoria();
+            som.tocarMusica("/sounds/tada.wav");
+            GestorMensagens.vitoria(jogador);
+            vitoria = true;
+//            try {
+//                Desktop.getDesktop().browse(new URL("https://www.youtube.com/watch?v=Dd7FixvoKBw").toURI());
+//            } catch (Exception e) {}
         }
         else {
-            turno.proxTurno();
+            storeLastMoveCoords(linha, coluna);
+            //Se isto der quer dizer q o jogo vai dar empate
+            if(GestorTurno.checkforEmpate()) {
+                vitoria = true;
+                mensagem.empate();
+            }
+            else {
+                turno.proxTurno();
+            }
+        }
+    }
+    
+    void resetMatriz() {
+        int x , y;
+        for(x = 0; x < 3; x++) {
+            for(y = 0; y < 3; y++) {
+                matriz[x][y] = 0;
+            }
+        }
+        vitoria = false;
+    }
+    
+    private void storeLastMoveCoords(int linha, int coluna) {
+        lastLinha = linha;
+        lastColuna = coluna;
+    }
+    
+    void undo() {
+        //Se isto correr entao alguem ja fez undo + q uma vez
+        if(undo) {
+            mensagem.undoUsado();
+        }
+        else {
+            if(GestorTurno.returnTurno() > 0) {
+                matriz[lastLinha][lastColuna] = 0; 
+                GestorTurno.turno--;
+                GestorMensagens.turnoLabel();
+                undo = true;
+            }
+            else{
+                mensagem.undoImpossivel();
+            }
         }
     }
 }

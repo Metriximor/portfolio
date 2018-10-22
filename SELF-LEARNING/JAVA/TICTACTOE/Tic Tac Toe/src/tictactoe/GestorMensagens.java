@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tictactoe;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Pedro Ivo
- */
 public class GestorMensagens {
+    
+    GestorSom som = new GestorSom();
     
     public GestorMensagens() {
         
@@ -22,11 +15,43 @@ public class GestorMensagens {
         JOptionPane.showMessageDialog(null, infoMessage, "", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    static void jaEscolhido() {
+    //Erros
+    
+    void jaEscolhido() {
+        som.tocarMusica("/sounds/erro.wav");
         infoBox("Este quadrado já foi escolhido");
     }
     
-    static void vitoria() {
-        infoBox("Vitória!");
+    void jaGanho() {
+        som.tocarMusica("/sounds/erro.wav");
+        infoBox("O jogo já acabou");
+    }
+    
+    void undoImpossivel () {
+        som.tocarMusica("/sounds/erro.wav");
+        infoBox("Não há nada para fazer undo");
+    }
+    
+    void undoUsado () {
+        som.tocarMusica("/sounds/erro.wav");
+        infoBox("Undo já foi usado");
+    }
+    
+    void empate() {
+        som.tocarMusica("/sounds/erro.wav");
+        infoBox("O jogo acabou empatado");
+    }
+    
+    //Eventos
+    
+    static void vitoria(int jogador) {
+        GUI.label.setText("O Jogador " + jogador + " venceu!");
+        infoBox("Vitória do Jogador " + jogador + "!");
+    }
+    
+    //Labels
+    
+    static void turnoLabel() {
+        GUI.label.setText("Turno do Jogador " + GestorTurno.returnJogador());
     }
 }
