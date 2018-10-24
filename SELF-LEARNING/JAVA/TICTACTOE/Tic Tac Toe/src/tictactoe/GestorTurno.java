@@ -41,7 +41,7 @@ public class GestorTurno {
     }
     
     static boolean checkforEmpate() {
-        if(turno >= 7) {
+        if(turno >= 8) {
             return true;
         }
         else {

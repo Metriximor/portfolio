@@ -7,7 +7,6 @@ package tictactoe;
 //Créditos
 //Custom names para os jogadores
 //Opçoes para dar mute
-//Exceção para empate aos 8 turnos
 
 public class Main {
     public static void main(String args[]) {

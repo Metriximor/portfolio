@@ -4,12 +4,11 @@ import javax.swing.JOptionPane;
 
 public class GestorMensagens {
     
-    GestorSom som = new GestorSom();
-    
     public GestorMensagens() {
         
     }
     
+    //Esta função cria um template para uma janela de informação
     private static void infoBox(String infoMessage)
     {
         JOptionPane.showMessageDialog(null, infoMessage, "", JOptionPane.INFORMATION_MESSAGE);
@@ -17,29 +16,34 @@ public class GestorMensagens {
     
     //Erros
     
-    void jaEscolhido() {
-        som.tocarMusica("/sounds/erro.wav");
+    static void jaEscolhido() {
+        GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("Este quadrado já foi escolhido");
     }
     
-    void jaGanho() {
-        som.tocarMusica("/sounds/erro.wav");
+    static void jaGanho() {
+        GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("O jogo já acabou");
     }
     
-    void undoImpossivel () {
-        som.tocarMusica("/sounds/erro.wav");
+    static void undoImpossivel () {
+        GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("Não há nada para fazer undo");
     }
     
-    void undoUsado () {
-        som.tocarMusica("/sounds/erro.wav");
+    static void undoUsado () {
+        GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("Undo já foi usado");
     }
     
-    void empate() {
-        som.tocarMusica("/sounds/erro.wav");
+    static void empate() {
+        GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("O jogo acabou empatado");
+    }
+    
+    static void erro() {
+        GestorSom.tocarMusica("/sounds/erro.wav");
+        infoBox("Erro não especificado");
     }
     
     //Eventos

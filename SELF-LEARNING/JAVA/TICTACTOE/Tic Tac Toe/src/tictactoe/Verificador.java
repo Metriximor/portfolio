@@ -7,8 +7,6 @@ public class Verificador {
     
     //Implementa o Gestor de Turno
     GestorTurno turno = new GestorTurno();
-    GestorSom som = new GestorSom();
-    GestorMensagens mensagem = new GestorMensagens();
     
     private final int[][] matriz;
     
@@ -80,7 +78,7 @@ public class Verificador {
         if(matriz[linha][coluna] == 0) {
             if(vitoria) {
                 //Neste caso o jogo ja foi ganho
-                mensagem.jaGanho();
+                GestorMensagens.jaGanho();
                 return false;
             }
             else {
@@ -91,7 +89,7 @@ public class Verificador {
         }
         else {
             //Neste caso o quadrado já foi escolhido
-            mensagem.jaEscolhido();
+            GestorMensagens.jaEscolhido();
             return false;
         }
     }
@@ -104,7 +102,7 @@ public class Verificador {
         pontos = pontos + verificarLinhasColunas(linha, coluna, jogador);
 
         if(pontos >= 1) {
-            som.tocarMusica("/sounds/tada.wav");
+            GestorSom.tocarMusica("/sounds/tada.wav");
             GestorMensagens.vitoria(jogador);
             vitoria = true;
 //            try {
@@ -116,7 +114,7 @@ public class Verificador {
             //Se isto der quer dizer q o jogo vai dar empate
             if(GestorTurno.checkforEmpate()) {
                 vitoria = true;
-                mensagem.empate();
+                GestorMensagens.empate();
             }
             else {
                 turno.proxTurno();
@@ -142,7 +140,7 @@ public class Verificador {
     void undo() {
         //Se isto correr entao alguem ja fez undo + q uma vez
         if(undo) {
-            mensagem.undoUsado();
+            GestorMensagens.undoUsado();
         }
         else {
             if(GestorTurno.returnTurno() > 0) {
@@ -152,7 +150,7 @@ public class Verificador {
                 undo = true;
             }
             else{
-                mensagem.undoImpossivel();
+                GestorMensagens.undoImpossivel();
             }
         }
     }
