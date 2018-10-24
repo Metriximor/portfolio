@@ -13,15 +13,13 @@ public class GestorLinhas {
     //Calcula a distancia entre os quadrados
     static int distanceX = p2.x - p1.x, distanceY = p2.y - p2.x;
     
-    GUI gui = new GUI();   
-    
     static Graphics2D grafico;
     
     GestorLinhas() {
         
     }
     
-    static void desenharColuna(int coluna) {
+    public static void desenharColuna(int coluna) {
         Point pInicial = new Point((p1.x + (distanceX * (coluna + 1))), p1.y), pFinal = new Point(pInicial.x, p1.y + (distanceY*3));
         grafico.draw(new Line2D.Double(pInicial.x, pInicial.y, pFinal.x, pFinal.y));
         System.out.println(pInicial +""+ pFinal);
