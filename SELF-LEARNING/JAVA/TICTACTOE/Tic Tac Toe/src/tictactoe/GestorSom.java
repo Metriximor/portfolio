@@ -10,28 +10,35 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class GestorSom {
     
+    static boolean mute = true;
+    
     public static void tocarMusica(String filename)
     {
-        //Vai buscar o URL para carregar recursos relativamente á posição do jar file
-        //Depois de várias horas a testar entre getClass().getResource() e getResourceAsStream descobri que a melhor forma de o fazer é com
-        //getClass().getResource(), ambos funcionam como static, a diferença entre os dois é q um envia URLS e o outro Input Streams 
-        URL input = GestorSom.class.getClass().getResource(filename);
-        
-        try
-        {
-            //Vai buscar um clip
-            Clip clip = AudioSystem.getClip();
-            //Abre o clip
-            AudioInputStream audio = AudioSystem.getAudioInputStream(input);
-            clip.open(audio);
-            //Toca o clip
-            clip.start();
-            //Fecha o clip (á partida não deve ser necessário)
-            //clip.close();
+        if(mute) {
+            
         }
-        catch (IOException | LineUnavailableException | UnsupportedAudioFileException exc)
-        {
-            exc.printStackTrace(System.out);
+        else {
+            //Vai buscar o URL para carregar recursos relativamente á posição do jar file
+            //Depois de várias horas a testar entre getClass().getResource() e getResourceAsStream descobri que a melhor forma de o fazer é com
+            //getClass().getResource(), ambos funcionam como static, a diferença entre os dois é q um envia URLS e o outro Input Streams 
+            URL input = GestorSom.class.getClass().getResource(filename);
+
+            try
+            {
+                //Vai buscar um clip
+                Clip clip = AudioSystem.getClip();
+                //Abre o clip
+                AudioInputStream audio = AudioSystem.getAudioInputStream(input);
+                clip.open(audio);
+                //Toca o clip
+                clip.start();
+                //Fecha o clip (á partida não deve ser necessário)
+                //clip.close();
+            }
+            catch (IOException | LineUnavailableException | UnsupportedAudioFileException exc)
+            {
+                exc.printStackTrace(System.out);
+            }
         }
     }
 }

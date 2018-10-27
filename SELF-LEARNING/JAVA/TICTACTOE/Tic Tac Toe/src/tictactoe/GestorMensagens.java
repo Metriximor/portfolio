@@ -36,11 +36,6 @@ public class GestorMensagens {
         infoBox("Undo já foi usado");
     }
     
-    static void empate() {
-        GestorSom.tocarMusica("/sounds/erro.wav");
-        infoBox("O jogo acabou empatado");
-    }
-    
     static void erro() {
         GestorSom.tocarMusica("/sounds/erro.wav");
         infoBox("Erro não especificado");
@@ -53,9 +48,16 @@ public class GestorMensagens {
         infoBox("Vitória do Jogador " + jogador + "!");
     }
     
+    static void empate() {
+        GUI.label.setText("Empate!");
+        GestorSom.tocarMusica("/sounds/erro.wav");
+        infoBox("O jogo acabou empatado");
+    }
+    
     //Labels
     
     static void turnoLabel() {
         GUI.label.setText("Turno do Jogador " + GestorTurno.returnJogador());
     }
+    
 }

@@ -5,7 +5,7 @@ public class GestorTurno {
     public static int turno = 0;
     
     //A função soma um turno
-    void proxTurno() {
+    static void proxTurno() {
         turno++;
         GestorMensagens.turnoLabel();
     }
@@ -41,7 +41,8 @@ public class GestorTurno {
     }
     
     static boolean checkforEmpate() {
-        if(turno >= 8) {
+        //Nao esquecer q os turnos tem indice 0 por isso um turno 8 aqui é na realidade um turno 9
+        if(turno == 8) {
             return true;
         }
         else {

@@ -2,7 +2,6 @@ package tictactoe;
 
 //TODO:
 //Menu
-//Desenhar linhas
 //AI
 //Créditos
 //Custom names para os jogadores
