@@ -1,6 +1,6 @@
 #!/bin/bash
 
-memDirAtual=$(du -h --threshold=1M| grep -v / | cut -f1)
+memDirAtual=$(du -h | grep -v / | cut -f1)
 echo "O espaço ocupado em disco pelo diretório atual é $memDirAtual"
 
 #Compila a lista de ficheiros com mais de 1MB
