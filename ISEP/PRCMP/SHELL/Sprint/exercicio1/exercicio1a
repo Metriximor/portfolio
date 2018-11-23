@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#Vai buscar o numero de clientes que estão no ficheiro
+numeroClientes=$(cat Clientes.txt | wc -l)
+#Esta função serve para contar o número de clientes que verificam as condições impostas pelo enunciado
+numeroClientesCorretos=0
+
+#Verifica se o ficheiro Clientes.txt existe
+if [ ! -f Clientes.txt ]
+then
+	#O ficheiro Clientes.txt não existe e por isso é impossivel correr o script
+	echo "Ficheiro Clientes.txt está a faltar"
+else 
+	#Verifica linha a linha se o cliente tem plafond S e o NIF começa em 51
+	for (( i=1; i<=$numeroClientes; i++ ))
+	do
+		#Vai buscar o valor do plafond do cliente
+		plafondCliente=$(cat Clientes.txt | cut -d";" -f2 | head -$i | tail -1)
+		if [ "$plafondCliente" = "S" ]
+		then
+			#Se chegar a este ponto é porque o plafond é S e por isso falta verificar se o NIF começa por 51
+			nifCliente=$(cat Clientes.txt | cut -d";" -f4 | head -$i | tail -1)
+			if echo $nifCliente | grep -q "^51";
+			then
+				#Se esta condição for verdadeira isto quer dizer que ambas as condições são verdadeiras por isso podemos registar o cliente no ficheiro á parte
+				nomeNifCliente=$(cat Clientes.txt | cut -d";" -f1,4 | head -$i | tail -1)
+				numeroClientesCorretos=$(($numeroClientesCorretos + 1))
+				echo "Cliente $i é o $numeroClientesCorretosº a ter plafond e NIF a começar em 51"
+				#Verifica se já foi criado o ficheiro que indica o nome e nif dos clientes que verificam as duas condições
+				if [ "$numeroClientesCorretos" = "1" ] 
+				then
+					#Neste caso ainda não existia(porque este é o 1º cliente) por isso cria o ficheiro
+					echo $nomeNifCliente > "exercicio1aclientes.txt"
+				else
+					#Neste caso como o ficheiro ja existia é simplesmente adicionado noutra linha
+					echo $nomeNifCliente >> "exercicio1aclientes.txt"
+				fi			
+			else
+				#Se chegar aqui quer dizer que o cliente tem plafond S mas não tem NIF a começar por 51
+				echo "Cliente $i não tem NIF a começar por 51"
+			fi
+		else 
+			#Se chegar aqui é porque o cliente não tem Plafond
+			echo "Cliente $i não tem Plafond"
+		fi
+	done 
+fi
+
+exit
