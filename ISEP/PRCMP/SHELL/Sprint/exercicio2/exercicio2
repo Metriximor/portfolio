@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #TODO
-#aceitar apenas parametros que existem
 
 recolherDados()
 {
@@ -19,7 +18,7 @@ recolherDados()
 if [ ! -d report ]
 then
 	#O diretorio report não existe
-	echo "Ficheiro Clientes.txt está a faltar"
+	echo "Diretorio report não existe"
 else
 	#Verifica que foram introduzidos argumentos
 	if [ "$#" = 0 ]
@@ -31,6 +30,7 @@ else
 		#Verifica que o parametro introduzido existe
 		if [ "$param" = "TPMR" ] || [ "$param" = "VVEN" ] || [ "$param" = "A" ] || [ "$param" = "B" ]
 		then
+			#Conta o número de praias que estão dentro do diretorio report
 			numPraias=$(find ./report -maxdepth 1 -mindepth 1 -type d | wc -l)
 			#Verifica que há praias introduzidas
 			if [ "$numPraias" = "0" ]
@@ -41,10 +41,12 @@ else
 				#Vai buscar os dados de uma praia individual
 				for (( i=1; i<=$numPraias; i++ ))
 				do				
+					#Vai buscar o nome individual da praia
 					nomPraia=$(find ./report -maxdepth 1 -mindepth 1 -type d | cut -c 10- | head -$i | tail -1 )
 					#Ciclo for dedicado aos meses
 					for (( j=1; j<=12; j++))
 					do
+						#Para calcular o número de anos vai se buscar a lista de ficheiros, corta-se para obter exatamente os primeiro 4 caracteres que correspondem ao ano e verifica-se quais nessa lista são strings únicas(semelhante ao comando tr -s) e finalmente o wc -l conta o número de anos únicos
 						numAnos=$(ls report/"$nomPraia"/"$j"| grep -o "^...." | uniq | wc -l)
 						#Ciclo for dedicado aos vários anos que possam estar incluidos dentro de cada mês
 						for (( anoCont=1; anoCont<=$numAnos; anoCont++ ))
@@ -78,6 +80,7 @@ else
 					done
 				done
 			fi
+			#Este echo serve apenas para tornar o output na consola mais "limpo" e legivel
 			echo ""
 		else
 			echo "ERRO: Parâmetro inexistente"
