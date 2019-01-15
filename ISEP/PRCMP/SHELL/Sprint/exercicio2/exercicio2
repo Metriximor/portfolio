@@ -46,7 +46,6 @@ else
 					#Ciclo for dedicado aos meses
 					for (( j=1; j<=12; j++))
 					do
-						#Para calcular o número de anos vai se buscar a lista de ficheiros, corta-se para obter exatamente os primeiro 4 caracteres que correspondem ao ano e verifica-se quais nessa lista são strings únicas(semelhante ao comando tr -s) e finalmente o wc -l conta o número de anos únicos
 						numAnos=$(ls report/"$nomPraia"/"$j"| grep -o "^...." | uniq | wc -l)
 						#Ciclo for dedicado aos vários anos que possam estar incluidos dentro de cada mês
 						for (( anoCont=1; anoCont<=$numAnos; anoCont++ ))
