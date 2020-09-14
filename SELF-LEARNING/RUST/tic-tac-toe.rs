@@ -65,9 +65,9 @@ fn read_player_move() -> Result<(usize, usize), String> {
     println!("Choose Coordinates: (e.g. A1 or C2)");
     let mut input_text = String::new();
     stdin().read_line(&mut input_text).expect("Invalid value introduced!");
-    input_text.pop();
+    input_text.truncate(2);
     if input_text.len() != 2 {
-        return Err("Invalid move!".to_string());
+        return Err(format!("Invalid move! Expected length 2 but instead got length {:?}", input_text));
     }
     let mut input_chars = input_text.chars();
     let x_char = input_chars.next().expect("First Coord is invalid");
@@ -79,7 +79,7 @@ fn read_player_move() -> Result<(usize, usize), String> {
         _ => return Err("Invalid first coord".to_string())
     }
     let y = (input_chars.next().expect("Second coord is invalid").to_digit(10).expect("Invalid digit") - 1) as usize;
-    if y > 2 || y < 0 {
+    if y > 2{
         return Err("Invalid Y coord".to_string());
     }
     Ok((x, y))
@@ -154,4 +154,6 @@ fn main() {
         }
     }
     print_board(&board);
+    let mut input_text = String::new();
+    stdin().read_line(&mut input_text);
 }
