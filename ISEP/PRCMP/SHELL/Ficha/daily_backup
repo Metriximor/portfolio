@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Verifica se a pasta backups existe e se nao existir, cria-a
+if [ ! -d "backups" ]; then
+	mkdir backups
+fi
+#Cria o ficheiro com a data do dia
+#Esta parte nao é necessária mas fiz na mesma
+cd ./backups
+nomDiretorio=$(date +%F)
+if [ ! -d $nomDiretorio ]; then
+	mkdir $nomDiretorio
+fi
+#Faz uma lista de todos os ficheiros para copiar
+cd ..
+cp -r $(ls | grep -v backups) backups/$nomDiretorio
+
+exit

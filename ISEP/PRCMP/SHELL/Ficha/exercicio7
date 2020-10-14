@@ -1,0 +1,19 @@
+#!/bin/bash
+
+listFicheiros=$(ls -l | awk '{print $1,$9}' | grep -v '^d' | grep -E '^-....w|^-.......w.' | cut -d" " -f2)
+numFicheiros=$(ls -l | awk '{print $1,$9}' | grep -v '^d' | grep -E '^-....w|^-.......w.' | cut -d" " -f2 | wc -w)
+
+if [ "$numFicheiros" -eq "0" ]
+then
+	echo "Não existem ficheiros com permissões de escrita para outros utilizadores"
+else
+	for (( i=1; i<=$numFicheiros; i++ ))
+	do
+		nomFicheiro=$(ls -p| grep -v / | head -$i | tail -1)
+		chmod 755 $nomFicheiro
+	done 
+
+	echo "Permissões alteradas"
+fi
+
+exit

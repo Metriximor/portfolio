@@ -1,0 +1,55 @@
+@media only screen and (max-width: 480px) {
+    /* For desktop: */
+    .calcu {
+        width: 50%;
+    }
+    input.numer {
+        width: 100%;
+    }
+    input.inputBox {
+        width: 100%;
+    }
+}
+
+.centro {
+    margin: auto;
+    text-align: center;
+}
+
+.italico {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+input.inputBox {
+    width: 20%;
+    column-fill: red;
+}
+
+#primeiraLinha {
+    font-size: 15px;
+}
+
+#segundaLinha {
+    font-size: 30px;
+}
+
+#terceiraLinha {
+    font-size: 25px;
+}
+
+#quartaLinha {
+    font-size: 20px;
+}
+
+body.novosocio {
+    background-color: yellow;
+}
+
+body.ultimoex {
+    background-color: blue;
+    color: white;
+}

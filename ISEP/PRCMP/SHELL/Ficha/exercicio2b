@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Estes são os ficheiros no diretorio /$1 da área de trabalho do utilizador
+$2 na data $(date):"
+
+exit

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+
+#Teste porque isto nao vai correr
+variavel="teste variavel ola mundo"
+echo $variavel
+echo Os utilizadores que estao no sistema sao $(who | cut -d " " -f 1 )
+echo Calculadora somar
+read var1 
+echo "$var1 + ? -> Introduza a segunda variavel"
+read var2
+var1=$((var1 + var2))
+echo "Resposta: $var1"
+if [ $var1 -gt 2 ]
+then
+	echo "yey"
+else
+	echo "fica para a proxima"
+fi
+for 1 in 5
+do
+	echo "teste"
+done
+date | tr -s " " | cut -d " " -f 2,3,4
+
+
+
+
+
+exit
+

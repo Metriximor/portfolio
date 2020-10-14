@@ -1,0 +1,205 @@
+<meta charset="UTF-8">
+<script>
+/** 
+Trabalho realizado por:
+-André Magalhães | Nº2
+-Pedro Ivo		 | Nº25
+-Tomás Miranda	 | Nº
+Nao pode ter + de 3 pares ou impares
+Nao pode ter 3 na mesma linha ou coluna
+3 números não são iguais
+**/
+var i = 0;
+var N = [];
+var E = [];
+var randomN = [];
+var randomE = [];
+var linha = 0;
+var coluna = 0;
+var x = 0;
+var j = 0;
+var totalNumeros = 0;
+var totalEstrelas = 0;
+
+//Gera e pede os 5 números
+for (i = 0; i < 5; i++) 
+{ 
+	N[i] = parseInt(prompt("Que números é que escolhes(entre 1 a 50)"));
+	randomN[i] = Math.floor(Math.random() * (50 - 1)) + 1;
+}
+//Gera e pede as 2 estrelas
+for (i = 0; i < 2; i++) 
+{ 
+	E[i] = parseInt(prompt("Que estrelas é que escolhes(entre 1 a 11)"));
+	randomE[i] = Math.floor(Math.random() * (11 - 1)) + 1;
+}
+
+//Função de gerar os números
+function gerarEuromilhoes()
+{
+	//Gera e pede os 5 números
+	for (i = 0; i < 5; i++) 
+	{ 
+		randomN[i] = Math.floor(Math.random() * (50 - 1)) + 1;
+	}
+	//Gera e pede as 2 estrelas
+	for (i = 0; i < 2; i++) 
+	{ 
+		randomE[i] = Math.floor(Math.random() * (11 - 1)) + 1;
+	}
+	verificarEuromilhoes();
+	arranjarEuromilhoes();
+}
+//Coloca os números por ordem
+function arranjarEuromilhoes()
+{
+	N.sort(function(a,b){return a - b});
+	E.sort(function(a,b){return a - b});
+	randomN.sort(function(a,b){return a - b});
+	randomE.sort(function(a,b){return a - b});
+}
+//Verifica se os números gerados obedecem ás regras
+function verificarEuromilhoes()
+{
+	//Verifica se não há números repetidos
+	for ( i = 0; i < randomN.length; i++) 
+	{
+		for (j = 0; j < randomN.length; j++) 
+		{		
+			if(randomN[i] == randomN[j] && i != j)
+			{
+				//Gerar números de novo
+				gerarEuromilhoes();
+				document.write("Os números foram gerados de novo porque havia números repetidos" + "<br>");
+			}
+		}
+	}
+	//Verifica se não há estrelas repetidos
+	for ( i = 0; i < randomE.length; i++) 
+	{
+		for (j = 0; j < randomE.length; j++) 
+		{		
+			if(randomE[i] == randomE[j] && i != j)
+			{
+				//Gerar números de novo
+				gerarEuromilhoes();
+				document.write("Os números foram gerados de novo porque havia estrelas repetidas" + "<br>");
+			}
+		}
+	}
+	//Mesma linha
+	for (linha = 0; linha < 9; linha++) 
+	{ 
+		for (coluna = 0; coluna < 6; coluna++) 
+		{ 
+			for (i = 0; i < randomN.length; i++) 
+			{ 
+				if(6 * ( linha - 1 ) + coluna == randomN[i]) 
+				{	
+					x = x + 1;
+				} 
+			}
+		}
+		if(x >= 3)
+		{
+			//Função gerar os números
+			gerarEuromilhoes();
+			document.write("Os números foram gerados de novo porque havia mais de 3 na mesma linha" + "<br>");
+			x = 0;
+		}
+		else
+		{
+			x = 0;
+		}
+	}
+	//Mesma coluna
+	for (coluna = 1; coluna < 6; coluna++) 
+	{ 
+		for (linha = 1; linha < 9; linha++) 
+		{ 
+			for (i = 1; i < 5; i++) 
+			{ 
+				if(6 * ( linha - 1 ) + coluna == randomN[i]) 
+				{	
+					x = x + 1;
+				}
+			}
+		}
+		if(x >= 3)
+		{
+			//Função gerar os números
+			gerarEuromilhoes();
+			document.write("Os números foram gerados de novo porque havia mais de 3 na mesma coluna" + "<br>");
+			x = 0;
+		}
+		else
+		{
+			x = 0;
+		}
+	}
+	//Verifica números consecutivos
+	for( i = 0; i < randomN.length; i++)
+	{
+		if(randomN[i] * 3 + 3 == randomN[i] + randomN[i + 1] + randomN[i + 3])
+		{
+			gerarEuromilhoes();
+			document.write("Os números foram gerados de novo porque havia 3 números consecutivos." + "<br>");
+		}
+	}
+}
+
+//Começa aqui o programa mesmo
+verificarEuromilhoes();
+arranjarEuromilhoes();
+//Verifica se algum número é igual ao numero gerado(Se há prémio)
+for (i = 0; i < 5; i++) 
+{ 
+	for (j = 0; j < 5; j++) 
+	{ 
+		if(N[i] == randomN[j])
+		{
+			totalNumeros = totalNumeros + 1;
+		}
+		else
+		{
+			totalNumeros = totalNumeros;
+		}
+	}
+}
+//Verifica se alguma estrela é igual á estrela gerada(Se há prémio)
+for (i = 0; i < 2; i++) 
+{ 
+	for (j = 0; j < 2; j++) 
+	{ 
+		if((E[i] == randomE[j]))
+		{
+			totalEstrelas = totalEstrelas + 1;
+		}
+		else
+		{
+			totalEstrelas = totalEstrelas;
+		}
+	}
+}
+//Escreve as estrelas e números
+for (i = 0; i < 5; i++) 
+{ 
+	document.write(" | Numero vencedor: " + randomN[i]) + " | ";
+}
+for (i = 0; i < 2; i++) 
+{ 
+	document.write(" | Estrela vencedora:" + randomE[i]) + " ";
+}
+document.write("<br>");
+for (i = 0; i < 5; i++) 
+{ 
+	document.write(" | Número escolhido: " + N[i]) + " | ";
+}
+for (i = 0; i < 2; i++) 
+{ 
+	document.write(" | Estrela escolhida:" + E[i]) + " | ";
+}
+//Escreve o nosso prémio! E mais informações...
+document.write("<br><br>" + "Acertaste em " + totalNumeros + " número(s) e em " + totalEstrelas + " estrela(s).");
+document.write("<br> <br> <br> Trabalho realizado por: <br>-André Magalhães | Nº2<br>-Pedro Ivo | Nº25<br>-Tomás Miranda	 | Nº29" + "<br> <br>Os números que são gerados de novo devem voltar a passar pelo processo de verificação das regras, por isso é possível que eles sejam gerados várias vezes até cumprirem as regras todas.");
+</script>
