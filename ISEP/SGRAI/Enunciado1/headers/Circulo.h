@@ -22,15 +22,20 @@ class Circulo {
 private:
     const Ponto2D centro;
     const double raio;
-    std::vector<Ponto2D> pontos;
 public:
     /**
      * @param centro o ponto em que o circulo está centrado
      * @param raio o raio do circulo
-     * @param num_fatias o número de fatias para efetuar no circulo
      */
-    Circulo(Ponto2D centro, double raio, int num_fatias);
+    Circulo(Ponto2D centro, double raio);
 
+    /**
+     * Calcula as coordenadas de um determinado número de pontos no perimetro do circulo
+     * @param num_fatias o número de fatias que pretendemos ter no
+     * @return um vetor com todos os pontos
+     */
+    std::vector<Ponto2D> calcular_pontos_no_perimetro(int num_fatias);
+    //para imprimir
     friend std::ostream &operator<<(std::ostream &os, const Circulo &circulo);
 };
 
