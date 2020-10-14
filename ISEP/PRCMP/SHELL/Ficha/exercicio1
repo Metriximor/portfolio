@@ -1,9 +1,0 @@
-#!/bin/bash
-
-#Por alguma razao escrever os comandos assim nao dá?
-#X = $(who | cut -d " " -f 1)
-#Y = $(date)
-echo "Estes são os ficheiros da área de trabalho do utilizador
-$(who | cut -d " " -f 1) na data $(date):"
-
-exit
