@@ -30,4 +30,38 @@ skinparam Note {
     BackgroundColor #7ACFF5
     BorderColor Black
 }
+' This is only for the DUC document or a class diagram document
+!startsub NOAUTONUMBER
+hide footbox
+hide circle
+skinparam BackgroundColor #fffffe
+skinparam SequenceMessageAlign center
+skinparam ClassAttributeIconSize 0
+skinparam ClassStereotypeFontStyle normal
+skinparam Shadowing false
+skinparam ClassFontStyle bold
+skinparam Class {
+    BackgroundColor #7ACFF5
+    ArrowColor Black
+    BorderColor Black
+}
+skinparam Sequence {
+    ArrowColor Black
+    ActorBorderColor Black
+    ActorBorderThickness 1.1
+    ParticipantBorderColor Black
+    ParticipantBackgroundColor #7ACFF5
+    ActorBackgroundColor #7ACFF5
+    LifeLineBorderColor Black
+    LifeLineBackgroundColor #7ACFF5
+}
+skinparam Usecase {
+    BackgroundColor #7ACFF5
+    BorderColor Black
+}
+skinparam Note {
+    BackgroundColor #7ACFF5
+    BorderColor Black
+}
+!endsub
 @enduml
