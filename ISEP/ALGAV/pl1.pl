@@ -227,20 +227,70 @@ fronteira(russia, ucrania).
 fronteira(mexico, estadosunidos).
 fronteira(estadosunidos, canada).
 
+% Vizinho
 vizinho(P1, P2) :- 
     fronteira(P1,P2);
     fronteira(P2,P1).
 
+% Continentes Sem Paises
 contSemPaises(C) :- 
     continente(C),
     \+pais(_,C,_).
 
+% Paises sem vizinhos
 semVizinhos(L) :- 
     pais(L,_,_),
     \+fronteira(L,_);
     fronteira(_,L).
 
+% Verifica se dois paises estão a menos de 2 fronteiras de distancia
 chegoLaFacil(P1, P2) :- 
     vizinho(P1,P2);
     (vizinho(P1,V),vizinho(V,P2)),
     P1\==P2.
+
+% Potência
+potencia(_, 0, 1) :- !.
+
+potencia(N, E, R) :- 
+	E > 0,
+	E1 is E-1,
+	potencia(N, E1, R1),
+	R is N * R1.
+
+potencia(N, E, R) :-
+	E < 0,
+	potencia(N, -E, R1),
+	R is 1 / R1.
+
+% Fatorial
+fatorial(0, 1) :- !.
+
+fatorial(N, R) :-
+	N > 0, 
+	N1 is N-1,
+	fatorial(N1, R1),
+	R is N * R1.
+
+fatorial(N, R) :-
+	N < 0,
+	fatorial(-N, R1),
+	R is -R1.
+
+% Somatório
+somatorio(J, J, J) :- !.
+
+somatorio(J, K, R) :-
+	K > J,
+	K1 is K-1,
+	somatorio(J, K1, R1),
+	R is K + R1.
+
+somatorio(J, K, _) :-
+	J > K,
+	write('J nunca pode ser maior que K').
+
+% Divisão e resto
+divisao(DIVIDENDO, DIVISOR, QUOCIENTE, RESTO) :-
+	QUOCIENTE is DIVIDENDO / DIVISOR,
+	RESTO is mod(DIVIDENDO, DIVISOR).
