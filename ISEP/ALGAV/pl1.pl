@@ -292,5 +292,5 @@ somatorio(J, K, _) :-
 
 % Divisão e resto
 divisao(DIVIDENDO, DIVISOR, QUOCIENTE, RESTO) :-
-	QUOCIENTE is DIVIDENDO / DIVISOR,
+	QUOCIENTE is round(DIVIDENDO / DIVISOR),
 	RESTO is mod(DIVIDENDO, DIVISOR).
