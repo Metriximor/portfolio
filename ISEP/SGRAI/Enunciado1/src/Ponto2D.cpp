@@ -2,7 +2,7 @@
 // Created by Pedro Ivo on 13/10/2020.
 //
 
-#include "../headers/Ponto2D.h"
+#include "Ponto2D.h"
 
 Ponto2D::Ponto2D(double x, double y) : x(x), y(y) {}
 
