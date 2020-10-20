@@ -1,8 +1,8 @@
 #include <iostream>
 #include <GL/glut.h>
 #include "Ponto2D.h"
-#include "Circulo.h"
 #include "PoligonoRegular.h"
+#include "Relogio.h"
 
 void init();
 
@@ -10,22 +10,25 @@ void display();
 
 void poligono(GLint n, GLfloat x0, GLfloat y0, GLfloat r);
 
-void mostrador();
+void timer(int value);
 
 void keyboard(unsigned char key, int x, int y);
 
-int n_lados;
+int n_lados = 100;
+PoligonoRegular poligon = PoligonoRegular(Ponto2D(0.5, 0.5), 0.5, n_lados);
+Mostrador2D mostrador = Mostrador2D(poligon);
+Relogio relogio = Relogio(poligon, mostrador);
 
 int main(int argc, char **argv) {
-    n_lados = 100;
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(250, 250);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // NOLINT(hicpp-signed-bitwise)
+    glutInitWindowSize(500, 500);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Poligono");
     init();
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
+    glutTimerFunc(1000,timer,0);
     glutMainLoop();
 }
 
@@ -34,20 +37,25 @@ void init() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1.0, 1.0, 1.0);
     Ponto2D centro = Ponto2D(0.5, 0.5);
-    glBegin(GL_POLYGON);
     poligono(n_lados, centro.x, centro.y, 0.5);
-    glEnd();
-    glFlush();
+    glutSwapBuffers();
 }
 
 void poligono(GLint n, GLfloat x0, GLfloat y0, GLfloat r) {
-    PoligonoRegular(x0, y0, r, n).desenhar();
+    relogio.desenhar(Cor(255, 255, 255));
+}
+
+void timer(int value) {
+    glutTimerFunc(1000, timer, 0);
+    relogio.inc_segundo();
+    glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y) {

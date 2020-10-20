@@ -20,3 +20,11 @@ std::ostream &operator<<(std::ostream &os, const Ponto2D &d) {
     printf("x:% 5.2f y:% 5.2f",d.x,d.y);
     return os;
 }
+
+Ponto2D &Ponto2D::operator=(const Ponto2D &ponto2D) {
+    auto x_ptr = (double*)(&x);
+    *x_ptr = ponto2D.x;
+    auto y_ptr = (double*)(&y);
+    *y_ptr = ponto2D.y;
+    return *this;
+}

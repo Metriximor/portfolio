@@ -33,6 +33,12 @@ public:
      */
     Ponto2D ponto_medio(Ponto2D outro);
 
+    /**
+     * Assignment operator overload
+     * @param ponto2D o ponto que queremos copiar
+     */
+    Ponto2D& operator=(const Ponto2D &ponto2D);
+
     friend std::ostream &operator<<(std::ostream &os, const Ponto2D &d);
 };
 
