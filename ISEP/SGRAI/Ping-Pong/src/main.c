@@ -365,6 +365,7 @@ void Timer(int value) {
         if(modelo.bola.y <= (modelo.jogador1.y + meia_altura_raquetes)
         && modelo.bola.y >= (modelo.jogador1.y - meia_altura_raquetes)) {
             modelo.bola.direccao = flip_x(modelo.bola.direccao);
+            modelo.bola.x = modelo.jogador1.x + LARGURA_RAQUETES;
         }
     }
 
@@ -373,6 +374,7 @@ void Timer(int value) {
         if(modelo.bola.y <= (modelo.jogador2.y + meia_altura_raquetes)
         && modelo.bola.y >= (modelo.jogador2.y - meia_altura_raquetes)) {
             modelo.bola.direccao = flip_x(modelo.bola.direccao);
+            modelo.bola.x = modelo.jogador2.x - LARGURA_RAQUETES;
         }
     }
 
