@@ -2,7 +2,8 @@
 // Created by Pedro Ivo on 18/10/2020.
 //
 #pragma once
-#include <utility>
+#include <chrono>
+#include <ctime>
 
 #include "PoligonoRegular.h"
 #include "Mostrador2D.h"
@@ -21,16 +22,16 @@ public:
      * @param background o background do relógio que pretendemos desenhar
      * @param mostrador os ponteiros e as marcas das horas
      */
-    Relogio(PoligonoRegular background, Mostrador2D mostrador);
+    Relogio(const PoligonoRegular& background, Mostrador2D mostrador);
 
     Relogio& operator=(const Relogio &r);
 
-    /**
-     * Incrementa um segundo no relógio
-     */
-    void inc_segundo();
-
     void desenhar(Cor cor) const override;
+
+    /**
+     * Atualiza o relógio para mostrar a hora do sistema atual
+     */
+    void atualizar_para_tempo_atual();
 };
 
 

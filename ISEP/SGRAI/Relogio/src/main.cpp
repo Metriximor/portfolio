@@ -20,6 +20,7 @@ Mostrador2D mostrador = Mostrador2D(poligon);
 Relogio relogio = Relogio(poligon, mostrador);
 
 int main(int argc, char **argv) {
+    relogio.atualizar_para_tempo_atual();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // NOLINT(hicpp-signed-bitwise)
     glutInitWindowSize(500, 500);
@@ -54,7 +55,7 @@ void poligono(GLint n, GLfloat x0, GLfloat y0, GLfloat r) {
 
 void timer(int value) {
     glutTimerFunc(1000, timer, 0);
-    relogio.inc_segundo();
+    relogio.atualizar_para_tempo_atual();
     glutPostRedisplay();
 }
 
