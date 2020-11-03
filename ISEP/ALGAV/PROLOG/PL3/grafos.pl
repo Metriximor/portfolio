@@ -86,13 +86,16 @@ dfs_corte(S,E,[S|C],Corte):-
 
 %Pesquisa de largura
 
-bfs(E,E,[E],_).
+bfs(Orig,Dest,Cam):-
+    bfs2(Dest,[[Orig]],Cam).
 
-bfs(S,E,[S|C],Exp):- %Exp está aqui para evitar loops infinitos
-    not(member(S,Exp)),
-    liga(S,S1),
-    bfs(S1,E,C,[S|Exp]).
+bfs2(Dest,[[Dest|T]|_],Cam):-
+    reverse([Dest|T],Cam).
 
-bfs(S,E,[S|C]):-
-    liga(S,S1),
-    bfs(S,E,C,[S1]).
+bfs2(Dest,[LA|Outros],Cam):-
+    LA=[Act|_],
+    findall([X|LA],
+        (Dest\==Act,liga(Act,X),\+ member(X,LA)),
+        Novos),
+    append(Outros,Novos,Todos),
+    bfs2(Dest,Todos,Cam).
