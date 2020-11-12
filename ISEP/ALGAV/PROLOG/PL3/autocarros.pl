@@ -53,8 +53,6 @@ linha('Paredes_Estação(Paredes)',19,['PARED','ESTPA'], 2,1500).
 % nº 6, sendo criado pelo assert o seguinte facto: 
 % liga('PARED', 'LORDL', 6)
 
-:- dynamic liga/3.
-
 membro_ordem(A, L, O):-
     membro_ordem(A, L, O, 0).
 
