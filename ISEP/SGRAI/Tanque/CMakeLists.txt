@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.1)
-project(Ping_Pong)
+project(Tanque)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 99)
