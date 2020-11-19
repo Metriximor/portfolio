@@ -1,6 +1,7 @@
 import random
 import string
 import math
+import time
 import sys
 import os
 
@@ -68,6 +69,8 @@ if l_max <= 1:
 no_name_length=int(math.ceil(math.log(n_max, len(string.ascii_uppercase))));
 no_name_set=set();
 
+start_time = time.time();
+
 print("A gerar os nós");
 while len(no_name_set) < n_max:
     no_name_set.add(generate_no_name(no_name_length));
@@ -83,12 +86,15 @@ file.write("% Nós\n");
 for no_name in no_name_set:
     file.write(generate_no(no_name)+"\n");
 
+no_name_list = list(no_name_set);
 file.write("\n% Linhas\n");
 
 print("A gerar as linhas");
 for i in range(1, l_max+1):
-    file.write(generate_linha(list(no_name_set), i)+"\n");
+    file.write(generate_linha(no_name_list, i)+"\n");
 print("Linhas geradas");
+
+print("Gerou "+str(n_max)+" nós e "+str(l_max)+" em "+str(time.time()-start_time)+" segundos");
 
 file.close();
 sys.exit(0);
