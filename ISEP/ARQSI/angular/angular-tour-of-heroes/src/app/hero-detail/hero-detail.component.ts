@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-hero-detail',
@@ -17,15 +18,20 @@ export class HeroDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location) { }
+    private location: Location,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getHero();
   }
 
   getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id)
+    const id = this.route.snapshot.paramMap.get('id');
+    if(id === null) {
+      this.log("id was null");
+      return;
+    }
+    this.heroService.getHero(+id)
       .subscribe(hero => this.hero = hero);
   }
 
@@ -36,5 +42,9 @@ export class HeroDetailComponent implements OnInit {
   save(): void {
     this.heroService.updateHero(this.hero)
       .subscribe(() => this.goBack());
+  }
+
+  private log(message: string) {
+    this.messageService.add(`HeroDetailComponent: ${message}`);
   }
 }
