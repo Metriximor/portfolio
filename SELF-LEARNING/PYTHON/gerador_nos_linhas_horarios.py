@@ -36,10 +36,12 @@ def pick_random(estacoes_list):
 
 def gen_lista_nos(stations, used, first, last, horarios):
     estacoes_list = ''
-    num_estacoes = random.randint(0, min(10, len(stations)-2))
+    # num_estacoes = random.randint(0, min(10, len(stations)-2))
+    num_estacoes = 0
     num_horario = random.randint(1,5)
+    station_time = random.randint(22900,32000)
     for i in range(num_horario): # Cria os horários
-        station_time = random.randint(25200,36000)
+        station_time += random.randint(3000,5000)
         horario = list()
         horario.append(station_time)
         horarios.append(horario)
@@ -53,13 +55,24 @@ def gen_lista_nos(stations, used, first, last, horarios):
             continue
         estacoes_list += "'"+station+"',"
         for horario in horarios: # Adiciona o horário das estações no meio
-            station_time = horario[-1] + random.randint(300,600)
+            station_time = horario[-1] + random.randint(150,300)
             horario.append(station_time)
     for horario in horarios: # Adiciona o horário da ultima paragem
-        station_time = horario[-1] + random.randint(300,600)
+        station_time = horario[-1] + random.randint(150,300)
         horario.append(station_time)
     return estacoes_list
 
+def gen_avg_time(horarios):
+    avg_time = 0
+    for horario in horarios:
+        hora_i = horario[0]
+        hora_f = horario[-1]
+        avg_time += hora_f - hora_i
+    return int(avg_time / len(horarios))
+
+def gen_avg_distance(avg_time):
+    desired_avg_speed = random.uniform(8.0,9.0)
+    return int(avg_time * desired_avg_speed)
 
 def generate_linha(stations, num_linha):
     used_stations = set()  # Para não utilizar o mesmo nó duas vezes
@@ -70,13 +83,17 @@ def generate_linha(stations, num_linha):
         last_station = pick_random(stations)
     used_stations.add(last_station)
     horarios=list()
-    return_str="linha('"+first_station.title()+"_"+last_station.title()+"',"+str(num_linha)+",['"+first_station+"',"+gen_lista_nos(
-        stations, used_stations, first_station, last_station, horarios)+"'"+last_station+"']).\n"
+    return_str=("linha('"+first_station.title()+"_"+last_station.title()+"', "+str(num_linha)+
+        ", ['"+first_station+"',"+gen_lista_nos(stations, used_stations, first_station,
+        last_station, horarios)+"'"+last_station+"'], ")
+    avg_time = gen_avg_time(horarios)
+    avg_dist = gen_avg_distance(avg_time)
+    return_str+=str(int(avg_time/60))+", "+str(avg_dist)+").  % Average Speed= "+str(avg_dist/avg_time)+"\n"
     for horario in horarios:
-        return_str+="horario("+str(num_linha)+",["
+        return_str+="horario("+str(num_linha)+", ["
         for hora in horario:
-            return_str+= str(hora)+","
-        return_str = return_str[:-1]
+            return_str+= str(hora)+", "
+        return_str = return_str[:-2]
         return_str+="]).\n"
     return return_str
 
@@ -118,8 +135,8 @@ for no_name in no_name_set:
 
 no_name_list = list(no_name_set)
 file.write("\n% Linhas\n")
-file.write(":- discontiguous linha/3.\n")
-file.write(":- discontiguous horario/3.\n")
+file.write(":- discontiguous linha/5.\n")
+file.write(":- discontiguous horario/2.\n")
 print("A gerar as linhas")
 horarios = set()
 for i in range(1, l_max+1):
