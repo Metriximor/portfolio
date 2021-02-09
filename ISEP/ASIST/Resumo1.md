@@ -676,6 +676,213 @@
                   * Funcionalidade Active Directory
           * Se o KDC principal inoperacional, impossibilita administração do kerberos
 
+## Criptografia
+
+* Dados são preciosos
+* Sistema e infraestrutura podem ser substituidos mas os dados não
+* Custo perda dados é numerosa
+  * Legais
+  * Fiscais
+  * Operacionais
+  * Reputação
+  * Credibilidade
+  * Fuga Informação
+* Dados devem ser
+  * Crediveis
+  * Disponiveis
+  * Confidenciais
+* Principios não se aplicam a todas as áreas da infraestrutura
+* Disponibilidade significa estar disponivel num espaço de tempo apropriado
+* Segurança: informação deve ser \[blank] para quem estiver autorizado
+  * Disponivel
+  * Certa
+  * Legivel
+* Tambem se aplica à própria infraestrutura
+* Tríade CID espelha base da segurança
+  * Confidencialidade
+  * Integridade
+  * Disponibilidade
+
+### Confidencialidade
+
+* Garante que existe secretismo em cada nó
+* Se previnem fugas de informação
+* Sem credibilidade os dados podem ser lidos por quem não tem autorização apropriada
+* Pode ser obtida através
+  * Encriptação dos dados guardados e transmitidos
+  * Comunicações Seguras
+* É anulada através
+  * Monitorização de comunicações
+  * Engenharia Social
+  * Roubo credenciais autenticação
+
+### Integridade
+
+* Garante a exatidão e fiabilidade do sistema
+* Prevenção da alteração não autorizada de dados
+* Sem integridade, um sistema pode funcionar sobre dados incorretos sem saber
+* Pode ser obtida através
+  * Boa gestão capacidades dos agentes do sistema
+  * Mecanismos de deteção intrusão
+  * Controlos de acesso apropriados
+
+### Disponibilidade
+
+* Garante a capacidade necessária para
+  * Atuar forma previsivel
+  * Com desempenho aceitável
+* Pode ser garantida através
+  * Evitar SPOF
+  * Tomar medidas de salvaguarda de informação
+  * Utilizar mecanismos redundância
+  * Garantir a disponibilidade a quem precisa
+* É anulada através
+  * DDOS / ataques negação serviço
+
+### 3 principios
+
+* Os mecanismos para garantir confidencialidade e integrigdade baseiam-se no uso de criptografia
+* Disponibilidade tem mecanismos diferentes como premissa
+  * Pretendido é aceder ao sistema num tempo menor ou igual ao SLA definido
+
+### Criptografia básicos
+
+* kryptós(escondido) + gráphein (escrita)
+* Arte de ocultar informação de forma a se tornar indecifrável a terceiros
+* Utilizada á milhares de anos
+* Texto P e cifra chave K obtem-se C
+  * C = P Ø K+ ou C=E(P,K) ou C=Ke(P)
+  * P = C Ø K- ou P=D(C,K) ou P=Kd(C)
+* Utilizado para tornar indecifravel a
+  * entidades não autorizadas
+  * para o autenticar
+* Idealmente deve ser
+  * difícil de quebrar
+    * mais exatamente *impraticável*
+  * fácil utilizar
+  * robusto
+    * dois textos diferentes não devem resultar na mesma cifra com a mesma chave
+  * fácil de substituir(se quebrado)
+* Exemplo fechadura
+  * Sozinho é inutil
+  * Se fechar acesso a apenas quem tenha chave, torna-se importante
+  * Leva a problemas comportamentais
+    * Pessoas tem que fechar fechadura
+    * Ter cuidado com a chave
+* Importante distinguir entre *bom* e *mau* acesso
+* Sistema é tão forte quanto o seu elo mais fraco
+* Criptografia não é a solução única para segurança
+* **A segurança de encriptação deve depender no segredo da chave e não no algoritmo**
+* Algoritmos são
+  * dificeis desenvolver e alterar
+  * difíceis de distribuir
+* Não basta secretismo mensagens
+  * Necessário garantir integridade e autenticidade
+  * Não-repudio (bancos, autoridade tributária)
+    * as partes confiam nos dados que são compartilhados e utilizados
+    * exigência confiança
+  
+### Tipificação Sistema Criptográfico
+
+* Algoritmo
+  * Algoritmo secréto(militar)
+    * possui inconvenientes
+  * Conhecido
+    * garantia da sua criptoanálise
+    * já implementado
+* Segredo/Chave
+  * Simétrica(segredo partilhado)
+    * mais simples
+      * substituição
+        * substituir caracter por um diferente
+      * transposição
+        * alteração ordem dos caracteres do texto
+      * melhor desempenho
+      * inconvenientes
+        * para N entidades existirão combinações de N dois a dois segredos partilhados
+        * Para 100 entidades são necessários 4950 segredos
+        * como partilhar segredos com entidades?
+  * Assimétrica(chave encriptação e decriptação diferente)
+    * tambem conhecida como cifra de chave publica
+    * pesado em termos processamento
+      * inadequado para grande volume dados
+    * fácil utilização
+      * não exige troca de chave
+    * utilizado frequentemente para negociar de forma segura um segredo partilhado
+* Método
+  * Bloco
+    * texto original é dividido em partes de igual tamanho
+      * adicionado padding ao bloco final
+      * ataques frequência
+      * **Electronic Code Book ECB**
+        * encripta cada bloco sequencialmente
+      * **Cipher Block Chainning CBC**
+        * Cifra cada bloco é aplicada ao seguinte e resultado é cifrado
+      * **Counter CTR**
+        * aplicado Vetor inicialização à chave e resultado de aplicação é usado como chave para bloco
+        * vetor inicial é zero mas os seguintes são incrementados por um valor predeterminado
+    * cada parte é cifrada com a mesma chave
+  * Continuo(stream)
+    * texto original é dividido em partes de igual tamanho
+    * cada parte é cifrada com chave diferente
+    * chaves podem ser repetidas se forem **chave periódica**
+    * problema é a chave
+      * a dimensão
+      * maior ou menor dificuldade de um terceiro em obter texto P tendo acesso a C
+    * Principio **One Time Pad (OTP)**
+      * **keyspace** é definido como número chaves possiveis dada a sua dimensão e caracteres permitidos na posição
+      * exemplo: código cartão bancário
+        * 4 caracteres numéricos
+        * cada posição pode assumir 10 valores distintos
+        * keyspace = 10^4 = 10000
+* Aplicação
+  * Reversível/bidirecional(integridade, confidencialidade, autenticidade)
+    * deve ser
+      * simples
+      * resistente
+        * (dificil de obter chave a partir de texto e cifra)
+      * Unicidade(resistente a colisão)
+        * duas chaves diferentes não devem resultar no mesmo resultado
+  * Irreversivel/unidirecional(integridade, autenticidade)
+    * deve ser
+      * simples
+      * irreversível
+        * (impraticavel)
+      * unicidade(resistente a colisão)
+        * duas chaves diferentes não podem resultar no mesmo resultado
+    * para geração de **hashes** ou **Message Authentication Code (MAC)** para verificar que o texto é válido e não foi alterado
+    * possibilita não-repudio
+    * hash assinado com chave privada emissor
+      * designa-se por **assinatura digital**
+      * recetor desencripta com chave publica e verifica integridade mensagem
+      * emissor não pode repudiar validade ou autoria da mensagem
+    * Exemplo: **Public Key Infrastructure (PKI)**
+      * Possibilita uso criptografia sem problemas de trocas de chaves
+      * consiste num conjunto de
+        * regras
+        * procedimentos
+        * politicas
+        * instalações fisicas logicamente seguras
+      * objetivo é ser confiavel para
+        * gerar
+        * gerir
+        * distribuir
+        * guardar
+        * usar
+        * revogar
+        * *certificados digitais e chaves digitais*
+    * não é apropriada para grandes volumes de dados
+    * usar mistura ambas recomendado
+* CID não se esgota na comunicação entre pares
+* Informação armazenada tambem necessita de ser sujeita a operações criptográficas para
+  * auxiliar confidencialidade de dados
+  * validar integridade de dados
+* algoritmos criptográficos podem ser realizados em várias camadas
+* aplicação criptografia deve ser planeada e implementada corretamente
+* só deve ser aplicada se a informação comunicada é sensivel
+  * caso contrários são representados custos desnecessários
+* dados armazenados tambem podem e devem ser protegidos com criptografia
+
 
 
 
