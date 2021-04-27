@@ -18,8 +18,10 @@ data %>%
 #1e Indique qual o país europeu que teve o maior número de infetados, por milhão de habitantes, num só dia. 
 data %>% 
   drop_na(continent,new_cases_per_million,date) %>% 
-  filter(continent == "Europe") %>% 
-  filter(max())
+  filter(continent == "Europe") %>%
+  slice_max(new_cases_per_million) %>% 
+  View()
 #2a 
+
 #3a
 #4b
