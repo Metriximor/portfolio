@@ -2,6 +2,7 @@ library(readxl)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(ggpubr)
 
 data <- read_excel("C:/Users/pedro/Desktop/ANADI/owid-covid-data.xlsx") #Lê o ficheiro excel
 
@@ -48,6 +49,45 @@ data %>%
 
 #3a Averigue se existe correlação, em 2021, entre o valor máximo da taxa diária de transmissibilidade
 #     e a densidade populacional de todos os países da Europa com mais de 10 milhões de habitantes
+data_eu_10M <- data %>% 
+  filter(continent == "Europe" & population > 10000000 & substring(date, 1, 4) == "2021") %>% 
+  drop_na(reproduction_rate, population_density) %>% 
+  group_by(location, population_density) %>% 
+  summarise(max_reproduction_rate = max(reproduction_rate))
+
+# Testes
+# 1. Variáveis são continuas? Sim
+# 2. Dados estão emparelhados? Sim
+# 3. Observações sao independentes? Sim, a observação dos dados no pais X não influenciou os dados do pais Y
+
+ggscatter(data_eu_10M, 
+          x = "population_density",
+          y = "max_reproduction_rate",
+          color="location")
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson")
+
+shapiro.test(data_eu_10M$max_reproduction_rate) #p <- 0.9177
+shapiro.test(data_eu_10M$population_density) #p <- 0.02673
+
+# Taxa de transmissão máxima possui um p bastante elevado, sugerindo uma distribuição normal
+# Densidade populacional possui um p inferior a 0.05, sugerindo que a distribuição não seja normal
+
+ggqqplot(data_eu_10M$max_reproduction_rate, ylab = "Máximo taxa diária de transmissibilidade")
+ggqqplot(data_eu_10M$population_density, ylab = "Densidade Populacional")
+
+# Como se pode ver pelos qqplots, a densidade populacional continua a ser relativamente considerada
+#   como uma distribuição normal
+
+cor.test(data_eu_10M$max_reproduction_rate, data_eu_10M$population_density,
+         method = "pearson")
+
+# Resultados do teste: com p de 0.5306 pode-se concluir que não existe correlação entre 
+#   o valor máximo da taxa diária de transmissibilidade e a densidade populacional
+#   de todos os países da Europa com mais de 10 milhões de habitantes
+
+# Spearman - não pode ser porque não há uma relação monotónica
+# Kendall - não pode ser porque não há uma relação monotónica
 
 #4b Verifique se as condições de: Homocedasticidade, Autocorrelação nula e de Multicolinearidade são
 #     satisfeitas. 
