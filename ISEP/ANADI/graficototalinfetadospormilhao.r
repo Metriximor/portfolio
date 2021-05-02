@@ -3,6 +3,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(ggpubr)
+library(car)
 
 data <- read_excel("C:/Users/pedro/Desktop/ANADI/owid-covid-data.xlsx") #Lê o ficheiro excel
 
@@ -59,11 +60,13 @@ data_eu_10M <- data %>%
 # 1. Variáveis são continuas? Sim
 # 2. Dados estão emparelhados? Sim
 # 3. Observações sao independentes? Sim, a observação dos dados no pais X não influenciou os dados do pais Y
+# 4. Variáveis seguem (aproximadamente) uma distribuição normal? (ver abaixo)
+# 5. Há outliers? Nenhum que se destaque
 
 ggscatter(data_eu_10M, 
           x = "population_density",
           y = "max_reproduction_rate",
-          color="location")
+          label="location",
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson")
 
@@ -89,5 +92,70 @@ cor.test(data_eu_10M$max_reproduction_rate, data_eu_10M$population_density,
 # Spearman - não pode ser porque não há uma relação monotónica
 # Kendall - não pode ser porque não há uma relação monotónica
 
+#4a
+
+def <- data %>%
+  filter(location == "Portugal") %>% #Filtra casos por Portugal
+  filter(date >= "2020-04-01" & date <= "2021-02-27") %>% #Filtra os dados entra as datas pretendidas
+  summarise(reproduction_rate,new_cases_per_million,new_deaths_per_million,date,stringency_index)
+
+#remover dados necessários
+media_stringency_por_mes <- def %>%
+  drop_na(stringency_index) %>% # remove os campos vazios desta coluna
+  group_by(substr(date,6,7)) %>% # agrupa os dados pelo mês da data
+  summarise(med= mean(stringency_index)) # Efetua a média por mês
+stringency <- unlist(media_stringency_por_mes$med)
+
+
+media_casos_diarios<- def %>%
+  drop_na(new_cases_per_million) %>% # remove os campos vazios desta coluna
+  group_by(substr(date,6,7)) %>% # agrupa os dados pelo mês da data
+  summarise(med = mean(new_cases_per_million)) # Efetua a média por mês
+novos_casos <- unlist(media_casos_diarios$med)
+
+media_por_mes_transm <- def %>%
+  drop_na(reproduction_rate) %>% # remove os campos vazios desta coluna
+  group_by(substr(date,6,7)) %>% # agrupa os dados pelo mês da data
+  summarise(med = mean(reproduction_rate)) 
+media_mensal_transm <- unlist(media_por_mes_transm$med)
+#media mensal de transmissibilidade = 1.04033822091887
+
+
+media_mortes_diarias <- def %>%
+  drop_na(new_deaths_per_million) %>% # remove os campos vazios desta coluna
+  group_by(substr(date,6,7)) %>% # agrupa os dados pelo mês da data
+  summarise(med = mean(new_deaths_per_million)) 
+mortes_diarias <- unlist(media_mortes_diarias$med)
+
+X <- novos_casos + mortes_diarias +media_mensal_transm
+model <- lm(stringency ~  X)
+summary(model)
+
 #4b Verifique se as condições de: Homocedasticidade, Autocorrelação nula e de Multicolinearidade são
 #     satisfeitas. 
+
+# Residuos seguem distribuição normal?
+qqnorm (residuals(model), ylab =" Residuos ", xlab =" Quantis teóricos")
+qqline (residuals(model))
+
+shapiro.test(residuals(model))
+# p = 0.4467 é superior a 0.01 logo a condição de normalidade é respeitada e podemos efetuar inferência estatistica
+
+# Verificação de Homocedasticidade
+
+plot(fitted(model),residuals(model),xlab="Valores ajustados",ylab="Residuos")
+abline(h=0)
+plot(X,residuals(model),xlab="X",yLab="Residuos")
+abline(h=0)
+
+var.test(residuals(model)[X>median(X)],residuals(model)[X<median(X)])
+# Condição de homocedasticidade é verificada
+
+# Verificação de autocorrelação nula
+durbinWatsonTest(model)
+# Valor p é igual a 0.836, logo pode-se rejeitar a hipótese nula e acreditar que os residuais estão correlacionados.
+# Como o valor 
+
+# Verificação de multicolinearidade
+vif(model)
+# VIF é superior a 3 para cada uma das colunas, logo confirma-se a existência de multicolinearidade
